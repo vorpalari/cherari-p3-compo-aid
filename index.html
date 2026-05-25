@@ -6,699 +6,532 @@
 <title>P3 Composition Aid</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --navy:#1a1a2e; --gold:#f9c74f; --soft-white:#fffdf9; --mint:#43aa8b; --lilac:#c77dff; --blue:#4cc9f0; --coral:#f4845f; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Nunito',sans-serif; min-height:100vh; padding:24px 16px 48px; color:var(--navy); background:#f5f0ff; background-image:radial-gradient(circle at 10% 15%,rgba(200,180,255,0.35) 0%,transparent 40%),radial-gradient(circle at 90% 85%,rgba(255,200,150,0.25) 0%,transparent 40%); }
-  .page { max-width:820px; margin:0 auto; }
-  .header { text-align:center; margin-bottom:24px; }
-  .badge { display:inline-block; color:white; font-family:'Fredoka One',sans-serif; font-size:13px; letter-spacing:2px; padding:4px 16px; border-radius:20px; margin-bottom:10px; }
-  .main-title { font-family:'Fredoka One',sans-serif; font-size:clamp(24px,6vw,46px); color:var(--navy); line-height:1.1; }
-  .theme-pill { display:inline-block; margin-top:10px; color:var(--navy); font-weight:800; font-size:16px; padding:6px 22px; border-radius:30px; }
-  .theme-tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px; }
-  .theme-tab { border-radius:14px; padding:12px 8px; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; cursor:pointer; text-align:center; border:2px solid transparent; line-height:1.3; -webkit-appearance:none; appearance:none; }
-  .theme-tab .t-emoji { font-size:22px; display:block; margin-bottom:4px; }
-  @media(max-width:460px){ .theme-tabs{ grid-template-columns:repeat(2,1fr); } }
-  .card { background:var(--soft-white); border-radius:20px; padding:22px 24px; margin-bottom:18px; box-shadow:0 4px 16px rgba(0,0,0,0.08); }
-  .card-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
-  .card-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
-  .card-title { font-family:'Fredoka One',sans-serif; font-size:19px; color:var(--navy); }
-  .topic-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:10px; }
-  .topic-btn { border-radius:14px; padding:12px 14px; font-family:'Nunito',sans-serif; font-size:13px; font-weight:700; cursor:pointer; text-align:left; line-height:1.4; border:2px solid transparent; -webkit-appearance:none; appearance:none; }
-  .topic-btn .emoji { font-size:20px; display:block; margin-bottom:4px; }
-  .chips { display:flex; flex-wrap:wrap; gap:7px; }
-  .chip { display:inline-block; padding:5px 13px; border-radius:30px; font-size:14px; font-weight:700; border:2px solid transparent; }
-  .chip-blue  { background:#daf0fb; color:#0077a8; border-color:#b0dff5; }
-  .chip-mint  { background:#d4f5ea; color:#1a7a5b; border-color:#a8e6d0; }
-  .chip-gold  { background:#fff3cc; color:#8a5e00; border-color:#f5d87a; }
-  .chip-lilac { background:#ede0ff; color:#6a00c8; border-color:#d5b8ff; }
-  .chip-coral { background:#fde8e0; color:#a83a00; border-color:#f9c4aa; }
-  .chip-pink  { background:#ffe0ef; color:#8a0040; border-color:#ffb3d1; }
-  .chip-slate { background:#e8eaf0; color:#3a4060; border-color:#c8ccdc; }
-  .phrase-list { list-style:none; display:flex; flex-direction:column; gap:7px; }
-  .phrase-list li { display:flex; align-items:flex-start; gap:9px; font-size:14px; font-weight:600; line-height:1.5; padding:7px 12px; border-radius:10px; }
-  .conj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(128px,1fr)); gap:8px; }
-  .conj-card { background:linear-gradient(135deg,#fff3cc,#fce788); border-radius:12px; padding:10px 12px; text-align:center; font-weight:800; font-size:13.5px; color:#7a5000; border:2px solid #f5c800; box-shadow:0 3px 0 #d4aa00; }
-  .conj-card small { display:block; font-size:10px; font-weight:600; color:#a07000; margin-top:2px; text-transform:uppercase; letter-spacing:0.5px; }
-  .snt-card { background:#fff8ee; border:2px solid #ffd99a; }
-  .snt-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:4px; }
-  @media(max-width:500px){ .snt-row{ grid-template-columns:1fr; } }
-  .snt-box { border-radius:14px; padding:14px 16px; }
-  .snt-tell { background:#fde8e0; border:2px solid #f9c4aa; }
-  .snt-show { background:#d4f5ea; border:2px solid #a8e6d0; }
-  .snt-label { font-family:'Fredoka One',sans-serif; font-size:13px; letter-spacing:1px; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
-  .snt-tell .snt-label { color:#a83a00; }
-  .snt-show .snt-label { color:#1a7a5b; }
-  .snt-box p { font-size:14px; line-height:1.75; font-weight:600; color:#2a2a3e; }
-  .snt-tip { margin-top:12px; padding:10px 14px; background:#fff3cc; border-radius:10px; border-left:4px solid var(--gold); font-size:13px; font-weight:700; color:#7a5000; line-height:1.6; }
-  .compo-card { border-radius:20px; padding:22px 24px; margin-bottom:18px; box-shadow:0 4px 16px rgba(0,0,0,0.08); }
-  .compo-title { font-family:'Fredoka One',sans-serif; font-size:16px; margin-bottom:14px; text-align:center; padding:8px 16px; border-radius:10px; }
-  .para-block { margin-bottom:12px; padding:13px 15px; border-radius:14px; background:white; border:1.5px solid #eee; }
-  .para-label { display:inline-block; font-family:'Fredoka One',sans-serif; font-size:11px; letter-spacing:1px; padding:3px 10px; border-radius:20px; margin-bottom:8px; color:white; }
-  .label-intro    { background:var(--blue); }
-  .label-build    { background:#f9c74f; color:#7a5000 !important; }
-  .label-problem  { background:var(--coral); }
-  .label-solution { background:var(--mint); }
-  .label-moral    { background:var(--lilac); }
-  .para-block p { font-size:14.5px; line-height:2.1; color:#2a2a3e; }
-  mark         { background:#fff3b0; border-radius:3px; padding:0 2px; font-weight:700; }
-  mark.phrase  { background:#d4f5ea; }
-  mark.conn    { background:#fde0ec; }
-  mark.dialogue{ background:#e4d9ff; }
-  .legend { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; padding:10px 14px; background:white; border-radius:10px; border:1.5px solid #eee; }
-  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; font-weight:700; color:#444; }
-  .legend-dot { width:13px; height:13px; border-radius:3px; flex-shrink:0; }
-  .compo-btn-row { margin-left:auto; display:flex; gap:8px; align-items:center; }
-  .edit-btn { display:flex; align-items:center; gap:6px; border-radius:10px; padding:6px 12px; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap; -webkit-appearance:none; appearance:none; border:2px solid #c8b0ff; background:#ede0ff; color:#5500aa; }
-  .edit-btn.active { background:#c77dff; border-color:#c77dff; color:white; }
-  .save-btn { display:flex; align-items:center; gap:6px; border-radius:10px; padding:6px 12px; font-family:'Nunito',sans-serif; font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap; -webkit-appearance:none; appearance:none; border:2px solid #a8e6d0; background:#d4f5ea; color:#1a7a5b; }
-  .save-btn.saved { background:#43aa8b; border-color:#43aa8b; color:white; }
-  .para-block p[contenteditable="true"] { outline:2px dashed #c77dff; border-radius:6px; padding:4px 6px; background:#faf5ff; cursor:text; }
-  .review-card { background:linear-gradient(135deg,#1a1a2e,#16213e); color:white; border-radius:20px; padding:24px; margin-bottom:18px; box-shadow:0 8px 32px rgba(26,26,46,0.25); }
-  .review-card .card-title { color:white; }
-  .review-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
-  @media(max-width:520px){ .review-grid{ grid-template-columns:1fr; } }
-  .review-item { background:rgba(255,255,255,0.08); border-radius:14px; padding:14px; border:1.5px solid rgba(255,255,255,0.12); }
-  .review-label { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,0.5); font-weight:700; margin-bottom:5px; }
-  .review-question { font-size:13px; font-weight:700; color:rgba(255,255,255,0.9); margin-bottom:10px; line-height:1.4; }
-  .review-target { display:flex; align-items:center; gap:7px; }
-  .target-badge { font-family:'Fredoka One',sans-serif; font-size:20px; color:var(--gold); }
-  .target-text { font-size:11px; color:rgba(255,255,255,0.45); font-weight:600; text-transform:uppercase; }
-  .type-options { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
-  .type-opt { background:rgba(255,255,255,0.12); border:1.5px solid rgba(255,255,255,0.2); border-radius:8px; padding:6px 12px; font-size:12px; font-weight:700; color:rgba(255,255,255,0.7); cursor:pointer; font-family:'Nunito',sans-serif; -webkit-appearance:none; appearance:none; }
-  .counter-row { display:flex; align-items:center; gap:8px; margin-top:8px; }
-  .counter-btn { width:36px; height:36px; border-radius:8px; border:none; font-size:22px; font-weight:800; cursor:pointer; background:rgba(255,255,255,0.2); color:white; font-family:'Nunito',sans-serif; -webkit-appearance:none; appearance:none; display:flex; align-items:center; justify-content:center; line-height:1; }
-  .counter-val { font-family:'Fredoka One',sans-serif; font-size:28px; color:white; min-width:34px; text-align:center; }
-  .progress-bar-wrap { background:rgba(255,255,255,0.1); border-radius:10px; height:6px; margin-top:8px; overflow:hidden; }
-  .progress-bar { height:100%; border-radius:10px; background:var(--gold); width:0%; }
-  .cheer { font-size:12px; font-weight:700; color:var(--gold); margin-top:5px; min-height:16px; }
-  .print-note { text-align:center; font-size:12px; color:#999; margin-top:20px; font-weight:600; }
+:root{--navy:#1a1a2e;--gold:#f9c74f;--sw:#fffdf9;--mint:#43aa8b;--lilac:#c77dff;--blue:#4cc9f0;--coral:#f4845f;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;color:var(--navy);background:#f5f0ff;background-image:radial-gradient(circle at 10% 15%,rgba(200,180,255,.35) 0%,transparent 40%),radial-gradient(circle at 90% 85%,rgba(255,200,150,.25) 0%,transparent 40%);}
+.page{max-width:820px;margin:0 auto;}
+.header{text-align:center;margin-bottom:24px;}
+.badge{display:inline-block;color:white;font-family:'Fredoka One',sans-serif;font-size:13px;letter-spacing:2px;padding:4px 16px;border-radius:20px;margin-bottom:10px;}
+.main-title{font-family:'Fredoka One',sans-serif;font-size:clamp(24px,6vw,46px);color:var(--navy);line-height:1.1;}
+.theme-pill{display:inline-block;margin-top:10px;color:var(--navy);font-weight:800;font-size:16px;padding:6px 22px;border-radius:30px;}
+.theme-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.theme-tab{border-radius:14px;padding:12px 8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;border:2px solid transparent;line-height:1.3;-webkit-appearance:none;appearance:none;}
+.theme-tab .t-emoji{font-size:22px;display:block;margin-bottom:4px;}
+@media(max-width:460px){.theme-tabs{grid-template-columns:repeat(2,1fr);}}
+.card{background:var(--sw);border-radius:20px;padding:22px 24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.card-title{font-family:'Fredoka One',sans-serif;font-size:19px;color:var(--navy);}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;}
+.topic-btn{border-radius:14px;padding:12px 14px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:left;line-height:1.4;border:2px solid transparent;-webkit-appearance:none;appearance:none;}
+.topic-btn .emoji{font-size:20px;display:block;margin-bottom:4px;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{display:inline-block;padding:5px 13px;border-radius:30px;font-size:14px;font-weight:700;border:2px solid transparent;}
+.chip-blue{background:#daf0fb;color:#0077a8;border-color:#b0dff5;}
+.chip-mint{background:#d4f5ea;color:#1a7a5b;border-color:#a8e6d0;}
+.chip-gold{background:#fff3cc;color:#8a5e00;border-color:#f5d87a;}
+.chip-lilac{background:#ede0ff;color:#6a00c8;border-color:#d5b8ff;}
+.chip-coral{background:#fde8e0;color:#a83a00;border-color:#f9c4aa;}
+.chip-pink{background:#ffe0ef;color:#8a0040;border-color:#ffb3d1;}
+.chip-slate{background:#e8eaf0;color:#3a4060;border-color:#c8ccdc;}
+.phrase-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.phrase-list li{display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:600;line-height:1.5;padding:7px 12px;border-radius:10px;}
+.conj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px;}
+.conj-card{background:linear-gradient(135deg,#fff3cc,#fce788);border-radius:12px;padding:10px 12px;text-align:center;font-weight:800;font-size:13.5px;color:#7a5000;border:2px solid #f5c800;box-shadow:0 3px 0 #d4aa00;}
+.conj-card small{display:block;font-size:10px;font-weight:600;color:#a07000;margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
+.snt-card{background:#fff8ee;border:2px solid #ffd99a;}
+.snt-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+@media(max-width:500px){.snt-row{grid-template-columns:1fr;}}
+.snt-box{border-radius:14px;padding:14px 16px;}
+.snt-tell{background:#fde8e0;border:2px solid #f9c4aa;}
+.snt-show{background:#d4f5ea;border:2px solid #a8e6d0;}
+.snt-label{font-family:'Fredoka One',sans-serif;font-size:13px;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.snt-tell .snt-label{color:#a83a00;}
+.snt-show .snt-label{color:#1a7a5b;}
+.snt-box p{font-size:14px;line-height:1.75;font-weight:600;color:#2a2a3e;}
+.snt-tip{margin-top:12px;padding:10px 14px;background:#fff3cc;border-radius:10px;border-left:4px solid var(--gold);font-size:13px;font-weight:700;color:#7a5000;line-height:1.6;}
+.compo-card{border-radius:20px;padding:22px 24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.compo-title{font-family:'Fredoka One',sans-serif;font-size:16px;margin-bottom:14px;text-align:center;padding:8px 16px;border-radius:10px;}
+.para-block{margin-bottom:12px;padding:13px 15px;border-radius:14px;background:white;border:1.5px solid #eee;}
+.para-label{display:inline-block;font-family:'Fredoka One',sans-serif;font-size:11px;letter-spacing:1px;padding:3px 10px;border-radius:20px;margin-bottom:8px;color:white;}
+.label-intro{background:var(--blue);}
+.label-build{background:#f9c74f;color:#7a5000!important;}
+.label-problem{background:var(--coral);}
+.label-solution{background:var(--mint);}
+.label-moral{background:var(--lilac);}
+.para-block p{font-size:14.5px;line-height:2.2;color:#2a2a3e;}
+
+/* TAPPABLE SPANS */
+.tw,.tp,.tc,.td{border-radius:4px;padding:1px 3px;cursor:pointer;font-weight:700;transition:opacity .15s;}
+.tw{background:#fff3b0;}
+.tp{background:#d4f5ea;}
+.tc{background:#fde0ec;}
+.td{background:#e4d9ff;}
+.tw.used,.tp.used,.tc.used,.td.used{opacity:.5;outline:2px solid #333;}
+.tap-hint{font-size:11px;font-weight:700;color:#888;text-align:center;margin-bottom:10px;padding:6px 10px;background:#f5f5f5;border-radius:8px;}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;padding:10px 14px;background:white;border-radius:10px;border:1.5px solid #eee;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#444;}
+.legend-dot{width:13px;height:13px;border-radius:3px;flex-shrink:0;}
+.compo-btn-row{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.edit-btn{display:flex;align-items:center;gap:6px;border-radius:10px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;-webkit-appearance:none;appearance:none;border:2px solid #c8b0ff;background:#ede0ff;color:#5500aa;}
+.edit-btn.active{background:#c77dff;border-color:#c77dff;color:white;}
+.save-btn{display:flex;align-items:center;gap:6px;border-radius:10px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;-webkit-appearance:none;appearance:none;border:2px solid #a8e6d0;background:#d4f5ea;color:#1a7a5b;}
+.save-btn.saved{background:#43aa8b;border-color:#43aa8b;color:white;}
+.para-block p[contenteditable="true"]{outline:2px dashed #c77dff;border-radius:6px;padding:4px 6px;background:#faf5ff;cursor:text;}
+.review-card{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-radius:20px;padding:24px;margin-bottom:18px;box-shadow:0 8px 32px rgba(26,26,46,.25);}
+.review-card .card-title{color:white;}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+@media(max-width:520px){.review-grid{grid-template-columns:1fr;}}
+.review-item{background:rgba(255,255,255,.08);border-radius:14px;padding:14px;border:1.5px solid rgba(255,255,255,.12);}
+.review-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:5px;}
+.review-question{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:10px;line-height:1.4;}
+.review-target{display:flex;align-items:center;gap:7px;}
+.target-badge{font-family:'Fredoka One',sans-serif;font-size:20px;color:var(--gold);}
+.target-text{font-size:11px;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;}
+.type-options{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.type-opt{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Nunito',sans-serif;-webkit-appearance:none;appearance:none;}
+.counter-row{display:flex;align-items:center;gap:8px;margin-top:8px;}
+.counter-btn{width:36px;height:36px;border-radius:8px;border:none;font-size:22px;font-weight:800;cursor:pointer;background:rgba(255,255,255,.2);color:white;font-family:'Nunito',sans-serif;-webkit-appearance:none;appearance:none;display:flex;align-items:center;justify-content:center;line-height:1;}
+.counter-val{font-family:'Fredoka One',sans-serif;font-size:28px;color:white;min-width:34px;text-align:center;}
+.progress-bar-wrap{background:rgba(255,255,255,.1);border-radius:10px;height:6px;margin-top:8px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:10px;background:var(--gold);width:0%;}
+.cheer{font-size:12px;font-weight:700;color:var(--gold);margin-top:5px;min-height:16px;}
+.print-note{text-align:center;font-size:12px;color:#999;margin-top:20px;font-weight:600;}
 </style>
 </head>
 <body>
 <div class="page">
+<div class="header">
+  <div class="badge" id="theme-badge" style="background:#7b5ea7;">PRIMARY 3 &middot; COMPOSITION AID</div>
+  <div class="main-title">Let's Write a <span id="theme-title-span" style="color:#7b5ea7;">Great Story!</span></div>
+  <div class="theme-pill" id="theme-pill" style="background:#ede0ff;box-shadow:0 4px 0 #c9a0ff;">Pick a Theme Below</div>
+</div>
 
-  <div class="header">
-    <div class="badge" id="theme-badge" style="background:#7b5ea7;">PRIMARY 3 &middot; COMPOSITION AID</div>
-    <div class="main-title">Let's Write a <span id="theme-title-span" style="color:#7b5ea7;">Great Story!</span></div>
-    <div class="theme-pill" id="theme-pill" style="background:#ede0ff;box-shadow:0 4px 0 #c9a0ff;">Pick a Theme Below</div>
+<div class="theme-tabs">
+  <button class="theme-tab" id="ttab-happy" style="background:#fff3f8;border-color:#ffb3d1;color:#8a0040;" onclick="selectTheme('happy')"><span class="t-emoji">&#127881;</span>Happy</button>
+  <button class="theme-tab" id="ttab-lesson" style="background:#ede0ff;border-color:#c9a0ff;color:#5500aa;" onclick="selectTheme('lesson')"><span class="t-emoji">&#128218;</span>A Lesson Learnt</button>
+  <button class="theme-tab" id="ttab-kind" style="background:#d4f5ea;border-color:#a8e6d0;color:#1a5c45;" onclick="selectTheme('kind')"><span class="t-emoji">&#129354;</span>Kindness</button>
+  <button class="theme-tab" id="ttab-sad" style="background:#e8eaf0;border-color:#c8ccdc;color:#3a4060;" onclick="selectTheme('sad')"><span class="t-emoji">&#128546;</span>Sad</button>
+</div>
+
+<div class="card" id="topic-card">
+  <div class="card-header">
+    <div class="card-icon" id="topic-icon" style="background:#ede0ff;">&#128210;</div>
+    <div class="card-title">Pick Your Topic</div>
   </div>
+  <div class="topic-grid" id="topic-grid"><div style="font-size:14px;font-weight:700;color:#999;padding:8px;">Pick a theme first</div></div>
+</div>
 
-  <div class="theme-tabs">
-    <button class="theme-tab" id="ttab-happy" style="background:#fff3f8;border-color:#ffb3d1;color:#8a0040;" onclick="selectTheme('happy')">
-      <span class="t-emoji">&#127881;</span>Happy
-    </button>
-    <button class="theme-tab" id="ttab-lesson" style="background:#ede0ff;border-color:#c9a0ff;color:#5500aa;" onclick="selectTheme('lesson')">
-      <span class="t-emoji">&#128218;</span>A Lesson Learnt
-    </button>
-    <button class="theme-tab" id="ttab-kind" style="background:#d4f5ea;border-color:#a8e6d0;color:#1a5c45;" onclick="selectTheme('kind')">
-      <span class="t-emoji">&#129354;</span>Kindness
-    </button>
-    <button class="theme-tab" id="ttab-sad" style="background:#e8eaf0;border-color:#c8ccdc;color:#3a4060;" onclick="selectTheme('sad')">
-      <span class="t-emoji">&#128546;</span>Sad
-    </button>
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" id="words-icon" style="background:#daf0fb;">&#128172;</div>
+    <div class="card-title">Helping Words</div>
   </div>
+  <div class="chips" id="words-chips"><span style="font-size:14px;font-weight:700;color:#999;">Pick a theme to see helping words.</span></div>
+</div>
 
-  <div class="card" id="topic-card">
-    <div class="card-header">
-      <div class="card-icon" id="topic-icon" style="background:#ede0ff;">&#128210;</div>
-      <div class="card-title">Pick Your Topic</div>
-    </div>
-    <div class="topic-grid" id="topic-grid">
-      <div style="font-size:14px;font-weight:700;color:#999;padding:8px;">Pick a theme first</div>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#d4f5ea;">&#10024;</div>
+    <div class="card-title">Helping Phrases</div>
   </div>
+  <ul class="phrase-list" id="phrases-list"><li style="background:#f5f7ff;border-left:4px solid #ccc;"><span>&#128072;</span> Pick a theme to see helping phrases.</li></ul>
+</div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon" id="words-icon" style="background:#daf0fb;">&#128172;</div>
-      <div class="card-title">Helping Words</div>
-    </div>
-    <div class="chips" id="words-chips">
-      <span style="font-size:14px;font-weight:700;color:#999;">Pick a theme to see helping words.</span>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#fff3cc;">&#128279;</div>
+    <div class="card-title">Helping Connectors</div>
   </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon" style="background:#d4f5ea;">&#10024;</div>
-      <div class="card-title">Helping Phrases</div>
-    </div>
-    <ul class="phrase-list" id="phrases-list">
-      <li style="background:#f5f7ff;border-left:4px solid #ccc;"><span>&#128072;</span> Pick a theme to see helping phrases.</li>
-    </ul>
+  <div class="conj-grid">
+    <div class="conj-card">Suddenly<small>surprise</small></div>
+    <div class="conj-card">However<small>contrast</small></div>
+    <div class="conj-card">Although<small>contrast</small></div>
+    <div class="conj-card">After that<small>next step</small></div>
+    <div class="conj-card">Meanwhile<small>same time</small></div>
+    <div class="conj-card">Fortunately<small>good luck</small></div>
+    <div class="conj-card">Unfortunately<small>bad luck</small></div>
+    <div class="conj-card">Therefore<small>result</small></div>
+    <div class="conj-card">As a result<small>consequence</small></div>
+    <div class="conj-card">In the end<small>conclusion</small></div>
   </div>
+</div>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon" style="background:#fff3cc;">&#128279;</div>
-      <div class="card-title">Helping Connectors</div>
-    </div>
-    <div class="conj-grid">
-      <div class="conj-card">Suddenly<small>surprise</small></div>
-      <div class="conj-card">However<small>contrast</small></div>
-      <div class="conj-card">Although<small>contrast</small></div>
-      <div class="conj-card">After that<small>next step</small></div>
-      <div class="conj-card">Meanwhile<small>same time</small></div>
-      <div class="conj-card">Fortunately<small>good luck</small></div>
-      <div class="conj-card">Unfortunately<small>bad luck</small></div>
-      <div class="conj-card">Therefore<small>result</small></div>
-      <div class="conj-card">As a result<small>consequence</small></div>
-      <div class="conj-card">In the end<small>conclusion</small></div>
+<div class="card snt-card">
+  <div class="card-header">
+    <div class="card-icon" style="background:#ffd99a;">&#127917;</div>
+    <div class="card-title">Show, Don't Tell!</div>
+  </div>
+  <p style="font-size:13.5px;font-weight:700;color:#7a5000;margin-bottom:12px;">Instead of just saying how someone feels, show it through what they do and how they look!</p>
+  <div class="snt-row" id="snt-examples">
+    <div class="snt-box snt-tell"><div class="snt-label">&#10060; TELL</div><p>She was happy. She felt excited.</p></div>
+    <div class="snt-box snt-show"><div class="snt-label">&#10003; SHOW</div><p>She was over the moon. Her eyes sparkled and a wide grin spread across her face.</p></div>
+  </div>
+  <div class="snt-tip" id="snt-tip">&#128161; Pick a theme above to see a Show Not Tell example.</div>
+</div>
+
+<div class="card compo-card" id="compo-card" style="border:2px solid #ede0ff;">
+  <div class="card-header">
+    <div class="card-icon" id="compo-icon" style="background:#ede0ff;">&#128221;</div>
+    <div class="card-title">Sample Composition</div>
+    <div class="compo-btn-row">
+      <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">&#9999;&#65039; Edit</button>
+      <button class="save-btn" id="save-btn" onclick="saveCompo()">&#128190; Save</button>
     </div>
   </div>
-
-  <div class="card snt-card">
-    <div class="card-header">
-      <div class="card-icon" style="background:#ffd99a;">&#127917;</div>
-      <div class="card-title">Show, Don't Tell!</div>
-    </div>
-    <p style="font-size:13.5px;font-weight:700;color:#7a5000;margin-bottom:12px;">Instead of saying how someone feels, show it through what they do and how they look!</p>
-    <div class="snt-row" id="snt-examples">
-      <div class="snt-box snt-tell"><div class="snt-label">&#10060; TELL</div><p>She was happy. She felt excited.</p></div>
-      <div class="snt-box snt-show"><div class="snt-label">&#10003; SHOW</div><p>She was over the moon. Her eyes sparkled and a wide grin spread across her face.</p></div>
-    </div>
-    <div class="snt-tip" id="snt-tip">&#128161; Pick a theme above to see a Show Not Tell example for that mood.</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#fff3b0;"></div> Good Word</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#d4f5ea;"></div> Good Phrase</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#fde0ec;"></div> Connector</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#e4d9ff;"></div> Dialogue</div>
   </div>
+  <div id="compo-area"><p style="font-size:14px;font-weight:700;color:#999;text-align:center;padding:20px 0;">Pick a theme and topic above to see a sample composition.</p></div>
+</div>
 
-  <div class="card compo-card" id="compo-card" style="border:2px solid #ede0ff;">
-    <div class="card-header">
-      <div class="card-icon" id="compo-icon" style="background:#ede0ff;">&#128221;</div>
-      <div class="card-title">Sample Composition</div>
-      <div class="compo-btn-row">
-        <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">&#9999;&#65039; Edit</button>
-        <button class="save-btn" id="save-btn" onclick="saveCompo()">&#128190; Save</button>
+<div class="review-card">
+  <div class="card-header" style="margin-bottom:0;">
+    <div class="card-icon" style="background:rgba(255,255,255,.15);font-size:20px;">&#128269;</div>
+    <div class="card-title">Let's Review Your Composition!</div>
+  </div>
+  <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:5px;font-weight:600;">Tap the highlighted words and phrases in the composition to count them!</p>
+  <div class="review-grid">
+    <div class="review-item">
+      <div class="review-label">Question 1</div>
+      <div class="review-question">What type of intro did you write?</div>
+      <div class="type-options">
+        <button class="type-opt" id="opt-setting"   onclick="selectIntro('setting')">&#127756; Setting</button>
+        <button class="type-opt" id="opt-dialogue"  onclick="selectIntro('dialogue')">&#128172; Dialogue</button>
+        <button class="type-opt" id="opt-person"    onclick="selectIntro('person')">&#128100; Person</button>
       </div>
+      <div class="cheer" id="cheer-intro"></div>
     </div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#fff3b0;"></div> Good Word</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#d4f5ea;"></div> Good Phrase</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#fde0ec;"></div> Connector</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#e4d9ff;"></div> Dialogue</div>
+    <div class="review-item">
+      <div class="review-label">Question 2</div>
+      <div class="review-question">Connectors used</div>
+      <div class="review-target"><div class="target-badge">&#127919; 4</div><div class="target-text">Target</div></div>
+      <div class="counter-row">
+        <button class="counter-btn" onclick="manualCounter('conn',-1)">&#8722;</button>
+        <div class="counter-val" id="val-conn">0</div>
+        <button class="counter-btn" onclick="manualCounter('conn',1)">&#43;</button>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-conn"></div></div>
+      <div class="cheer" id="cheer-conn"></div>
     </div>
-    <div id="compo-area">
-      <p style="font-size:14px;font-weight:700;color:#999;text-align:center;padding:20px 0;">Pick a theme and topic above to see a sample composition.</p>
+    <div class="review-item">
+      <div class="review-label">Question 3</div>
+      <div class="review-question">Dialogues used</div>
+      <div class="review-target"><div class="target-badge">&#127919; 2</div><div class="target-text">Target</div></div>
+      <div class="counter-row">
+        <button class="counter-btn" onclick="manualCounter('dlg',-1)">&#8722;</button>
+        <div class="counter-val" id="val-dlg">0</div>
+        <button class="counter-btn" onclick="manualCounter('dlg',1)">&#43;</button>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-dlg"></div></div>
+      <div class="cheer" id="cheer-dlg"></div>
+    </div>
+    <div class="review-item">
+      <div class="review-label">Question 4</div>
+      <div class="review-question">Good words &amp; phrases used</div>
+      <div class="review-target"><div class="target-badge">&#127919; 6</div><div class="target-text">Target</div></div>
+      <div class="counter-row">
+        <button class="counter-btn" onclick="manualCounter('gw',-1)">&#8722;</button>
+        <div class="counter-val" id="val-gw">0</div>
+        <button class="counter-btn" onclick="manualCounter('gw',1)">&#43;</button>
+      </div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-gw"></div></div>
+      <div class="cheer" id="cheer-gw"></div>
     </div>
   </div>
+</div>
 
-  <div class="review-card">
-    <div class="card-header" style="margin-bottom:0;">
-      <div class="card-icon" style="background:rgba(255,255,255,0.15);font-size:20px;">&#128269;</div>
-      <div class="card-title">Let's Review Your Composition!</div>
-    </div>
-    <p style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:5px;font-weight:600;">Check your own work. Can you hit all the targets?</p>
-    <div class="review-grid">
-      <div class="review-item">
-        <div class="review-label">Question 1</div>
-        <div class="review-question">What type of intro did you write?</div>
-        <div class="type-options">
-          <button class="type-opt" id="opt-weather"  onclick="selectIntro('weather')">&#127780; Weather</button>
-          <button class="type-opt" id="opt-dialogue" onclick="selectIntro('dialogue')">&#128172; Dialogue</button>
-          <button class="type-opt" id="opt-action"   onclick="selectIntro('action')">&#127916; Action</button>
-        </div>
-        <div class="cheer" id="cheer-intro"></div>
-      </div>
-      <div class="review-item">
-        <div class="review-label">Question 2</div>
-        <div class="review-question">How many connectors did you use?</div>
-        <div class="review-target"><div class="target-badge">&#127919; 4</div><div class="target-text">Target</div></div>
-        <div class="counter-row">
-          <button class="counter-btn" onclick="minusCounter('conn')">&#8722;</button>
-          <div class="counter-val" id="val-conn">0</div>
-          <button class="counter-btn" onclick="plusCounter('conn')">&#43;</button>
-        </div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="bar-conn"></div></div>
-        <div class="cheer" id="cheer-conn"></div>
-      </div>
-      <div class="review-item">
-        <div class="review-label">Question 3</div>
-        <div class="review-question">How many dialogues did you write?</div>
-        <div class="review-target"><div class="target-badge">&#127919; 2</div><div class="target-text">Target</div></div>
-        <div class="counter-row">
-          <button class="counter-btn" onclick="minusCounter('dlg')">&#8722;</button>
-          <div class="counter-val" id="val-dlg">0</div>
-          <button class="counter-btn" onclick="plusCounter('dlg')">&#43;</button>
-        </div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="bar-dlg"></div></div>
-        <div class="cheer" id="cheer-dlg"></div>
-      </div>
-      <div class="review-item">
-        <div class="review-label">Question 4</div>
-        <div class="review-question">How many good words and phrases did you use?</div>
-        <div class="review-target"><div class="target-badge">&#127919; 6</div><div class="target-text">Target</div></div>
-        <div class="counter-row">
-          <button class="counter-btn" onclick="minusCounter('gw')">&#8722;</button>
-          <div class="counter-val" id="val-gw">0</div>
-          <button class="counter-btn" onclick="plusCounter('gw')">&#43;</button>
-        </div>
-        <div class="progress-bar-wrap"><div class="progress-bar" id="bar-gw"></div></div>
-        <div class="cheer" id="cheer-gw"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="print-note">&#9999;&#65039; Teacher Ari &middot; Primary 3 Composition Aid</div>
+<div class="print-note">&#9999;&#65039; Teacher Ari &middot; Primary 3 Composition Aid</div>
 </div>
 
 <script>
+// helper to wrap tappable items
+// type: w=word, p=phrase, c=connector, d=dialogue
+function w(text){return '<span class="tw" onclick="tapSpan(this,\'gw\')">' + text + '</span>';}
+function p(text){return '<span class="tp" onclick="tapSpan(this,\'gw\')">' + text + '</span>';}
+function c(text){return '<span class="tc" onclick="tapSpan(this,\'conn\')">' + text + '</span>';}
+function d(text){return '<span class="td" onclick="tapSpan(this,\'dlg\')">' + text + '</span>';}
+
 var THEMES = {
-  happy: {
-    badge:'#e91e8c', accent:'#ff6b9d', pillBg:'#ffe0ef', pillShadow:'#ffb3d1',
-    topicBg:'#fff3f8', topicBorder:'#ffc8de', topicColor:'#8a0040',
-    topicActiveBg:'#ffc8de', topicActiveBorder:'#ff6b9d', topicActiveColor:'#5a0028', topicActiveShadow:'0 3px 0 #ff9fc0',
-    comboBg:'linear-gradient(160deg,#fffdf5,#fff0f8)', comboBorder:'#ffc8de',
-    compoTitleBg:'#ffe0ef', compoTitleColor:'#8a0040', compoIconBg:'#ffe0ef',
-    phraseBorderLeft:'#ff6b9d', phraseBg:'#fff3f8',
-    titleSpan:'Happy Story!', pill:'&#127881; Theme: A Joyful Day',
-    words:[
-      ['chip-pink','overjoyed'],['chip-pink','thrilled'],['chip-pink','delighted'],['chip-pink','grateful'],
-      ['chip-blue','beamed'],['chip-blue','squealed'],['chip-blue','cheered'],['chip-blue','giggled'],
-      ['chip-gold','astonished'],['chip-gold','speechless'],['chip-gold','celebrated'],
-      ['chip-mint','relieved'],['chip-mint','proud'],['chip-mint','touched'],
-      ['chip-lilac','trembling'],['chip-lilac','remembered'],['chip-lilac','announced']
-    ],
-    phrases:[
-      ['&#128513;','She was over the moon and had a wide grin on her face.'],
-      ['&#10024;','His eyes lit up with joy the moment he saw it.'],
-      ['&#129392;','She could not believe her eyes and had to blink twice.'],
-      ['&#127881;','Everyone burst into cheers and clapped their hands.'],
-      ['&#128149;','Her heart felt like it was going to burst with happiness.'],
-      ['&#127942;','He jumped up and punched the air with excitement.'],
-      ['&#128514;','Tears of joy rolled down her cheeks.'],
-      ['&#129303;','She hugged her family tight and could not stop smiling.']
-    ],
+  happy:{
+    badge:'#e91e8c',accent:'#ff6b9d',pillBg:'#ffe0ef',pillShadow:'#ffb3d1',
+    topicBg:'#fff3f8',topicBorder:'#ffc8de',topicColor:'#8a0040',
+    topicActiveBg:'#ffc8de',topicActiveBorder:'#ff6b9d',topicActiveColor:'#5a0028',topicActiveShadow:'0 3px 0 #ff9fc0',
+    comboBg:'linear-gradient(160deg,#fffdf5,#fff0f8)',comboBorder:'#ffc8de',
+    compoTitleBg:'#ffe0ef',compoTitleColor:'#8a0040',compoIconBg:'#ffe0ef',
+    phraseBorderLeft:'#ff6b9d',phraseBg:'#fff3f8',
+    titleSpan:'Happy Story!',pill:'&#127881; Theme: A Joyful Day',
+    words:[['chip-pink','overjoyed'],['chip-pink','thrilled'],['chip-pink','delighted'],['chip-pink','grateful'],['chip-blue','beamed'],['chip-blue','squealed'],['chip-blue','cheered'],['chip-blue','giggled'],['chip-gold','astonished'],['chip-gold','speechless'],['chip-gold','celebrated'],['chip-mint','relieved'],['chip-mint','proud'],['chip-mint','touched'],['chip-lilac','trembling'],['chip-lilac','remembered'],['chip-lilac','announced']],
+    phrases:[['&#128513;','She was over the moon and had a wide grin on her face.'],['&#10024;','His eyes lit up with joy the moment he saw it.'],['&#129392;','She could not believe her eyes and had to blink twice.'],['&#127881;','Everyone burst into cheers and clapped their hands.'],['&#128149;','Her heart felt like it was going to burst with happiness.'],['&#127942;','He jumped up and punched the air with excitement.'],['&#128514;','Tears of joy rolled down her cheeks.'],['&#129303;','She hugged her family tight and could not stop smiling.']],
     sntTell:'Mia was very happy. She was excited about her birthday.',
     sntShow:'Mia was over the moon. She had a wide grin on her face and her eyes sparkled with joy.',
-    sntTip:'&#128161; For a happy story, show joy through smiles, jumping, and excitement rather than just saying "happy".',
-    topics:[
-      {id:'hap1',emoji:'&#127874;',label:'A Birthday Celebration'},
-      {id:'hap2',emoji:'&#127882;',label:'A Surprise Party for a Friend'},
-      {id:'hap3',emoji:'&#128054;',label:'Receiving a Puppy as a Gift'},
-      {id:'hap4',emoji:'&#127942;',label:'Winning a School Competition'}
-    ],
+    sntTip:'&#128161; For a happy story, show joy through smiles and actions rather than just saying "happy".',
+    introTypes:['setting','dialogue','person'],
+    topics:[{id:'hap1',emoji:'&#127874;',label:'A Birthday Celebration'},{id:'hap2',emoji:'&#127882;',label:'A Surprise Party for a Friend'},{id:'hap3',emoji:'&#128054;',label:'Receiving a Puppy as a Gift'},{id:'hap4',emoji:'&#127942;',label:'Winning a School Competition'}],
     compos:{
-      hap1:{title:'&#127874; A Birthday Celebration',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"Happy birthday, Mia! Wake up!"</mark> called her mother from outside the door. Mia sat up and remembered what day it was. A wide smile spread across her face and she jumped out of bed. She ran to the kitchen, where balloons and a big cake were waiting on the table. <mark class="phrase">She was over the moon</mark> and could not stop smiling.'},
-        {label:'BUILD UP',cls:'label-build',text:'At school, Mia waited all day to see if her friends had remembered her birthday. <mark class="conn">However</mark>, everyone acted as if it were just a normal day. Nobody said a word and Mia began to feel a little sad. She walked home quietly after school, hoping the evening would still be special.'},
-        {label:'SURPRISE',cls:'label-solution',text:'<mark class="conn">Suddenly</mark>, as Mia opened the front door, her friends jumped out and shouted, <mark class="dialogue">"Surprise! Happy birthday, Mia!"</mark> <mark class="phrase">Mia\'s eyes lit up and her mouth fell open in disbelief.</mark> They had planned the surprise all day and kept it a perfect secret. <mark class="conn">After that</mark>, they ate cake, played games, and laughed until their tummies hurt.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, <mark class="phrase">Mia hugged her friends tight and could not stop smiling</mark> the whole night. It was the best birthday she had ever had. She felt very <mark>grateful</mark> to have such kind and thoughtful friends.'}
+      hap1:{title:'&#127874; A Birthday Celebration',introType:'dialogue',paras:[
+        {label:'INTRO &mdash; Dialogue',cls:'label-intro',html:'It was the morning of Mia\'s birthday. '+d('"Happy birthday, Mia!"')+' called her mother from outside the door. Mia jumped out of bed with a big smile on her face. She ran to the kitchen and saw balloons everywhere. '+p('She was over the moon')+'and could not stop smiling.'},
+        {label:'BUILD UP',cls:'label-build',html:'At school that day, none of her friends said anything about her birthday. '+c('However')+', Mia noticed them whispering and glancing at her. She felt a little confused, but she did not say anything. She walked home quietly after school, wondering if the day would still be special.'},
+        {label:'SURPRISE',cls:'label-solution',html:c('Suddenly')+', her friends jumped out from behind the sofa. '+d('"Surprise! Happy birthday, Mia!"')+' they all shouted. '+p('Mia\'s eyes lit up and her mouth fell open in disbelief.')+' They had planned the whole thing and kept it a secret all day. '+c('After that')+', they ate cake, played games, and laughed the whole evening.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', '+p('Mia hugged her friends tight and could not stop smiling')+' the whole night. She felt very '+w('grateful')+' to have such kind and thoughtful friends. She learnt that the people around her are what make any celebration truly special.'}
       ]},
-      hap2:{title:'&#127882; A Surprise Party for a Friend',paras:[
-        {label:'INTRO &mdash; Weather',cls:'label-intro',text:'It was a bright and sunny Friday afternoon. Tom and his classmates were busy getting the classroom ready for a surprise party for their friend Jay. They had blown up balloons and put up a big banner that said "Happy Birthday Jay!" <mark class="conn">Meanwhile</mark>, their teacher kept Jay busy in the corridor. Everyone was <mark>excited</mark> and could hardly wait.'},
-        {label:'BUILD UP',cls:'label-build',text:'<mark class="conn">However</mark>, just before Jay came back, one of the balloons popped with a very loud bang. Everyone froze and held their breath. They were afraid Jay might have heard the noise and guessed what was happening. Tom quickly hid the leftover balloons behind his bag. The class waited in silence, hoping the surprise was still safe.'},
-        {label:'SURPRISE',cls:'label-solution',text:'<mark class="conn">Fortunately</mark>, Jay had not heard a thing. When he walked through the door, everyone jumped up and shouted, <mark class="dialogue">"Surprise! Happy birthday, Jay!"</mark> <mark class="phrase">Jay\'s mouth fell open and he could not say a single word.</mark> He looked around in disbelief, then burst out laughing. <mark class="dialogue">"I had no idea! Thank you, everyone!"</mark> he said, <mark>beaming</mark> from ear to ear.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, the class sang, ate cake, and took many photos together. Tom felt very <mark>proud</mark> that everything had gone so well. He learnt that doing something kind for a friend, no matter how much effort it takes, is always worth it.'}
+      hap2:{title:'&#127882; A Surprise Party for a Friend',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'The classroom was quiet and bright on Friday afternoon. Balloons bobbed against the ceiling and a big colourful banner read "Happy Birthday Jay!" Tom and his classmates had spent the whole lunch break getting everything ready. '+c('Meanwhile')+', their teacher kept Jay busy in the corridor outside. Everyone was '+w('excited')+' and could hardly keep the secret.'},
+        {label:'BUILD UP',cls:'label-build',html:c('However')+', just before Jay walked in, one of the balloons popped loudly. Everyone froze. They were worried that Jay had heard and guessed the surprise. Tom quickly hid the leftover balloons behind his bag. The whole class held their breath and waited in silence.'},
+        {label:'SURPRISE',cls:'label-solution',html:c('Fortunately')+', Jay had not heard a thing. When he walked through the door, the whole class jumped up and shouted, '+d('"Surprise! Happy birthday, Jay!"')+' '+p('Jay\'s mouth fell open and he could not say a single word.')+' He looked around the room in disbelief, then burst out laughing. '+d('"I had no idea! Thank you, everyone!"')+' he said, '+w('beaming')+' from ear to ear.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', the class sang, ate cake, and took many happy photos together. Tom felt very '+w('proud')+' that everything had gone so well. He learnt that doing something kind for a friend is always worth the effort.'}
       ]},
-      hap3:{title:'&#128054; Receiving a Puppy as a Gift',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"Siti, we have a special surprise for you today,"</mark> said her father with a big smile. Siti put down her book and looked up curiously. Her parents led her to the living room, where a small box with tiny holes sat on the floor. She could hear a soft sound coming from inside. <mark class="phrase">Her heart felt like it was going to burst with excitement</mark> as she knelt down to open it.'},
-        {label:'BUILD UP',cls:'label-build',text:'Siti had always wanted a pet, but her parents had said no every time she asked. <mark class="conn">Although</mark> she had hoped for a long time, she had stopped asking. She thought the box might just be a toy. She lifted the lid slowly, trying not to get her hopes up too much.'},
-        {label:'SURPRISE',cls:'label-solution',text:'<mark class="conn">Suddenly</mark>, a tiny golden puppy popped its head out and looked up at her. <mark class="phrase">Siti could not believe her eyes and had to blink twice.</mark> She let out a loud squeal and scooped the puppy into her arms. <mark class="dialogue">"He is really mine?"</mark> she asked. Her parents nodded and laughed as the puppy licked her nose. <mark class="phrase">Tears of joy rolled down her cheeks.</mark>'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Siti named her puppy Biscuit and spent the whole afternoon playing with him. She felt very <mark>grateful</mark> and <mark>touched</mark> by her parents\' gift. She promised to take good care of him every single day.'}
+      hap3:{title:'&#128054; Receiving a Puppy as a Gift',introType:'person',paras:[
+        {label:'INTRO &mdash; Person',cls:'label-intro',html:'Siti was a '+w('curious')+' and '+w('cheerful')+' eight-year-old who loved animals more than anything. She had always wanted a pet of her own, but her parents had said no every time. One afternoon, her father called her to the living room with a big smile on his face. A small box with tiny holes in the lid sat on the floor. Siti could hear a soft sound coming from inside.'},
+        {label:'BUILD UP',cls:'label-build',html:'Siti knelt down slowly and lifted the lid. She thought it might just be a toy. '+c('Although')+' she tried not to get her hopes up, her heart was beating very fast. She peeked inside carefully, not wanting to be disappointed if it was not what she was hoping for.'},
+        {label:'SURPRISE',cls:'label-solution',html:c('Suddenly')+', a tiny golden puppy popped its head out and looked up at her. '+p('Siti could not believe her eyes and had to blink twice.')+' She let out a loud squeal and scooped the puppy into her arms. '+d('"He is really mine?"')+' she asked, looking at her parents. They both nodded and laughed as the puppy licked her nose. '+p('Tears of joy rolled down her cheeks.')},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Siti named her puppy Biscuit and spent the whole afternoon playing with him on the floor. She felt very '+w('grateful')+' and '+w('touched')+' by her parents\' gift. She promised to take good care of him every single day.'}
       ]},
-      hap4:{title:'&#127942; Winning a School Competition',paras:[
-        {label:'INTRO &mdash; Action',cls:'label-intro',text:'Twelve students stood on the school stage, waiting for the results of the Art Competition. Among them was eight-year-old Kai, whose heart was beating very fast. He had worked on his painting for two whole weeks. <mark class="conn">However</mark>, many of the other paintings looked very good too. He pressed his hands together and waited.'},
-        {label:'BUILD UP',cls:'label-build',text:'The teacher announced third place, then second place. Kai\'s name was not called for either. His shoulders dropped and he looked down at his shoes. <mark class="conn">Meanwhile</mark>, his classmates in the hall watched the stage closely. Kai told himself quietly that it was alright, even though he felt <mark>deflated</mark>.'},
-        {label:'SURPRISE',cls:'label-solution',text:'<mark class="conn">Suddenly</mark>, the teacher smiled and said, <mark class="dialogue">"And the first place winner is... Kai!"</mark> The hall burst into loud cheers. <mark class="phrase">Kai\'s eyes lit up and he jumped up, punching the air with excitement.</mark> He walked up to collect his trophy, his legs <mark>trembling</mark> with joy. <mark class="dialogue">"I cannot believe it! Thank you so much!"</mark> he said, beaming with pride.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Kai showed his trophy to his parents and they hugged him tightly. He felt very <mark>proud</mark> and <mark>grateful</mark> for all the hard work he had put in. He learnt that if you try your best and never give up, good things will come.'}
+      hap4:{title:'&#127942; Winning a School Competition',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'The school hall was buzzing with excitement. Students from every class sat in rows, waiting for the results of the Art Competition to be read out. Among them was eight-year-old Kai, who had worked on his painting for two whole weeks. '+c('However')+', many of the other entries looked very good too. He pressed his hands together and waited.'},
+        {label:'BUILD UP',cls:'label-build',html:'The teacher called out third place, then second place. Kai\'s name was not called for either. His shoulders dropped a little and he looked down at the floor. '+c('Meanwhile')+', his classmates nearby were whispering and watching the stage. Kai told himself it was alright, but he still felt a little '+w('deflated')+'.'},
+        {label:'SURPRISE',cls:'label-solution',html:c('Suddenly')+', the teacher smiled and said, '+d('"And the first place winner is... Kai!"')+' The hall burst into loud cheers. '+p('Kai\'s eyes lit up and he jumped up, punching the air with excitement.')+' He walked up to collect his trophy on '+w('trembling')+' legs. '+d('"I cannot believe it! Thank you so much!"')+' he said, beaming with pride.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Kai showed his trophy to his parents and they hugged him tightly. He felt very '+w('proud')+' and '+w('grateful')+' for all the hard work he had put in. He learnt that trying your best will always be rewarded.'}
       ]}
     }
   },
-  lesson: {
-    badge:'#5500aa', accent:'#c77dff', pillBg:'#ede0ff', pillShadow:'#c9a0ff',
-    topicBg:'#f5f0ff', topicBorder:'#d4c8f5', topicColor:'#3a2a6e',
-    topicActiveBg:'#ede0ff', topicActiveBorder:'#c77dff', topicActiveColor:'#4a2090', topicActiveShadow:'0 3px 0 #c9a0ff',
-    comboBg:'linear-gradient(160deg,#fdfcff,#f4f0ff)', comboBorder:'#d4c8f5',
-    compoTitleBg:'#ede0ff', compoTitleColor:'#4a2090', compoIconBg:'#ede0ff',
-    phraseBorderLeft:'#c77dff', phraseBg:'#f5f0ff',
-    titleSpan:'A Lesson Learnt!', pill:'&#128218; Theme: A Lesson Learnt',
-    words:[
-      ['chip-coral','disappointed'],['chip-coral','ashamed'],['chip-coral','guilty'],['chip-coral','regretful'],
-      ['chip-blue','relieved'],['chip-blue','grateful'],['chip-blue','hopeful'],
-      ['chip-mint','determined'],['chip-mint','worried'],['chip-mint','nervous'],
-      ['chip-gold','honest'],['chip-gold','careless'],
-      ['chip-lilac','apologised'],['chip-lilac','realised'],['chip-lilac','forgave'],['chip-lilac','promised']
-    ],
-    phrases:[
-      ['&#128532;','His heart sank when he saw what had happened.'],
-      ['&#128514;','She felt much better after telling the truth.'],
-      ['&#128557;','Tears welled up in her eyes.'],
-      ['&#128561;','His face turned red with embarrassment.'],
-      ['&#128170;','Without wasting another second, she went to find help.'],
-      ['&#128532;','He stared at the floor, too ashamed to speak.'],
-      ['&#129303;','She felt relieved once everything was sorted out.'],
-      ['&#127775;','Over the moon, he could not stop smiling after she forgave him.']
-    ],
+  lesson:{
+    badge:'#5500aa',accent:'#c77dff',pillBg:'#ede0ff',pillShadow:'#c9a0ff',
+    topicBg:'#f5f0ff',topicBorder:'#d4c8f5',topicColor:'#3a2a6e',
+    topicActiveBg:'#ede0ff',topicActiveBorder:'#c77dff',topicActiveColor:'#4a2090',topicActiveShadow:'0 3px 0 #c9a0ff',
+    comboBg:'linear-gradient(160deg,#fdfcff,#f4f0ff)',comboBorder:'#d4c8f5',
+    compoTitleBg:'#ede0ff',compoTitleColor:'#4a2090',compoIconBg:'#ede0ff',
+    phraseBorderLeft:'#c77dff',phraseBg:'#f5f0ff',
+    titleSpan:'A Lesson Learnt!',pill:'&#128218; Theme: A Lesson Learnt',
+    words:[['chip-coral','disappointed'],['chip-coral','ashamed'],['chip-coral','guilty'],['chip-coral','regretful'],['chip-blue','relieved'],['chip-blue','grateful'],['chip-blue','hopeful'],['chip-mint','determined'],['chip-mint','worried'],['chip-gold','honest'],['chip-gold','careless'],['chip-lilac','apologised'],['chip-lilac','realised'],['chip-lilac','forgave'],['chip-lilac','promised']],
+    phrases:[['&#128532;','His heart sank when he saw what had happened.'],['&#128514;','She felt much better after telling the truth.'],['&#128557;','Tears welled up in her eyes.'],['&#128561;','His face turned red with embarrassment.'],['&#128170;','Without wasting another second, she went to find help.'],['&#128532;','He stared at the floor, too ashamed to speak.'],['&#129303;','She felt relieved once everything was sorted out.'],['&#127775;','Over the moon, he could not stop smiling after she forgave him.']],
     sntTell:'Ali was very guilty. He felt bad about what he had done.',
     sntShow:'Ali stared at the floor and could not move. His hands were shaking and his face had gone pale.',
-    sntTip:'&#128161; For a lesson story, show guilt or embarrassment through what the character does — their face, their hands, their silence.',
-    topics:[
-      {id:'les1',emoji:'&#127943;',label:'Breaking Mum\'s Favourite Vase'},
-      {id:'les2',emoji:'&#129695;',label:'Breaking a Classroom Window'},
-      {id:'les3',emoji:'&#128221;',label:'Not Studying for an Exam'},
-      {id:'les4',emoji:'&#129296;',label:'Telling a Lie to a Teacher'}
-    ],
+    sntTip:'&#128161; For a lesson story, show guilt through what the character does — looking down, going quiet, shaking hands.',
+    introTypes:['setting','dialogue','person'],
+    topics:[{id:'les1',emoji:'&#127943;',label:'Breaking Mum\'s Favourite Vase'},{id:'les2',emoji:'&#129695;',label:'Breaking a Classroom Window'},{id:'les3',emoji:'&#128221;',label:'Not Studying for an Exam'},{id:'les4',emoji:'&#129296;',label:'Telling a Lie to a Teacher'}],
     compos:{
-      les1:{title:'&#127943; Breaking Mum\'s Favourite Vase',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"Mum, can I play ball in the living room?"</mark> asked Ali. His mother smiled and said yes before going back to the kitchen. Ali began kicking his ball around happily. He was not being careful at all. The living room was small and there were many things on the shelves.'},
-        {label:'PROBLEM',cls:'label-problem',text:'<mark class="conn">Suddenly</mark>, the ball flew to the side and hit Mum\'s favourite blue vase. It crashed to the floor and broke into many pieces. <mark class="phrase">Ali\'s heart sank</mark> when he saw what had happened. He felt very <mark>guilty</mark> and scared. He stood still and did not know what to do next.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Ali took a deep breath and walked slowly to the kitchen. <mark class="phrase">His face turned red with embarrassment</mark> as he looked at his mother. <mark class="dialogue">"Mum, I am sorry. I broke your vase by accident,"</mark> he said in a soft voice. His mother was <mark>disappointed</mark>, but she was glad that Ali had come to tell her. She hugged him and told him to be more careful next time.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">After that</mark>, Ali helped to sweep up all the broken pieces carefully. He felt <mark>relieved</mark> that he had told the truth. <mark class="conn">In the end</mark>, Ali learnt that it is always better to own up to our mistakes than to hide them.'}
+      les1:{title:'&#127943; Breaking Mum\'s Favourite Vase',introType:'dialogue',paras:[
+        {label:'INTRO &mdash; Dialogue',cls:'label-intro',html:d('"Mum, can I play ball in the living room?"')+' asked Ali. His mother smiled and said yes before going back to the kitchen. Ali kicked his ball around the room, laughing to himself. He was not being '+w('careful')+' at all. The living room was small and there were many things sitting on the shelves.'},
+        {label:'PROBLEM',cls:'label-problem',html:c('Suddenly')+', the ball hit Mum\'s favourite blue vase. It fell to the floor and broke into pieces. '+p('Ali\'s heart sank')+' when he saw what had happened. He felt very '+w('guilty')+' and did not know what to do. He stood very still and stared at the broken pieces on the floor.'},
+        {label:'SOLUTION',cls:'label-solution',html:'Ali took a deep breath and walked to the kitchen to find his mother. '+p('His face turned red with embarrassment')+' as he spoke. '+d('"Mum, I am sorry. I broke your vase by accident,"')+' he said in a quiet voice. His mother was '+w('disappointed')+', but she was glad that Ali had told her the truth. She hugged him and said it was alright.'},
+        {label:'MORAL',cls:'label-moral',html:c('After that')+', Ali helped to sweep up all the broken pieces. He felt '+w('relieved')+' after telling the truth. '+c('In the end')+', Ali learnt that it is always better to own up to our mistakes than to hide them.'}
       ]},
-      les2:{title:'&#129695; Breaking a Classroom Window',paras:[
-        {label:'INTRO &mdash; Weather',cls:'label-intro',text:'It was a bright and sunny afternoon during recess. Tom and his friends were playing catching near the school building. They were laughing and running around happily. Tom kicked the ball as hard as he could. <mark class="conn">Suddenly</mark>, it flew up and hit the classroom window with a loud crack.'},
-        {label:'PROBLEM',cls:'label-problem',text:'The glass broke and pieces fell to the ground. <mark class="phrase">Tom\'s heart sank</mark> when he saw what he had done. His friends went quiet and stared at him. Tom felt very <mark>ashamed</mark> and worried. He was not sure if he should run away or stay.'},
-        {label:'SOLUTION',cls:'label-solution',text:'<mark class="conn">However</mark>, Tom knew that running away was wrong. He walked slowly to the staffroom to find his teacher. <mark class="phrase">He stared at the floor, too ashamed to look up</mark> as he spoke. <mark class="dialogue">"Miss Lim, I am sorry. I broke the classroom window by accident,"</mark> he said. Miss Lim was glad that Tom had come to tell her the truth.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">After that</mark>, Tom helped to clean up the broken glass carefully. He felt much better once he had owned up. <mark class="conn">In the end</mark>, Tom learnt that being honest is always the right thing to do, even when it is hard.'}
+      les2:{title:'&#129695; Breaking a Classroom Window',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'It was a bright and sunny afternoon during recess. The school field was full of children running and laughing. Tom and his friends were playing near the classrooms, kicking a ball back and forth. They were having so much fun that none of them noticed how close they were to the building. '+c('Suddenly')+', the ball flew up and hit the classroom window with a loud crack.'},
+        {label:'PROBLEM',cls:'label-problem',html:'The glass broke and fell to the ground. '+p('Tom\'s heart sank')+' when he saw what he had done. His friends went quiet and stared at him. Tom felt very '+w('ashamed')+' and did not know whether to run or stay. For a moment, he thought about pretending it was not him.'},
+        {label:'SOLUTION',cls:'label-solution',html:c('However')+', Tom knew that running away was wrong. He walked slowly to the staffroom and knocked on the door. '+p('He stared at the floor, too ashamed to look up')+' as he spoke. '+d('"Miss Lim, I am sorry. I broke the classroom window by accident,"')+' he said. Miss Lim thanked Tom for coming to tell her.'},
+        {label:'MORAL',cls:'label-moral',html:c('After that')+', Tom helped to clean up the broken glass. He felt much better after owning up. '+c('In the end')+', he learnt that being honest is always the right thing to do, even when it is hard.'}
       ]},
-      les3:{title:'&#128221; Not Studying for an Exam',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"Mei, have you studied for your Maths test tomorrow?"</mark> asked her mother. <mark class="dialogue">"Yes, Mum, I am ready,"</mark> said Mei. <mark class="conn">However</mark>, that was not true at all. Mei had spent the whole afternoon watching her favourite cartoons. She had not even opened her textbook.'},
-        {label:'PROBLEM',cls:'label-problem',text:'The next day, Mei stared at her test paper and could not answer many of the questions. <mark class="phrase">Tears welled up in her eyes.</mark> She felt very ashamed and <mark>regretful</mark>. She wished she had listened to her mother the night before. The test felt very long and difficult.'},
-        {label:'SOLUTION',cls:'label-solution',text:'When Mei got home, she told her mother the truth. <mark class="phrase">Her face turned red with embarrassment</mark> as she spoke. Her mother was <mark>disappointed</mark>, but she <mark>forgave</mark> Mei and said, <mark class="dialogue">"Let us make a study plan together so this does not happen again."</mark>'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">After that</mark>, Mei studied hard every evening before her tests. She did much better the next time. <mark class="conn">In the end</mark>, she learnt that hard work and honesty are both very important.'}
+      les3:{title:'&#128221; Not Studying for an Exam',introType:'dialogue',paras:[
+        {label:'INTRO &mdash; Dialogue',cls:'label-intro',html:d('"Mei, have you studied for your Maths test tomorrow?"')+' asked her mother. '+d('"Yes, Mum, I am ready,"')+' said Mei. '+c('However')+', that was not true. Mei had spent the whole afternoon watching cartoons instead. She had not opened her textbook even once.'},
+        {label:'PROBLEM',cls:'label-problem',html:'The next day, Mei stared at the test paper and could not answer many of the questions. '+p('Tears welled up in her eyes.')+' She felt very ashamed and '+w('regretful')+'. She sat quietly and wished she had listened to her mother the night before.'},
+        {label:'SOLUTION',cls:'label-solution',html:'When Mei got home, she told her mother the truth straight away. '+p('Her face turned red with embarrassment')+' as she spoke. Her mother was '+w('disappointed')+', but she '+w('forgave')+' Mei. '+d('"Let us make a study plan together so this does not happen again,"')+' her mother said kindly.'},
+        {label:'MORAL',cls:'label-moral',html:c('After that')+', Mei studied every evening before her tests. She did much better the next time. '+c('In the end')+', she learnt that hard work and honesty are both very important.'}
       ]},
-      les4:{title:'&#129296; Telling a Lie to a Teacher',paras:[
-        {label:'INTRO &mdash; Weather',cls:'label-intro',text:'It was a quiet Monday morning and the classroom was calm. Mr Tan asked the class to pass up their homework. Sam had not done his, so he said quickly, <mark class="dialogue">"I left my book at home, Mr Tan."</mark> <mark class="conn">However</mark>, that was a lie. Sam\'s book was sitting in his bag the whole time.'},
-        {label:'PROBLEM',cls:'label-problem',text:'All day long, Sam felt very <mark>guilty</mark> and could not focus in class. <mark class="phrase">His heart sank</mark> every time Mr Tan walked past his desk. He kept thinking about the lie he had told. He felt worse and worse as the hours went by.'},
-        {label:'SOLUTION',cls:'label-solution',text:'After school, Sam waited until all his classmates had left. <mark class="phrase">He stared at the floor, too ashamed to speak</mark> at first. Then he looked up and said, <mark class="dialogue">"Mr Tan, I am sorry. I lied to you. I did not do my homework."</mark> Mr Tan was serious but he thanked Sam for being honest in the end.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">After that</mark>, Sam went home and finished all his homework. He felt <mark>relieved</mark> now that the truth was out. He <mark>promised</mark> himself never to lie again. <mark class="conn">In the end</mark>, he learnt that one small lie can make you feel very unhappy inside.'}
+      les4:{title:'&#129296; Telling a Lie to a Teacher',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'Monday morning was quiet and calm. The classroom smelled of chalk and the ceiling fan turned slowly overhead. Mr Tan walked around the room and asked everyone to pass up their homework. Sam had not done his. Before he could think, he said quickly, '+d('"I left my book at home, Mr Tan."')+' '+c('However')+', his book was sitting in his bag the whole time.'},
+        {label:'PROBLEM',cls:'label-problem',html:'All day long, Sam felt very '+w('guilty')+' and could not focus on anything. '+p('His heart sank')+' every time Mr Tan walked past his desk. He kept thinking about the lie he had told. The longer the day went on, the worse he felt.'},
+        {label:'SOLUTION',cls:'label-solution',html:'After school, Sam waited until his classmates had left the room. '+p('He stared at the floor, too ashamed to speak')+' at first. Then he looked up and said, '+d('"Mr Tan, I am sorry. I lied to you. I did not do my homework."')+' Mr Tan nodded and thanked Sam for being honest.'},
+        {label:'MORAL',cls:'label-moral',html:c('After that')+', Sam finished all his homework that evening. He felt '+w('relieved')+' now that the truth was out. He '+w('promised')+' himself never to lie again. '+c('In the end')+', he learnt that one small lie can make you feel very unhappy inside.'}
       ]}
     }
   },
-  kind: {
-    badge:'#1a7a5b', accent:'#43aa8b', pillBg:'#d4f5ea', pillShadow:'#a8e6d0',
-    topicBg:'#f0faf6', topicBorder:'#b8e8d8', topicColor:'#1a5c45',
-    topicActiveBg:'#d0f5ef', topicActiveBorder:'#2ec4b6', topicActiveColor:'#0a5c52', topicActiveShadow:'0 3px 0 #9ae8dd',
-    comboBg:'linear-gradient(160deg,#f5fffa,#f0fff8)', comboBorder:'#b8e8d8',
-    compoTitleBg:'#d0f5ef', compoTitleColor:'#0a7a6e', compoIconBg:'#d0f5ef',
-    phraseBorderLeft:'#43aa8b', phraseBg:'#f0faf6',
-    titleSpan:'A Kindness Story!', pill:'&#129354; Theme: Kindness',
-    words:[
-      ['chip-mint','kind'],['chip-mint','caring'],['chip-mint','thoughtful'],['chip-mint','generous'],
-      ['chip-blue','grateful'],['chip-blue','thankful'],['chip-blue','touched'],['chip-blue','relieved'],
-      ['chip-gold','selfless'],['chip-gold','helpful'],['chip-gold','considerate'],
-      ['chip-coral','worried'],['chip-coral','distressed'],
-      ['chip-lilac','comforted'],['chip-lilac','reassured'],['chip-lilac','approached'],['chip-lilac','offered']
-    ],
-    phrases:[
-      ['&#129354;','Without a second thought, she rushed over to help.'],
-      ['&#128149;','His heart went out to the old woman who was struggling alone.'],
-      ['&#129303;','A warm feeling spread through her chest when she saw the smile on his face.'],
-      ['&#128557;','Tears of gratitude rolled down the woman\'s cheeks.'],
-      ['&#128170;','She knew she could not simply walk away.'],
-      ['&#128064;','She caught sight of the situation and went over right away.'],
-      ['&#129311;','With a gentle smile, he offered to help without being asked.'],
-      ['&#127775;','She felt happy knowing she had made a difference.']
-    ],
+  kind:{
+    badge:'#1a7a5b',accent:'#43aa8b',pillBg:'#d4f5ea',pillShadow:'#a8e6d0',
+    topicBg:'#f0faf6',topicBorder:'#b8e8d8',topicColor:'#1a5c45',
+    topicActiveBg:'#d0f5ef',topicActiveBorder:'#2ec4b6',topicActiveColor:'#0a5c52',topicActiveShadow:'0 3px 0 #9ae8dd',
+    comboBg:'linear-gradient(160deg,#f5fffa,#f0fff8)',comboBorder:'#b8e8d8',
+    compoTitleBg:'#d0f5ef',compoTitleColor:'#0a7a6e',compoIconBg:'#d0f5ef',
+    phraseBorderLeft:'#43aa8b',phraseBg:'#f0faf6',
+    titleSpan:'A Kindness Story!',pill:'&#129354; Theme: Kindness',
+    words:[['chip-mint','kind'],['chip-mint','caring'],['chip-mint','thoughtful'],['chip-mint','generous'],['chip-blue','grateful'],['chip-blue','thankful'],['chip-blue','touched'],['chip-blue','relieved'],['chip-gold','selfless'],['chip-gold','helpful'],['chip-coral','worried'],['chip-coral','distressed'],['chip-lilac','comforted'],['chip-lilac','reassured'],['chip-lilac','approached'],['chip-lilac','offered']],
+    phrases:[['&#129354;','Without a second thought, she rushed over to help.'],['&#128149;','His heart went out to the old woman who was struggling alone.'],['&#129303;','A warm feeling spread through her chest when she saw the smile on his face.'],['&#128557;','Tears of gratitude rolled down the woman\'s cheeks.'],['&#128170;','She knew she could not simply walk away.'],['&#128064;','She caught sight of the situation and went over right away.'],['&#129311;','With a gentle smile, he offered to help without being asked.'],['&#127775;','She felt happy knowing she had made a difference.']],
     sntTell:'The old man was sad and confused. He did not know what to do.',
-    sntShow:'The old man stood at the kerb, his hands shaking as he looked left and right. His eyes were wide with confusion.',
-    sntTip:'&#128161; For a kindness story, show the person in need struggling before the helper steps in. This makes the act of kindness feel more powerful.',
-    topics:[
-      {id:'knd1',emoji:'&#128116;',label:'Helping an Elderly Stranger'},
-      {id:'knd2',emoji:'&#128048;',label:'Rescuing a Stray Animal'},
-      {id:'knd3',emoji:'&#127968;',label:'Helping a Neighbour in Need'},
-      {id:'knd4',emoji:'&#128101;',label:'Cheering Up a Sad Friend'}
-    ],
+    sntShow:'The old man stood at the side of the road, his hands shaking as he looked left and right. His eyes were wide and full of worry.',
+    sntTip:'&#128161; For a kindness story, show the person in need struggling before the helper steps in. This makes the act of kindness feel more meaningful.',
+    introTypes:['setting','dialogue','person'],
+    topics:[{id:'knd1',emoji:'&#128116;',label:'Helping an Elderly Stranger'},{id:'knd2',emoji:'&#128048;',label:'Rescuing a Stray Animal'},{id:'knd3',emoji:'&#127968;',label:'Helping a Neighbour in Need'},{id:'knd4',emoji:'&#128101;',label:'Cheering Up a Sad Friend'}],
     compos:{
-      knd1:{title:'&#128116; Helping an Elderly Stranger',paras:[
-        {label:'INTRO &mdash; Action',cls:'label-intro',text:'It was a busy Saturday morning at the market. Crowds of people hurried past one another, each rushing to get what they needed. Eight-year-old Priya noticed an old man standing alone at the side of the road. His hands were shaking as he held a heavy bag of groceries. <mark class="phrase">Her heart went out to him</mark> when she saw how lost and confused he looked.'},
-        {label:'PROBLEM',cls:'label-problem',text:'The old man tried to step off the kerb to cross the road, but the traffic was moving fast and he stumbled back. <mark class="conn">Although</mark> many people walked past, nobody stopped to help. Priya felt <mark>worried</mark> as she watched. She was in a hurry herself, but <mark class="phrase">she knew she could not simply walk away.</mark>'},
-        {label:'SOLUTION',cls:'label-solution',text:'<mark class="conn">Without a second thought</mark>, Priya walked over and stood beside him. <mark class="dialogue">"Uncle, would you like me to help you cross the road?"</mark> she asked. The old man looked at her and nodded with a weak smile. Priya took his bag and carefully guided him across. When they reached the other side, he squeezed her hand and said, <mark class="dialogue">"Thank you, young lady. You are very kind."</mark>'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Priya handed him his bag and watched him walk safely away. <mark class="phrase">A warm feeling spread through her chest</mark> as she turned to leave. She learnt that a small act of kindness, no matter how simple, can make a big difference to someone in need.'}
+      knd1:{title:'&#128116; Helping an Elderly Stranger',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'The market was loud and busy on Saturday morning. People moved quickly from stall to stall, carrying bags and calling out to one another. Eight-year-old Priya walked beside her mother, looking around. '+c('Suddenly')+', she noticed an old man standing alone near the road. His hands were shaking as he held a heavy bag of groceries. '+p('Her heart went out to him')+' when she saw how lost he looked.'},
+        {label:'PROBLEM',cls:'label-problem',html:'The old man tried to cross the road, but the traffic was fast and he stepped back in fright. Many people walked past him without stopping. Priya felt '+w('worried')+' as she watched. She was in a hurry to get home. '+c('However')+', '+p('she knew she could not simply walk away.')+' She looked at her mother, who nodded and smiled.'},
+        {label:'SOLUTION',cls:'label-solution',html:p('Without a second thought')+', Priya walked over and stood beside the old man. '+d('"Uncle, shall I help you cross the road?"')+' she asked in a gentle voice. The old man looked at her and nodded with a weak smile. Priya took his bag and carefully guided him to the other side. He held her hand and said, '+d('"Thank you, young lady. You are very kind."')},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Priya handed him his bag and watched him walk safely away. '+p('A warm feeling spread through her chest')+' as she turned to leave. She learnt that a small act of kindness, no matter how simple, can mean a great deal to someone in need.'}
       ]},
-      knd2:{title:'&#128048; Rescuing a Stray Animal',paras:[
-        {label:'INTRO &mdash; Weather',cls:'label-intro',text:'The rain had been pouring all afternoon and the streets were wet and grey. Eight-year-old Sofia was walking home from school when she heard a faint whimpering sound coming from beneath a parked car. She crouched down and found herself looking into the wide, frightened eyes of a small, soaking wet kitten. <mark class="phrase">Her heart went out to the tiny creature</mark> shivering alone in the rain.'},
-        {label:'PROBLEM',cls:'label-problem',text:'The kitten looked thin and scared. Sofia reached out her hand, but it shrank back against the tyre. She knew she could not leave it there in the cold. <mark class="conn">Furthermore</mark>, the traffic was picking up and she was worried it might dart into the road. She pulled off her school jacket and laid it gently on the ground in front of the car.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Slowly and patiently, Sofia coaxed the kitten out with soft words. <mark class="conn">Before long</mark>, it crept onto her jacket and she carefully scooped it up. She wrapped it close to her chest to keep it warm. When she reached home, she called out, <mark class="dialogue">"Mum, I found a kitten outside. Can we take care of it tonight?"</mark> Her mother looked at the tiny shivering bundle and smiled. <mark class="dialogue">"Bring it in,"</mark> she said softly.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, the kitten was dried, fed, and taken to a vet the next morning. <mark class="phrase">A warm feeling spread through Sofia\'s chest</mark> as she watched it fall asleep. She learnt that <mark>kindness</mark> sometimes means putting another living thing\'s needs before your own comfort.'}
+      knd2:{title:'&#128048; Rescuing a Stray Animal',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'The rain had been falling since lunchtime. The streets were wet and grey, and most people had hurried indoors. Eight-year-old Sofia was walking home from school with her umbrella when she heard a soft whimpering coming from beneath a parked car. She stopped and crouched down. Looking back at her were the wide, frightened eyes of a tiny kitten, soaking wet and shivering. '+p('Her heart went out to the small creature')+' straight away.'},
+        {label:'PROBLEM',cls:'label-build',html:'Sofia reached out her hand, but the kitten shrank back against the tyre. She could not leave it there in the cold and the rain. '+c('Furthermore')+', traffic was starting to pick up and she was afraid it might run into the road. She looked around, thinking of what to do. Then she took off her school jacket and laid it on the ground in front of the car.'},
+        {label:'SOLUTION',cls:'label-solution',html:'Sofia spoke softly and waited. '+c('Before long')+', the kitten crept onto the jacket and she gently scooped it up. She tucked it inside her jacket to keep it warm. When she got home, she called out, '+d('"Mum, I found a kitten outside. Can we look after it tonight?"')+' Her mother came to the door, looked at the tiny bundle, and said, '+d('"Bring it in."')},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', the kitten was dried, fed, and taken to a vet the next morning. '+p('A warm feeling spread through Sofia\'s chest')+' as she watched it fall asleep. She learnt that '+w('kindness')+' sometimes means putting another living thing\'s needs before your own comfort.'}
       ]},
-      knd3:{title:'&#127968; Helping a Neighbour in Need',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"Can someone please help me?"</mark> a weak voice called from the corridor outside. Eight-year-old Ethan opened his front door and found his elderly neighbour, Madam Lim, slumped against the wall. She was holding her chest and her face was pale. Ethan could see she was not well at all. He had to act fast.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Madam Lim explained that she had been feeling unwell all morning but had no one to call. Her family was away and she did not have her phone. Ethan felt a rush of <mark>worry</mark> and his mind raced as he tried to think of what to do. He was only eight years old and home alone. <mark class="conn">However</mark>, he refused to do nothing.'},
-        {label:'SOLUTION',cls:'label-solution',text:'<mark class="conn">Without hesitation</mark>, Ethan helped Madam Lim sit down, then ran inside to call his mother. <mark class="dialogue">"Mum, Madam Lim is sick and she needs help right now,"</mark> he said, his voice calm but urgent. His mother called for an ambulance straight away. <mark class="conn">Meanwhile</mark>, Ethan stayed with Madam Lim and spoke to her gently so she would not be afraid.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">Before long</mark>, the ambulance arrived and Madam Lim was taken to hospital. Ethan felt <mark>relieved</mark> and quietly <mark>proud</mark>. <mark class="conn">In the end</mark>, he learnt that being a good neighbour does not need grand gestures — sometimes, all it takes is the courage to act when someone needs help.'}
+      knd3:{title:'&#127968; Helping a Neighbour in Need',introType:'dialogue',paras:[
+        {label:'INTRO &mdash; Dialogue',cls:'label-intro',html:d('"Can someone please help me?"')+' a weak voice called from outside the front door. Eight-year-old Ethan opened it and found his elderly neighbour, Madam Lim, leaning against the wall. Her face was pale and she was holding her chest. She looked very unwell. Ethan\'s eyes went wide. He had to think fast.'},
+        {label:'PROBLEM',cls:'label-build',html:'Madam Lim said she had been feeling unwell all morning. Her family was away and she did not have her phone with her. Ethan felt a rush of '+w('worry')+'as he listened. He was home alone and only eight years old. '+c('However')+', he refused to just stand there and do nothing. He took a breath and made up his mind.'},
+        {label:'SOLUTION',cls:'label-solution',html:p('Without hesitation')+', Ethan helped Madam Lim sit down on a chair by the door. Then he ran inside and called his mother. '+d('"Mum, Madam Lim is sick and she needs help right now,"')+' he said in a calm but urgent voice. His mother called for an ambulance straight away. '+c('Meanwhile')+', Ethan stayed with Madam Lim and talked to her gently so she would not be afraid.'},
+        {label:'MORAL',cls:'label-moral',html:c('Before long')+', the ambulance arrived. Ethan felt '+w('relieved')+' and quietly '+w('proud')+'. '+c('In the end')+', he learnt that being a good neighbour does not need grand gestures. Sometimes, all it takes is the courage to act when someone needs help.'}
       ]},
-      knd4:{title:'&#128101; Cheering Up a Sad Friend',paras:[
-        {label:'INTRO &mdash; Action',cls:'label-intro',text:'Eight-year-old Lily noticed that her classmate, Ben, had been sitting alone all week during recess. He stared at his food and did not speak to anyone. Lily knew that Ben\'s grandmother had passed away recently and that he was still very sad. <mark class="conn">Although</mark> she was not sure what to say, she decided she could not just walk past and ignore him.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Lily felt <mark>nervous</mark> as she picked up her lunch tray and walked over. She did not know the right words to say to someone who was grieving. <mark class="conn">However</mark>, she thought about how she would feel if she were the one sitting alone. She took a deep breath and sat down across from him. Ben looked up, surprised.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Lily did not say much. She just smiled at him and said quietly, <mark class="dialogue">"I brought an extra packet of biscuits. Do you want some?"</mark> Ben looked at the biscuits and then at Lily. For the first time all week, a small smile crossed his face. <mark class="dialogue">"Thank you, Lily,"</mark> he said softly. <mark class="phrase">A warm feeling spread through Lily\'s chest</mark> when she saw him smile.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">After that</mark>, Lily made sure to sit with Ben every day at recess. <mark class="conn">Before long</mark>, he began to smile more and talk again. Lily learnt that being a <mark>thoughtful</mark> friend does not always mean saying the perfect thing — sometimes, simply being there is enough.'}
+      knd4:{title:'&#128101; Cheering Up a Sad Friend',introType:'person',paras:[
+        {label:'INTRO &mdash; Person',cls:'label-intro',html:'Lily was a '+w('caring')+' and '+w('thoughtful')+' eight-year-old who always noticed when something was wrong with her friends. That week, she had been watching her classmate Ben sit alone at recess every day, staring at his food without eating much. She knew that his grandmother had passed away recently and that he was still very sad. '+c('Although')+' she was not sure what to say, she decided she could not just walk past.'},
+        {label:'PROBLEM',cls:'label-build',html:'Lily felt a little '+w('nervous')+' as she picked up her lunch tray and walked over. She did not know the right words to say to someone who was grieving. '+c('However')+', she thought about how lonely she would feel if she were the one sitting alone. She took a deep breath and sat down across from Ben. He looked up, a little surprised.'},
+        {label:'SOLUTION',cls:'label-solution',html:'Lily smiled and pushed an extra packet of biscuits across the table. '+d('"I brought too many today. Do you want some?"')+' she said. Ben looked at the biscuits and then at her. A small smile crossed his face. '+d('"Thank you, Lily,"')+' he said softly. '+p('A warm feeling spread through Lily\'s chest')+' when she saw him smile for the first time that week.'},
+        {label:'MORAL',cls:'label-moral',html:c('After that')+', Lily made sure to sit with Ben every day at recess. '+c('Before long')+', he began to smile more and talk again. Lily learnt that being a '+w('thoughtful')+' friend does not always mean saying the perfect thing. Sometimes, simply being there is enough.'}
       ]}
     }
   },
-  sad: {
-    badge:'#3a4060', accent:'#5e60ce', pillBg:'#e8eaf0', pillShadow:'#c8ccdc',
-    topicBg:'#f0f1f8', topicBorder:'#c8ccdc', topicColor:'#3a4060',
-    topicActiveBg:'#d8daee', topicActiveBorder:'#5e60ce', topicActiveColor:'#2a2c60', topicActiveShadow:'0 3px 0 #b0b4e8',
-    comboBg:'linear-gradient(160deg,#fafafa,#f0f1f8)', comboBorder:'#c8ccdc',
-    compoTitleBg:'#e8eaf0', compoTitleColor:'#2a2c60', compoIconBg:'#e8eaf0',
-    phraseBorderLeft:'#5e60ce', phraseBg:'#f0f1f8',
-    titleSpan:'A Sad Story!', pill:'&#128546; Theme: A Sad Moment',
-    words:[
-      ['chip-slate','heartbroken'],['chip-slate','devastated'],['chip-slate','miserable'],['chip-slate','sorrowful'],
-      ['chip-blue','tearful'],['chip-blue','comforted'],['chip-blue','consoled'],
-      ['chip-lilac','grieving'],['chip-lilac','lonely'],['chip-lilac','longed'],['chip-lilac','missed'],
-      ['chip-gold','cherished'],['chip-gold','precious'],['chip-gold','memories'],
-      ['chip-mint','accepted'],['chip-mint','healed'],['chip-mint','grateful']
-    ],
-    phrases:[
-      ['&#128546;','Tears rolled slowly down her cheeks before she even realised she was crying.'],
-      ['&#128148;','He felt a hollow ache in his chest that words could not fill.'],
-      ['&#127997;','The house felt strangely quiet without her around.'],
-      ['&#128064;','She stared at the empty chair and could not speak.'],
-      ['&#128170;','She wiped her eyes and reminded herself to be strong.'],
-      ['&#129303;','Without saying a word, her friend sat beside her and held her hand.'],
-      ['&#128218;','She looked through old photos and smiled through her tears.'],
-      ['&#127775;','Although the sadness stayed, she felt a little better with every passing day.']
-    ],
+  sad:{
+    badge:'#3a4060',accent:'#5e60ce',pillBg:'#e8eaf0',pillShadow:'#c8ccdc',
+    topicBg:'#f0f1f8',topicBorder:'#c8ccdc',topicColor:'#3a4060',
+    topicActiveBg:'#d8daee',topicActiveBorder:'#5e60ce',topicActiveColor:'#2a2c60',topicActiveShadow:'0 3px 0 #b0b4e8',
+    comboBg:'linear-gradient(160deg,#fafafa,#f0f1f8)',comboBorder:'#c8ccdc',
+    compoTitleBg:'#e8eaf0',compoTitleColor:'#2a2c60',compoIconBg:'#e8eaf0',
+    phraseBorderLeft:'#5e60ce',phraseBg:'#f0f1f8',
+    titleSpan:'A Sad Story!',pill:'&#128546; Theme: A Sad Moment',
+    words:[['chip-slate','heartbroken'],['chip-slate','devastated'],['chip-slate','miserable'],['chip-slate','sorrowful'],['chip-blue','tearful'],['chip-blue','comforted'],['chip-blue','consoled'],['chip-lilac','grieving'],['chip-lilac','lonely'],['chip-lilac','longed'],['chip-lilac','missed'],['chip-gold','cherished'],['chip-gold','precious'],['chip-gold','memories'],['chip-mint','accepted'],['chip-mint','healed'],['chip-mint','grateful']],
+    phrases:[['&#128546;','Tears rolled slowly down her cheeks.'],['&#128148;','He felt a hollow ache in his chest.'],['&#127997;','The house felt strangely quiet without him around.'],['&#128064;','She stared at the empty chair and could not speak.'],['&#128170;','She wiped her eyes and reminded herself to be strong.'],['&#129303;','Without saying a word, her friend sat beside her and held her hand.'],['&#128218;','She looked through old photos and smiled through her tears.'],['&#127775;','Although the sadness stayed, she felt a little better each day.']],
     sntTell:'Rina was very sad. She missed her cat a lot.',
     sntShow:'Rina sat by the window and stared at the empty basket on the floor. Tears rolled slowly down her cheeks before she even realised she was crying.',
-    sntTip:'&#128161; For a sad story, show grief through small, quiet details — an empty chair, a silent room, or a character staring at something the missing person left behind.',
-    topics:[
-      {id:'sad1',emoji:'&#128049;',label:'Losing a Beloved Pet'},
-      {id:'sad2',emoji:'&#128891;',label:'Moving Away from Old Friends'},
-      {id:'sad3',emoji:'&#128106;',label:'A Grandparent Falling Ill'},
-      {id:'sad4',emoji:'&#127968;',label:'Leaving a Home You Love'}
-    ],
+    sntTip:'&#128161; For a sad story, show grief through small quiet details — an empty chair, a silent room, a character staring at something left behind.',
+    introTypes:['setting','dialogue','person'],
+    topics:[{id:'sad1',emoji:'&#128049;',label:'Losing a Beloved Pet'},{id:'sad2',emoji:'&#128891;',label:'Moving Away from Old Friends'},{id:'sad3',emoji:'&#128106;',label:'A Grandparent Falling Ill'},{id:'sad4',emoji:'&#127968;',label:'Leaving a Home You Love'}],
     compos:{
-      sad1:{title:'&#128049; Losing a Beloved Pet',paras:[
-        {label:'INTRO &mdash; Weather',cls:'label-intro',text:'It was a cold and grey Sunday morning. Eight-year-old Rina came downstairs expecting to find her cat, Mochi, curled up on the sofa as always. <mark class="conn">However</mark>, the sofa was empty. Her mother was sitting at the kitchen table with a sad look on her face. <mark class="dialogue">"Rina, come and sit down. I need to tell you something,"</mark> she said gently. Rina felt a chill run through her before she even heard the words.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Mochi had passed away in his sleep during the night. He had been old and unwell for some time, but Rina had not been ready to say goodbye. <mark class="phrase">Tears rolled slowly down her cheeks</mark> as she stared at his empty bed by the window. <mark class="conn">Although</mark> she tried to eat breakfast, she could not manage more than a few bites. <mark class="phrase">The house felt strangely quiet without him around.</mark>'},
-        {label:'SOLUTION',cls:'label-solution',text:'Her father sat beside her and put an arm around her. <mark class="dialogue">"Mochi had a wonderful life because of you, Rina. He was so lucky to be loved like that,"</mark> he said softly. <mark class="phrase">Without saying a word, she leaned against her father and let herself cry.</mark> <mark class="conn">Before long</mark>, her mother brought out a small photo album of Mochi and the three of them sat together, sharing their favourite memories. <mark class="phrase">Rina smiled through her tears</mark> as she turned each page.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Rina placed the photo album on her bookshelf where she could see it every day. The sadness did not go away right away, but it grew softer with time. She learnt that it is alright to grieve the things we love, and that <mark>cherishing</mark> their memory is the best way to honour them.'}
+      sad1:{title:'&#128049; Losing a Beloved Pet',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'Sunday morning was cold and grey. The living room was quiet and still. Eight-year-old Rina came downstairs and looked at the sofa where her cat Mochi always curled up to sleep. The sofa was empty. Her mother was sitting at the kitchen table with a sad look on her face. '+d('"Rina, come and sit down. I need to tell you something,"')+' she said gently.'},
+        {label:'PROBLEM',cls:'label-problem',html:'Mochi had passed away quietly in his sleep. He had been old and unwell for some time, but Rina had not been ready to say goodbye. '+p('Tears rolled slowly down her cheeks')+' as she stared at his empty bed by the window. She tried to eat her breakfast, but she could not manage more than a few bites. '+p('The house felt strangely quiet without him around.')},
+        {label:'SOLUTION',cls:'label-solution',html:'Her father came and sat beside her on the sofa. He put an arm around her and said, '+d('"Mochi had a wonderful life, Rina. He was so lucky to be loved by you."')+' '+p('Without saying a word, she leaned against him and let herself cry.')+' '+c('Before long')+', her mother brought out a small photo album of Mochi. The three of them looked through it together, sharing their favourite memories. '+p('Rina smiled through her tears')+' as she turned each page.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Rina placed the photo album on her shelf where she could see it every day. The sadness did not disappear straight away, but it slowly grew softer. She learnt that it is alright to grieve, and that '+w('cherishing')+' the memories we have is the best way to honour the ones we love.'}
       ]},
-      sad2:{title:'&#128891; Moving Away from Old Friends',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"I cannot believe you are really leaving,"</mark> said Lily, blinking hard to stop herself from crying. Her best friend, Mei, stood at the school gate on the last day of term. The two girls had been best friends since Primary One. <mark class="phrase">Mei felt a hollow ache in her chest</mark> as she looked around the school she had known her whole life. She did not know how to say goodbye.'},
-        {label:'PROBLEM',cls:'label-problem',text:'That evening, Mei sat on her bedroom floor surrounded by half-packed boxes. Her drawings had been taken off the walls and her shelves were bare. <mark class="conn">Although</mark> she was a little excited about the new place, the thought of walking into a new school without any friends made her feel very <mark>lonely</mark>. She picked up a bracelet Lily had given her and held it tightly.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Her mother came and sat beside her. <mark class="dialogue">"Moving away does not have to end your friendship with Lily. You can still call and message each other,"</mark> she said. Her mother helped Mei write a card for Lily and pack a small gift to leave for her. <mark class="phrase">Although the sadness stayed, Mei felt a little better</mark> as she sealed the envelope. She felt less alone.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Mei and Lily kept in touch and video-called every week. <mark class="conn">Before long</mark>, Mei began to settle into her new school too. She learnt that true friendships do not end with distance, and that goodbyes do not always mean forever.'}
+      sad2:{title:'&#128891; Moving Away from Old Friends',introType:'dialogue',paras:[
+        {label:'INTRO &mdash; Dialogue',cls:'label-intro',html:d('"I cannot believe you are really leaving,"')+' said Lily, blinking hard to stop herself from crying. Her best friend Mei stood at the school gate on the last day of term. Their families had been neighbours since they were babies. '+p('Mei felt a hollow ache in her chest')+' as she looked around the school one last time. She did not know how to say goodbye.'},
+        {label:'PROBLEM',cls:'label-problem',html:'That evening, Mei sat on her bedroom floor among half-packed boxes. Her drawings had been taken off the walls and her shelves were bare. '+c('Although')+' she was a little curious about the new place, she felt very '+w('lonely')+' thinking about walking into a new school without any friends. She picked up a bracelet Lily had given her and held it tightly.'},
+        {label:'SOLUTION',cls:'label-solution',html:'Her mother came and sat beside her. '+d('"Moving away does not have to end your friendship with Lily. You can still call and write to her,"')+' she said. Her mother helped Mei write a card and pack a small gift for Lily. '+p('Although the sadness stayed, Mei felt a little better')+' as she sealed the envelope. She felt less alone.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Mei and Lily called each other every week. '+c('Before long')+', Mei began to settle into her new school too. She learnt that true friendships do not end with distance, and that goodbyes do not always mean forever.'}
       ]},
-      sad3:{title:'&#128106; A Grandparent Falling Ill',paras:[
-        {label:'INTRO &mdash; Dialogue',cls:'label-intro',text:'<mark class="dialogue">"Dad, is Grandma going to be alright?"</mark> asked eight-year-old Kai quietly from the back seat of the car. His father kept his eyes on the road and took a moment before answering. <mark class="dialogue">"The doctors are looking after her, Kai. We just need to be there for her."</mark> Kai looked out of the window at the grey sky and felt a lump form in his throat. He had never seen his grandmother in a hospital bed before.'},
-        {label:'PROBLEM',cls:'label-problem',text:'At the hospital, Grandma looked smaller than Kai remembered. She smiled when she saw him, but her voice was weak. Kai held her hand and tried to smile back, but <mark class="phrase">tears pricked the back of his eyes</mark> and he had to look away. <mark class="conn">Although</mark> he wanted to be strong, he felt very <mark>helpless</mark>. He wished more than anything that he could make her feel better.'},
-        {label:'SOLUTION',cls:'label-solution',text:'That night, Kai sat at his desk and made his grandmother a handmade card. He drew her garden and her favourite flowers, and wrote all the things he loved about her inside. <mark class="phrase">He wiped his eyes and reminded himself to be strong</mark> for her. The next day, when he placed the card in her hands, her face lit up. <mark class="dialogue">"This is the most beautiful thing anyone has ever made for me,"</mark> she whispered.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Grandma slowly began to get better. Kai visited her every week and brought her drawings to brighten her room. He learnt that when someone we love is hurting, even the smallest acts of love can mean the world to them.'}
+      sad3:{title:'&#128106; A Grandparent Falling Ill',introType:'person',paras:[
+        {label:'INTRO &mdash; Person',cls:'label-intro',html:'Eight-year-old Kai was a quiet and '+w('thoughtful')+' boy who was very close to his grandmother. She was the one who always cooked his favourite noodles and told him stories before bed. One afternoon, his father came home early with a serious look on his face. '+d('"Kai, Grandma is not feeling well. We are going to visit her at the hospital,"')+' he said.'},
+        {label:'PROBLEM',cls:'label-problem',html:'At the hospital, Grandma looked smaller than Kai remembered. She smiled when she saw him, but her voice was weak. Kai held her hand and tried to smile back. '+p('Tears pricked the back of his eyes')+' and he had to look away. '+c('Although')+' he wanted to be strong, he felt very '+w('helpless')+'. He wished he could do something to make her feel better.'},
+        {label:'SOLUTION',cls:'label-solution',html:'That night, Kai sat at his desk and made his grandmother a handmade card. He drew her garden and her favourite flowers inside. '+p('He wiped his eyes and reminded himself to be strong')+' for her. The next day, when he placed the card in her hands, her face lit up. '+d('"This is the most beautiful card I have ever received,"')+' she whispered.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Grandma slowly began to feel better. Kai visited her every week and brought her drawings. He learnt that when someone we love is hurting, even the smallest acts of care can mean the world to them.'}
       ]},
-      sad4:{title:'&#127968; Leaving a Home You Love',paras:[
-        {label:'INTRO &mdash; Action',cls:'label-intro',text:'Eight-year-old Sana stood in the doorway of her empty bedroom and looked around one last time. The walls were bare, the shelves were cleared, and the curtains had been taken down. The room felt like a stranger. She had grown up in this house and every corner held a memory. <mark class="phrase">She felt a hollow ache in her chest</mark> as she ran her hand along the windowsill.'},
-        {label:'PROBLEM',cls:'label-problem',text:'<mark class="conn">Although</mark> her parents had explained that the new flat was closer to school, Sana could not help feeling <mark>devastated</mark>. This was where she had learnt to ride her bicycle and spent every birthday she could remember. She sat on the bare floor and stared at the ceiling, not wanting to leave.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Her mother came in and sat beside her quietly. <mark class="dialogue">"This house will always be part of who you are, Sana. And wherever we go, we bring all of that with us,"</mark> she said. <mark class="phrase">Without a word, Sana leaned against her mother and let herself be still.</mark> <mark class="conn">Before long</mark>, her father called them both over to take one last family photo in the garden, laughing and crying at the same time.'},
-        {label:'MORAL',cls:'label-moral',text:'<mark class="conn">In the end</mark>, Sana took a small pebble from the garden and kept it on her new desk. It was a small thing, but it made her feel connected. She learnt that home is not just a building — it is the love and memories inside it, and those can never truly be left behind.'}
+      sad4:{title:'&#127968; Leaving a Home You Love',introType:'setting',paras:[
+        {label:'INTRO &mdash; Setting',cls:'label-intro',html:'The house was empty and still. The walls were bare, the shelves were cleared, and even the curtains had been taken down. Eight-year-old Sana stood in the doorway of her old bedroom and looked around one last time. She had grown up in this house. Every corner held a memory — her first bicycle ride, her birthday parties, her quiet evenings by the window. '+p('She felt a hollow ache in her chest')+' and could not move.'},
+        {label:'PROBLEM',cls:'label-problem',html:c('Although')+' her parents had explained that the new flat was bigger, Sana felt '+w('devastated')+' about leaving. This was where she had spent every birthday she could remember. She sat down on the bare floor and stared at the ceiling. She did not want to leave.'},
+        {label:'SOLUTION',cls:'label-solution',html:'Her mother came in and sat beside her on the floor. '+d('"This house will always be part of who you are, Sana. Wherever we go, we bring all of that with us,"')+' she said softly. '+p('Without a word, Sana leaned against her mother and let herself be still.')+' '+c('Before long')+', her father called them both to the garden to take one last family photo together. They laughed and cried at the same time.'},
+        {label:'MORAL',cls:'label-moral',html:c('In the end')+', Sana took a small stone from the garden and kept it on her new desk. It was a small thing, but it made her feel connected. She learnt that home is not just a building. It is the love and memories inside it, and those can never be left behind.'}
       ]}
     }
   }
 };
 
-var currentTheme = null;
-var editMode = false;
-var cVal    = {conn:0,dlg:0,gw:0};
-var cTarget = {conn:4,dlg:2,gw:6};
+var currentTheme=null;
+var editMode=false;
+var cVal={conn:0,dlg:0,gw:0};
+var cTarget={conn:4,dlg:2,gw:6};
 
-function selectTheme(key) {
-  currentTheme = key;
-  var t = THEMES[key];
-  var i, btn;
+function tapSpan(el,key){
+  el.classList.toggle('used');
+  var delta = el.classList.contains('used') ? 1 : -1;
+  cVal[key] = Math.max(0, cVal[key]+delta);
+  updateCounter(key);
+}
 
-  document.getElementById('theme-badge').style.background = t.badge;
-  document.getElementById('theme-title-span').style.color = t.accent;
-  document.getElementById('theme-title-span').innerHTML   = t.titleSpan;
-  var pill = document.getElementById('theme-pill');
-  pill.style.background = t.pillBg;
-  pill.style.boxShadow  = '0 4px 0 ' + t.pillShadow;
-  pill.innerHTML        = t.pill;
-
-  var allTabs = document.getElementsByClassName('theme-tab');
-  for (i=0;i<allTabs.length;i++){allTabs[i].style.opacity='0.55';}
+function selectTheme(key){
+  currentTheme=key;
+  var t=THEMES[key],i,btn;
+  document.getElementById('theme-badge').style.background=t.badge;
+  document.getElementById('theme-title-span').style.color=t.accent;
+  document.getElementById('theme-title-span').innerHTML=t.titleSpan;
+  var pill=document.getElementById('theme-pill');
+  pill.style.background=t.pillBg;pill.style.boxShadow='0 4px 0 '+t.pillShadow;pill.innerHTML=t.pill;
+  var allTabs=document.getElementsByClassName('theme-tab');
+  for(i=0;i<allTabs.length;i++){allTabs[i].style.opacity='0.55';}
   document.getElementById('ttab-'+key).style.opacity='1';
-
-  var grid = document.getElementById('topic-grid');
-  grid.innerHTML = '';
-  for (i=0;i<t.topics.length;i++){
-    var tp = t.topics[i];
-    var b  = document.createElement('button');
-    b.className = 'topic-btn';
-    b.id = 'tbtn-'+tp.id;
-    b.style.background  = t.topicBg;
-    b.style.borderColor = t.topicBorder;
-    b.style.color       = t.topicColor;
-    b.innerHTML = '<span class="emoji">'+tp.emoji+'</span>'+tp.label;
+  var grid=document.getElementById('topic-grid');grid.innerHTML='';
+  for(i=0;i<t.topics.length;i++){
+    var tp=t.topics[i];var b=document.createElement('button');
+    b.className='topic-btn';b.id='tbtn-'+tp.id;
+    b.style.background=t.topicBg;b.style.borderColor=t.topicBorder;b.style.color=t.topicColor;
+    b.innerHTML='<span class="emoji">'+tp.emoji+'</span>'+tp.label;
     (function(id){b.onclick=function(){selectTopic(id);};})(tp.id);
     grid.appendChild(b);
   }
-
-  var wc = document.getElementById('words-chips');
-  wc.innerHTML = '';
-  for (i=0;i<t.words.length;i++){
-    var sp = document.createElement('span');
-    sp.className = 'chip '+t.words[i][0];
-    sp.textContent = t.words[i][1];
-    wc.appendChild(sp);
-  }
-
-  var pl = document.getElementById('phrases-list');
-  pl.innerHTML = '';
-  for (i=0;i<t.phrases.length;i++){
-    var li = document.createElement('li');
-    li.style.background  = t.phraseBg;
-    li.style.borderLeft  = '4px solid '+t.phraseBorderLeft;
-    li.innerHTML = '<span>'+t.phrases[i][0]+'</span> '+t.phrases[i][1];
-    pl.appendChild(li);
-  }
-
-  document.getElementById('snt-examples').innerHTML =
-    '<div class="snt-box snt-tell"><div class="snt-label">&#10060; TELL</div><p>'+t.sntTell+'</p></div>'+
-    '<div class="snt-box snt-show"><div class="snt-label">&#10003; SHOW</div><p>'+t.sntShow+'</p></div>';
-  document.getElementById('snt-tip').innerHTML = t.sntTip;
-
-  var cc = document.getElementById('compo-card');
-  cc.style.background = t.comboBg;
-  cc.style.border     = '2px solid '+t.comboBorder;
-  document.getElementById('compo-icon').style.background = t.compoIconBg;
-  document.getElementById('compo-area').innerHTML =
-    '<p style="font-size:14px;font-weight:700;color:#999;text-align:center;padding:16px 0;">Now pick a topic above.</p>';
+  var wc=document.getElementById('words-chips');wc.innerHTML='';
+  for(i=0;i<t.words.length;i++){var sp=document.createElement('span');sp.className='chip '+t.words[i][0];sp.textContent=t.words[i][1];wc.appendChild(sp);}
+  var pl=document.getElementById('phrases-list');pl.innerHTML='';
+  for(i=0;i<t.phrases.length;i++){var li=document.createElement('li');li.style.background=t.phraseBg;li.style.borderLeft='4px solid '+t.phraseBorderLeft;li.innerHTML='<span>'+t.phrases[i][0]+'</span> '+t.phrases[i][1];pl.appendChild(li);}
+  document.getElementById('snt-examples').innerHTML='<div class="snt-box snt-tell"><div class="snt-label">&#10060; TELL</div><p>'+t.sntTell+'</p></div><div class="snt-box snt-show"><div class="snt-label">&#10003; SHOW</div><p>'+t.sntShow+'</p></div>';
+  document.getElementById('snt-tip').innerHTML=t.sntTip;
+  var cc=document.getElementById('compo-card');cc.style.background=t.comboBg;cc.style.border='2px solid '+t.comboBorder;
+  document.getElementById('compo-icon').style.background=t.compoIconBg;
+  document.getElementById('compo-area').innerHTML='<p style="font-size:14px;font-weight:700;color:#999;text-align:center;padding:16px 0;">Now pick a topic above.</p>';
 }
 
-function selectTopic(id) {
-  if (!currentTheme){return;}
-  var t = THEMES[currentTheme];
-  var c = t.compos[id];
-  var i, btn;
-
-  var allBtns = document.getElementsByClassName('topic-btn');
-  for(i=0;i<allBtns.length;i++){
-    allBtns[i].style.background  = t.topicBg;
-    allBtns[i].style.borderColor = t.topicBorder;
-    allBtns[i].style.color       = t.topicColor;
-    allBtns[i].style.boxShadow   = 'none';
-  }
-  btn = document.getElementById('tbtn-'+id);
-  btn.style.background  = t.topicActiveBg;
-  btn.style.borderColor = t.topicActiveBorder;
-  btn.style.color       = t.topicActiveColor;
-  btn.style.boxShadow   = t.topicActiveShadow;
-
-  var html = '<div>';
-  html += '<div class="compo-title" style="background:'+t.compoTitleBg+';color:'+t.compoTitleColor+';">'+c.title+'</div>';
+function selectTopic(id){
+  if(!currentTheme){return;}
+  var t=THEMES[currentTheme];var c=t.compos[id];var i,btn;
+  var allBtns=document.getElementsByClassName('topic-btn');
+  for(i=0;i<allBtns.length;i++){allBtns[i].style.background=t.topicBg;allBtns[i].style.borderColor=t.topicBorder;allBtns[i].style.color=t.topicColor;allBtns[i].style.boxShadow='none';}
+  btn=document.getElementById('tbtn-'+id);
+  btn.style.background=t.topicActiveBg;btn.style.borderColor=t.topicActiveBorder;btn.style.color=t.topicActiveColor;btn.style.boxShadow=t.topicActiveShadow;
+  var html='<div class="tap-hint">&#128070; Tap the highlighted words, phrases, and connectors in the composition to count them!</div>';
+  html+='<div>';
+  html+='<div class="compo-title" style="background:'+t.compoTitleBg+';color:'+t.compoTitleColor+';">'+c.title+'</div>';
   for(i=0;i<c.paras.length;i++){
-    var p  = c.paras[i];
-    var mb = (i===c.paras.length-1)?'margin-bottom:0;':'';
-    html += '<div class="para-block" style="'+mb+'">';
-    html += '<span class="para-label '+p.cls+'">'+p.label+'</span>';
-    html += '<p>'+p.text+'</p>';
-    html += '</div>';
+    var pr=c.paras[i];var mb=(i===c.paras.length-1)?'margin-bottom:0;':'';
+    html+='<div class="para-block" style="'+mb+'"><span class="para-label '+pr.cls+'">'+pr.label+'</span><p>'+pr.html+'</p></div>';
   }
-  html += '</div>';
-  document.getElementById('compo-area').innerHTML = html;
-
-  if(editMode){
-    var paras = document.querySelectorAll('#compo-area .para-block p');
-    for(i=0;i<paras.length;i++){paras[i].setAttribute('contenteditable','true');}
-  }
+  html+='</div>';
+  document.getElementById('compo-area').innerHTML=html;
+  if(editMode){var paras=document.querySelectorAll('#compo-area .para-block p');for(i=0;i<paras.length;i++){paras[i].setAttribute('contenteditable','true');}}
 }
 
 function toggleEdit(){
-  editMode = !editMode;
-  var btn   = document.getElementById('edit-btn');
-  var paras = document.querySelectorAll('#compo-area .para-block p');
-  var i;
-  if(editMode){
-    btn.innerHTML = '&#128274; Lock';
-    btn.className = 'edit-btn active';
-    for(i=0;i<paras.length;i++){paras[i].setAttribute('contenteditable','true');}
-  } else {
-    btn.innerHTML = '&#9999;&#65039; Edit';
-    btn.className = 'edit-btn';
-    for(i=0;i<paras.length;i++){paras[i].setAttribute('contenteditable','false');}
-  }
+  editMode=!editMode;
+  var btn=document.getElementById('edit-btn');
+  var paras=document.querySelectorAll('#compo-area .para-block p');var i;
+  if(editMode){btn.innerHTML='&#128274; Lock';btn.className='edit-btn active';for(i=0;i<paras.length;i++){paras[i].setAttribute('contenteditable','true');}}
+  else{btn.innerHTML='&#9999;&#65039; Edit';btn.className='edit-btn';for(i=0;i<paras.length;i++){paras[i].setAttribute('contenteditable','false');}}
 }
 
 function saveCompo(){
   var i,lines=[],title='My Composition';
-  var titleEl = document.querySelector('#compo-area .compo-title');
-  if(titleEl){title=titleEl.innerText;}
-  var blocks = document.querySelectorAll('#compo-area .para-block');
+  var titleEl=document.querySelector('#compo-area .compo-title');if(titleEl){title=titleEl.innerText;}
+  var blocks=document.querySelectorAll('#compo-area .para-block');
   lines.push(title);lines.push('');
-  for(i=0;i<blocks.length;i++){
-    var lbl=blocks[i].querySelector('.para-label');
-    var par=blocks[i].querySelector('p');
-    if(lbl){lines.push('['+lbl.innerText+']');}
-    if(par){lines.push(par.innerText);}
-    lines.push('');
-  }
+  for(i=0;i<blocks.length;i++){var lbl=blocks[i].querySelector('.para-label');var par=blocks[i].querySelector('p');if(lbl){lines.push('['+lbl.innerText+']');}if(par){lines.push(par.innerText);}lines.push('');}
   var text=lines.join('\n');
-  if(navigator.share){
-    navigator.share({title:title,text:text}).catch(function(){downloadText(text,title);});
-  } else {
-    downloadText(text,title);
-  }
-  var sb=document.getElementById('save-btn');
-  sb.innerHTML='&#10003; Saved!';sb.className='save-btn saved';
+  if(navigator.share){navigator.share({title:title,text:text}).catch(function(){downloadText(text,title);});}else{downloadText(text,title);}
+  var sb=document.getElementById('save-btn');sb.innerHTML='&#10003; Saved!';sb.className='save-btn saved';
   setTimeout(function(){sb.innerHTML='&#128190; Save';sb.className='save-btn';},2000);
 }
 
 function downloadText(text,title){
   var fname=title.replace(/[^a-z0-9]/gi,'_')+'.txt';
-  var blob=new Blob([text],{type:'text/plain'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;a.download=fname;
-  document.body.appendChild(a);a.click();
-  document.body.removeChild(a);URL.revokeObjectURL(url);
+  var blob=new Blob([text],{type:'text/plain'});var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download=fname;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
-function plusCounter(key){
-  if(cVal[key]<cTarget[key]*2){cVal[key]+=1;}
+function manualCounter(key,delta){
+  cVal[key]=Math.max(0,Math.min(cVal[key]+delta,cTarget[key]*2));
   updateCounter(key);
 }
-function minusCounter(key){
-  if(cVal[key]>0){cVal[key]-=1;}
-  updateCounter(key);
-}
+
 function updateCounter(key){
   var v=cVal[key],t=cTarget[key];
-  var ve=document.getElementById('val-'+key);
-  var be=document.getElementById('bar-'+key);
-  var ce=document.getElementById('cheer-'+key);
-  ve.innerHTML=v;
-  ve.style.color=(v>=t)?'#f9c74f':'#ffffff';
-  var pct=Math.round((v/t)*100);if(pct>100){pct=100;}
-  be.style.width=pct+'%';
-  if(v===0){ce.innerHTML='';}
-  else if(v>=t){ce.innerHTML='&#11088; Target reached!';}
-  else if(v>=Math.ceil(t/2)){ce.innerHTML='&#128170; Almost there!';}
-  else{ce.innerHTML='&#128216; Keep going!';}
+  var ve=document.getElementById('val-'+key);var be=document.getElementById('bar-'+key);var ce=document.getElementById('cheer-'+key);
+  ve.innerHTML=v;ve.style.color=(v>=t)?'#f9c74f':'#ffffff';
+  var pct=Math.round((v/t)*100);if(pct>100){pct=100;}be.style.width=pct+'%';
+  if(v===0){ce.innerHTML='';}else if(v>=t){ce.innerHTML='&#11088; Target reached!';}else if(v>=Math.ceil(t/2)){ce.innerHTML='&#128170; Almost there!';}else{ce.innerHTML='&#128216; Keep going!';}
 }
 
 function selectIntro(key){
-  var ids=['weather','dialogue','action'],i,btn;
-  for(i=0;i<ids.length;i++){
-    btn=document.getElementById('opt-'+ids[i]);
-    btn.style.background='rgba(255,255,255,0.12)';
-    btn.style.color='rgba(255,255,255,0.7)';
-    btn.style.borderColor='rgba(255,255,255,0.2)';
-  }
-  btn=document.getElementById('opt-'+key);
-  btn.style.background='#f9c74f';
-  btn.style.color='#1a1a2e';
-  btn.style.borderColor='#f9c74f';
+  var ids=['setting','dialogue','person'],i,btn;
+  for(i=0;i<ids.length;i++){btn=document.getElementById('opt-'+ids[i]);btn.style.background='rgba(255,255,255,0.12)';btn.style.color='rgba(255,255,255,0.7)';btn.style.borderColor='rgba(255,255,255,0.2)';}
+  btn=document.getElementById('opt-'+key);btn.style.background='#f9c74f';btn.style.color='#1a1a2e';btn.style.borderColor='#f9c74f';
   document.getElementById('cheer-intro').innerHTML='&#9989; Great choice!';
 }
 </script>
