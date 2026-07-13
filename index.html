@@ -3,686 +3,677 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>P3 Composition Aid</title>
+<title>Oral Practice Aid</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#1a1a2e;--gold:#f9c74f;--sw:#fffdf9;--mint:#43aa8b;--lilac:#c77dff;--blue:#4cc9f0;--coral:#f4845f;}
+:root{--navy:#1a1a2e;--gold:#f9c74f;--sw:#fffdf9;--mint:#43aa8b;--lilac:#c77dff;--blue:#4cc9f0;--coral:#f4845f;--pink:#ff6b9d;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;color:var(--navy);background:#fff5fa;background-image:radial-gradient(circle at 10% 15%,rgba(255,180,220,.25) 0%,transparent 40%),radial-gradient(circle at 90% 85%,rgba(180,220,255,.2) 0%,transparent 40%);}
-.page{max-width:820px;margin:0 auto;}
-.header{text-align:center;margin-bottom:24px;}
-.badge{display:inline-block;color:white;font-family:'Fredoka One',sans-serif;font-size:13px;letter-spacing:2px;padding:4px 16px;border-radius:20px;margin-bottom:10px;}
-.main-title{font-family:'Fredoka One',sans-serif;font-size:clamp(24px,6vw,46px);color:var(--navy);line-height:1.1;}
-.theme-pill{display:inline-block;margin-top:10px;color:var(--navy);font-weight:800;font-size:16px;padding:6px 22px;border-radius:30px;}
-.theme-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
-.theme-tab{border-radius:14px;padding:12px 8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;border:2px solid transparent;line-height:1.3;-webkit-appearance:none;appearance:none;}
-.theme-tab .t-emoji{font-size:22px;display:block;margin-bottom:4px;}
-@media(max-width:460px){.theme-tabs{grid-template-columns:repeat(2,1fr);}}
+body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;color:var(--navy);background:#f5f6fb;background-image:radial-gradient(circle at 10% 15%,rgba(200,200,255,.25) 0%,transparent 40%),radial-gradient(circle at 90% 85%,rgba(255,210,230,.2) 0%,transparent 40%);}
+.page{max-width:840px;margin:0 auto;}
+.header{text-align:center;margin-bottom:14px;}
+.badge{display:inline-block;color:white;font-family:'Fredoka One',sans-serif;font-size:13px;letter-spacing:2px;padding:4px 16px;border-radius:20px;margin-bottom:10px;background:#3a5ea7;}
+.main-title{font-family:'Fredoka One',sans-serif;font-size:clamp(22px,5.5vw,40px);color:var(--navy);line-height:1.15;}
+.edit-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;background:white;border-radius:14px;padding:10px 14px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.pencil-btn{border-radius:20px;border:2px solid #c8b0ff;background:#ede0ff;color:#5500aa;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;padding:8px 16px;cursor:pointer;-webkit-appearance:none;appearance:none;}
+.pencil-btn.active{background:#c77dff;color:white;border-color:#c77dff;}
+.reset-link{font-size:12px;font-weight:800;color:#a83a00;text-decoration:underline;cursor:pointer;}
+.edit-hint{font-size:12px;font-weight:700;color:#5500aa;flex-basis:100%;text-align:center;}
+.editable-text[contenteditable="true"]{outline:2px dashed #c77dff;border-radius:6px;padding:2px 5px;background:#faf5ff;cursor:text;}
+.level-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;background:white;padding:8px;border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.level-tab{border-radius:12px;padding:12px 6px;font-family:'Fredoka One',sans-serif;font-size:15px;cursor:pointer;text-align:center;border:2px solid transparent;background:#f4f5fa;color:#8a8fa8;-webkit-appearance:none;appearance:none;}
+.level-tab.active{background:var(--navy);color:white;border-color:var(--navy);box-shadow:0 3px 0 #000018;}
+.mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.mode-tab{border-radius:14px;padding:14px 10px;font-family:'Fredoka One',sans-serif;font-size:15px;cursor:pointer;text-align:center;border:2px solid transparent;-webkit-appearance:none;appearance:none;background:#eef0fa;color:#5a6088;}
+.mode-tab.active{background:#dde8ff;border-color:#8aa8e8;color:#1a3a7a;box-shadow:0 3px 0 #b0c4f5;}
 .card{background:var(--sw);border-radius:20px;padding:22px 24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
-.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.card-title{font-family:'Fredoka One',sans-serif;font-size:19px;color:var(--navy);}
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;}
-.topic-btn{border-radius:14px;padding:12px 14px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:left;line-height:1.4;border:2px solid transparent;-webkit-appearance:none;appearance:none;}
-.topic-btn .emoji{font-size:20px;display:block;margin-bottom:4px;}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:#dde8ff;}
+.card-title{font-family:'Fredoka One',sans-serif;font-size:18px;color:var(--navy);}
+.acronym-box{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.acronym-letter{flex:1;min-width:150px;background:white;border:2px solid #eee;border-radius:14px;padding:10px 12px;}
+.acronym-letter b{font-family:'Fredoka One',sans-serif;font-size:20px;display:inline-block;width:26px;}
+.acronym-letter span{font-size:13px;font-weight:700;color:#444;}
+.al-1{border-color:#b7e0f7;background:#f2fafd;} .al-1 b{color:#0077a8;}
+.al-2{border-color:#f9dfa0;background:#fffaf0;} .al-2 b{color:#8a5e00;}
+.al-3{border-color:#f7c3ae;background:#fff5f1;} .al-3 b{color:#a83a00;}
+.al-4{border-color:#a8e6d0;background:#f2fbf7;} .al-4 b{color:#1a7a5b;}
+.toggle-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.toggle-btn{flex:1;min-width:140px;border-radius:14px;border:2px solid #c8ccdc;background:white;color:#3a4060;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;padding:10px 12px;cursor:pointer;-webkit-appearance:none;appearance:none;}
+.toggle-btn.active{background:#3a4060;color:white;border-color:#3a4060;}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;padding:10px 14px;background:white;border-radius:10px;border:1.5px solid #eee;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#444;}
+.legend-swatch{padding:1px 7px;border-radius:5px;font-family:'Nunito',sans-serif;font-weight:800;}
+.passage-box{background:white;border:1.5px solid #eee;border-radius:16px;padding:18px 20px;}
+.passage-box p{font-size:16px;line-height:2.1;color:#2a2a3e;margin-bottom:14px;}
+.passage-box p:last-child{margin-bottom:0;}
+.para-tag{display:inline-block;font-family:'Fredoka One',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#8a8fa8;margin-bottom:4px;}
+.pc{background:#daf0fb;color:#0077a8;padding:1px 5px;border-radius:4px;font-weight:800;}
+.pf{background:#ede0ff;color:#6a00c8;padding:2px 18px;border-radius:6px;font-weight:800;margin:0 2px;}
+.tv{background:#fff3b0;color:#8a5e00;padding:1px 4px;border-radius:5px;font-weight:800;}
+.theme-tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:16px;}
+.theme-tab{border-radius:14px;padding:12px 8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;border:2px solid transparent;line-height:1.3;background:#fef4f0;color:#7a3000;-webkit-appearance:none;appearance:none;}
+.theme-tab .t-emoji{font-size:20px;display:block;margin-bottom:4px;}
+.theme-tab.active{background:#f9c4aa;border-color:#f4845f;color:#5a2000;}
+.connector-group{margin-bottom:10px;}
+.connector-group-label{font-family:'Fredoka One',sans-serif;font-size:12px;color:#888;margin-bottom:6px;display:block;}
 .chips{display:flex;flex-wrap:wrap;gap:7px;}
-.chip{display:inline-block;padding:5px 13px;border-radius:30px;font-size:14px;font-weight:700;border:2px solid transparent;cursor:pointer;transition:opacity .15s;}
-.chip.used{opacity:.4;outline:2px solid #333;}
+.chip{display:inline-block;padding:5px 13px;border-radius:30px;font-size:13px;font-weight:700;border:2px solid transparent;}
 .chip-blue{background:#daf0fb;color:#0077a8;border-color:#b0dff5;}
 .chip-mint{background:#d4f5ea;color:#1a7a5b;border-color:#a8e6d0;}
 .chip-gold{background:#fff3cc;color:#8a5e00;border-color:#f5d87a;}
 .chip-lilac{background:#ede0ff;color:#6a00c8;border-color:#d5b8ff;}
 .chip-coral{background:#fde8e0;color:#a83a00;border-color:#f9c4aa;}
-.chip-pink{background:#ffe0ef;color:#8a0040;border-color:#ffb3d1;}
-.chip-slate{background:#e8eaf0;color:#3a4060;border-color:#c8ccdc;}
-.phrase-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
-.phrase-list li{display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:600;line-height:1.5;padding:7px 12px;border-radius:10px;cursor:pointer;transition:opacity .15s;}
-.phrase-list li.used{opacity:.4;outline:2px solid #555;border-radius:10px;}
-.conj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;}
-.conj-card{background:linear-gradient(135deg,#fff3cc,#fce788);border-radius:12px;padding:10px 12px;text-align:center;font-weight:800;font-size:13px;color:#7a5000;border:2px solid #f5c800;box-shadow:0 3px 0 #d4aa00;cursor:pointer;transition:opacity .15s;}
-.conj-card.used{opacity:.4;outline:2px solid #555;box-shadow:none;}
-.conj-card small{display:block;font-size:10px;font-weight:600;color:#a07000;margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}
-.tap-hint-ref{font-size:11px;font-weight:700;color:#888;padding:6px 10px;background:#f5f5f5;border-radius:8px;margin-bottom:10px;text-align:center;}
-.snt-card{background:#fff8ee;border:2px solid #ffd99a;}
-.snt-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
-@media(max-width:500px){.snt-row{grid-template-columns:1fr;}}
-.snt-box{border-radius:14px;padding:14px 16px;}
-.snt-tell{background:#fde8e0;border:2px solid #f9c4aa;}
-.snt-show{background:#d4f5ea;border:2px solid #a8e6d0;}
-.snt-label{font-family:'Fredoka One',sans-serif;font-size:13px;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.snt-tell .snt-label{color:#a83a00;}
-.snt-show .snt-label{color:#1a7a5b;}
-.snt-box p{font-size:14px;line-height:1.8;font-weight:600;color:#2a2a3e;}
-.snt-tip{margin-top:12px;padding:10px 14px;background:#fff3cc;border-radius:10px;border-left:4px solid var(--gold);font-size:13px;font-weight:700;color:#7a5000;line-height:1.6;}
-.compo-card{border-radius:20px;padding:22px 24px;margin-bottom:18px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
-.compo-title{font-family:'Fredoka One',sans-serif;font-size:16px;margin-bottom:14px;text-align:center;padding:8px 16px;border-radius:10px;}
-.para-block{margin-bottom:12px;padding:13px 15px;border-radius:14px;background:white;border:1.5px solid #eee;}
-.para-label{display:inline-block;font-family:'Fredoka One',sans-serif;font-size:11px;letter-spacing:1px;padding:3px 10px;border-radius:20px;margin-bottom:8px;color:white;}
-.label-intro{background:var(--blue);}
-.label-build{background:#f9c74f;color:#7a5000!important;}
-.label-problem{background:var(--coral);}
-.label-solution{background:var(--mint);}
-.label-moral{background:var(--lilac);}
-.para-block p{font-size:14.5px;line-height:2.2;color:#2a2a3e;}
-.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;padding:10px 14px;background:white;border-radius:10px;border:1.5px solid #eee;}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#444;}
-.legend-dot{width:13px;height:13px;border-radius:3px;flex-shrink:0;}
-.compo-btn-row{margin-left:auto;display:flex;gap:8px;align-items:center;}
-.edit-btn{display:flex;align-items:center;gap:6px;border-radius:10px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;-webkit-appearance:none;appearance:none;border:2px solid #c8b0ff;background:#ede0ff;color:#5500aa;}
-.edit-btn.active{background:#c77dff;border-color:#c77dff;color:white;}
-.save-btn{display:flex;align-items:center;gap:6px;border-radius:10px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;-webkit-appearance:none;appearance:none;border:2px solid #a8e6d0;background:#d4f5ea;color:#1a7a5b;}
-.save-btn.saved{background:#43aa8b;border-color:#43aa8b;color:white;}
-.para-block p[contenteditable="true"]{outline:2px dashed #c77dff;border-radius:6px;padding:4px 6px;background:#faf5ff;cursor:text;}
-.review-card{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-radius:20px;padding:24px;margin-bottom:18px;box-shadow:0 8px 32px rgba(26,26,46,.25);}
-.review-card .card-title{color:white;}
-.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
-@media(max-width:520px){.review-grid{grid-template-columns:1fr;}}
-.review-item{background:rgba(255,255,255,.08);border-radius:14px;padding:14px;border:1.5px solid rgba(255,255,255,.12);}
-.review-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.5);font-weight:700;margin-bottom:5px;}
-.review-question{font-size:13px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:10px;line-height:1.4;}
-.target-edit-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
-.target-label-sm{font-size:11px;color:rgba(255,255,255,.5);font-weight:700;text-transform:uppercase;}
-.target-input{width:48px;border-radius:8px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:white;font-family:'Fredoka One',sans-serif;font-size:18px;text-align:center;padding:4px 6px;-webkit-appearance:none;appearance:none;}
-.target-input:focus{outline:none;border-color:var(--gold);}
-.type-options{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
-.type-opt{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Nunito',sans-serif;-webkit-appearance:none;appearance:none;}
-.counter-row{display:flex;align-items:center;gap:8px;margin-top:4px;}
-.counter-btn{width:36px;height:36px;border-radius:8px;border:none;font-size:22px;font-weight:800;cursor:pointer;background:rgba(255,255,255,.2);color:white;font-family:'Nunito',sans-serif;-webkit-appearance:none;appearance:none;display:flex;align-items:center;justify-content:center;line-height:1;}
-.counter-val{font-family:'Fredoka One',sans-serif;font-size:28px;color:white;min-width:34px;text-align:center;}
-.progress-bar-wrap{background:rgba(255,255,255,.1);border-radius:10px;height:6px;margin-top:8px;overflow:hidden;}
-.progress-bar{height:100%;border-radius:10px;background:var(--gold);width:0%;}
-.cheer{font-size:12px;font-weight:700;color:var(--gold);margin-top:5px;min-height:16px;}
+.section-sub{font-family:'Fredoka One',sans-serif;font-size:15px;color:var(--navy);margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid #eee;}
+.section-sub:first-child{margin-top:0;}
+.q-block{background:white;border:1.5px solid #eee;border-radius:14px;padding:14px 16px;margin-bottom:12px;}
+.q-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.q-num{width:26px;height:26px;border-radius:50%;background:#3a5ea7;color:white;font-family:'Fredoka One',sans-serif;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.q-text{font-size:14.5px;font-weight:800;color:#2a2a3e;line-height:1.5;padding-top:2px;}
+.reveal-btn{border-radius:20px;border:2px solid #c8b0ff;background:#ede0ff;color:#5500aa;font-family:'Nunito',sans-serif;font-size:12.5px;font-weight:800;padding:6px 14px;cursor:pointer;margin-left:36px;-webkit-appearance:none;appearance:none;}
+.reveal-btn.shown{background:#c77dff;border-color:#c77dff;color:white;}
+.deal-answer{margin-top:10px;margin-left:36px;display:none;}
+.deal-answer.shown{display:block;}
+.deal-line{border-radius:10px;padding:8px 12px;margin-bottom:6px;font-size:13.5px;line-height:1.6;color:#2a2a3e;}
+.deal-line:last-child{margin-bottom:0;}
+.dl-d{background:#f2fafd;border-left:4px solid #4cc9f0;}
+.dl-e{background:#fffaf0;border-left:4px solid #f9c74f;}
+.dl-a{background:#fff5f1;border-left:4px solid #f4845f;}
+.dl-l{background:#f2fbf7;border-left:4px solid #43aa8b;}
+.deal-label{font-family:'Fredoka One',sans-serif;font-size:9.5px;letter-spacing:.5px;color:#888;display:block;margin-bottom:2px;}
+.practice-area{margin-left:36px;margin-top:8px;}
+.practice-textarea{width:100%;min-height:70px;border-radius:10px;border:1.5px solid #dde0ea;background:#fbfbfe;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:13.5px;font-weight:600;color:#2a2a3e;resize:vertical;-webkit-appearance:none;appearance:none;}
+.timer-hint{font-size:11.5px;font-weight:700;color:#999;margin-top:4px;margin-left:36px;}
 .print-note{text-align:center;font-size:12px;color:#999;margin-top:20px;font-weight:600;}
+@media(max-width:480px){.reveal-btn,.deal-answer,.practice-area,.timer-hint{margin-left:0;}}
 </style>
 </head>
 <body>
 <div class="page">
 
 <div class="header">
-  <div class="badge" id="theme-badge" style="background:#c0006e;">PRIMARY 3 &middot; COMPOSITION AID</div>
-  <div class="main-title">Let's Write a <span id="theme-title-span" style="color:#c0006e;">Great Story!</span></div>
-  <div class="theme-pill" id="theme-pill" style="background:#ffe0ef;box-shadow:0 4px 0 #ffb3d1;">Pick a Theme Below</div>
+  <div class="badge" id="level-badge">PRIMARY 3 &middot; ORAL PRACTICE</div>
+  <div class="main-title">Reading &amp; Conversation Practice</div>
 </div>
 
-<div class="theme-tabs">
-  <button class="theme-tab" id="ttab-kind" style="background:#d4f5ea;border-color:#a8e6d0;color:#1a5c45;" onclick="selectTheme('kind')"><span class="t-emoji">&#129354;</span>Kindness</button>
-  <button class="theme-tab" id="ttab-happy" style="background:#fff3f8;border-color:#ffb3d1;color:#8a0040;" onclick="selectTheme('happy')"><span class="t-emoji">&#127881;</span>A Happy Day</button>
-  <button class="theme-tab" id="ttab-sad" style="background:#e8eaf0;border-color:#c8ccdc;color:#3a4060;" onclick="selectTheme('sad')"><span class="t-emoji">&#128532;</span>Disappointment</button>
-  <button class="theme-tab" id="ttab-mischief" style="background:#fff0e0;border-color:#ffd0a0;color:#8a4400;" onclick="selectTheme('mischief')"><span class="t-emoji">&#128526;</span>Mischief</button>
+<div class="edit-toolbar">
+  <button class="pencil-btn" id="pencil-btn" onclick="toggleEditMode()">&#9999;&#65039; Edit Text</button>
+  <span class="reset-link" onclick="resetEdits()">Reset all text edits</span>
+  <span class="edit-hint" id="edit-hint" style="display:none;">Tap any dashed box to change its wording. Switch level, topic or view before you start editing that part. Tap the button again to save.</span>
 </div>
 
-<div class="card">
-  <div class="card-header">
-    <div class="card-icon" id="topic-icon" style="background:#ffe0ef;">&#128210;</div>
-    <div class="card-title">Pick Your Topic</div>
-  </div>
-  <div class="topic-grid" id="topic-grid"><div style="font-size:14px;font-weight:700;color:#999;padding:8px;">Pick a theme first</div></div>
+<div class="level-tabs">
+  <button class="level-tab" id="ltab-p3" onclick="selectLevel('p3')"><span class="editable-text" data-ekey="levelTab-p3">P3</span></button>
+  <button class="level-tab" id="ltab-p4" onclick="selectLevel('p4')"><span class="editable-text" data-ekey="levelTab-p4">P4</span></button>
+  <button class="level-tab" id="ltab-p5" onclick="selectLevel('p5')"><span class="editable-text" data-ekey="levelTab-p5">P5</span></button>
+  <button class="level-tab" id="ltab-p6" onclick="selectLevel('p6')"><span class="editable-text" data-ekey="levelTab-p6">P6</span></button>
 </div>
 
-<div class="card">
-  <div class="card-header">
-    <div class="card-icon" style="background:#daf0fb;">&#128172;</div>
-    <div class="card-title">Helping Words</div>
-  </div>
-  <div class="tap-hint-ref">&#128070; Tap a word when you use it to count it</div>
-  <div class="chips" id="words-chips"><span style="font-size:14px;font-weight:700;color:#999;">Pick a theme to see helping words.</span></div>
+<div class="mode-tabs">
+  <button class="mode-tab" id="mtab-reading" onclick="selectMode('reading')">&#128214; <span class="editable-text" data-ekey="modeTab-reading">Reading Aloud</span></button>
+  <button class="mode-tab" id="mtab-sbc" onclick="selectMode('sbc')">&#128172; <span class="editable-text" data-ekey="modeTab-sbc">Stimulus Conversation</span></button>
 </div>
 
-<div class="card">
-  <div class="card-header">
-    <div class="card-icon" style="background:#d4f5ea;">&#10024;</div>
-    <div class="card-title">Helping Phrases</div>
-  </div>
-  <div class="tap-hint-ref">&#128070; Tap a phrase when you use it to count it</div>
-  <ul class="phrase-list" id="phrases-list"><li style="background:#f5f7ff;border-left:4px solid #ccc;cursor:default;"><span>&#128072;</span>Pick a theme to see helping phrases.</li></ul>
-</div>
-
-<div class="card">
-  <div class="card-header">
-    <div class="card-icon" style="background:#fff3cc;">&#128279;</div>
-    <div class="card-title">Helping Connectors</div>
-  </div>
-  <div class="tap-hint-ref">&#128070; Tap a connector when you use it to count it</div>
-  <div class="conj-grid" id="conj-grid">
-    <div class="conj-card" onclick="tapRef(this,'conn')">Suddenly<small>surprise</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">However<small>contrast</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">Although<small>contrast</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">Fortunately<small>good luck</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">Unfortunately<small>bad luck</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">Luckily<small>good luck</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">After that<small>next step</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">Meanwhile<small>same time</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">Therefore<small>result</small></div>
-    <div class="conj-card" onclick="tapRef(this,'conn')">In the end<small>conclusion</small></div>
-  </div>
-</div>
-
-<div class="card snt-card">
-  <div class="card-header">
-    <div class="card-icon" style="background:#ffd99a;">&#127917;</div>
-    <div class="card-title">Show, Don't Tell!</div>
-  </div>
-  <p style="font-size:13.5px;font-weight:700;color:#7a5000;margin-bottom:12px;">Instead of saying how someone feels, show it through what they do!</p>
-  <div class="snt-row" id="snt-examples">
-    <div class="snt-box snt-tell"><div class="snt-label">&#10060; TELL</div><p>She was happy. She felt excited.</p></div>
-    <div class="snt-box snt-show"><div class="snt-label">&#10003; SHOW</div><p>She was over the moon. A wide grin spread across her face and her eyes sparkled with joy.</p></div>
-  </div>
-  <div class="snt-tip" id="snt-tip">&#128161; Pick a theme above to see a Show Not Tell example.</div>
-</div>
-
-<div class="card compo-card" id="compo-card" style="border:2px solid #ffe0ef;">
-  <div class="card-header">
-    <div class="card-icon" id="compo-icon" style="background:#ffe0ef;">&#128221;</div>
-    <div class="card-title">Sample Composition</div>
-    <div class="compo-btn-row">
-      <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">&#9999;&#65039; Edit</button>
-      <button class="save-btn" id="save-btn" onclick="saveCompo()">&#128190; Save</button>
+<div id="reading-mode">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">&#128218;</div>
+      <div class="card-title">The SLOW Reading Guide</div>
+    </div>
+    <div class="acronym-box">
+      <div class="acronym-letter al-1"><b class="editable-text" data-ekey="acroSlow-0-letter">S</b><span class="editable-text" data-ekey="acroSlow-0-desc">Stop longer at every full stop</span></div>
+      <div class="acronym-letter al-2"><b class="editable-text" data-ekey="acroSlow-1-letter">L</b><span class="editable-text" data-ekey="acroSlow-1-desc">Lighter pause at every comma</span></div>
+      <div class="acronym-letter al-3"><b class="editable-text" data-ekey="acroSlow-2-letter">O</b><span class="editable-text" data-ekey="acroSlow-2-desc">Own every word, do not skip words you find hard</span></div>
+      <div class="acronym-letter al-4"><b class="editable-text" data-ekey="acroSlow-3-letter">W</b><span class="editable-text" data-ekey="acroSlow-3-desc">Watch your pace, read slower than you think</span></div>
     </div>
   </div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#fff3b0;"></div>Good Word</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#d4f5ea;"></div>Good Phrase</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#fde0ec;"></div>Connector</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#e4d9ff;"></div>Dialogue</div>
-  </div>
-  <div id="compo-area"><p style="font-size:14px;font-weight:700;color:#999;text-align:center;padding:20px 0;">Pick a theme and topic above to see a sample composition.</p></div>
-</div>
 
-<div class="review-card">
-  <div class="card-header" style="margin-bottom:0;">
-    <div class="card-icon" style="background:rgba(255,255,255,.15);font-size:20px;">&#128269;</div>
-    <div class="card-title">Let's Review!</div>
-  </div>
-  <p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:5px;font-weight:600;">Tap words, phrases and connectors above when you use them. Set your own targets below!</p>
-  <div class="review-grid">
-
-    <div class="review-item">
-      <div class="review-label">Question 1</div>
-      <div class="review-question">What type of intro did you write?</div>
-      <div class="type-options">
-        <button class="type-opt" id="opt-setting"  onclick="selectIntro('setting')">&#127756; Setting</button>
-        <button class="type-opt" id="opt-dialogue" onclick="selectIntro('dialogue')">&#128172; Dialogue</button>
-        <button class="type-opt" id="opt-person"   onclick="selectIntro('person')">&#128100; Person</button>
-      </div>
-      <div class="cheer" id="cheer-intro"></div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#d4f5ea;">&#128221;</div>
+      <div class="card-title editable-text" id="reading-title" data-ekey="passageTitle-p3">A Day at the Beach</div>
     </div>
-
-    <div class="review-item">
-      <div class="review-label">Question 2</div>
-      <div class="review-question">Connectors used</div>
-      <div class="target-edit-row">
-        <span class="target-label-sm">&#127919; Target</span>
-        <input class="target-input" id="target-conn" type="number" min="1" max="20" value="3" onchange="redrawBar('conn')">
-      </div>
-      <div class="counter-row">
-        <button class="counter-btn" onclick="manualCounter('conn',-1)">&#8722;</button>
-        <div class="counter-val" id="val-conn">0</div>
-        <button class="counter-btn" onclick="manualCounter('conn',1)">&#43;</button>
-      </div>
-      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-conn"></div></div>
-      <div class="cheer" id="cheer-conn"></div>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="toggle-annotated" onclick="showReadingView('annotated')"><span class="editable-text" data-ekey="toggleBtn-annotated">With Pause Guide</span></button>
+      <button class="toggle-btn" id="toggle-plain" onclick="showReadingView('plain')"><span class="editable-text" data-ekey="toggleBtn-plain">Plain Text (No Guide)</span></button>
     </div>
-
-    <div class="review-item">
-      <div class="review-label">Question 3</div>
-      <div class="review-question">Dialogues used</div>
-      <div class="target-edit-row">
-        <span class="target-label-sm">&#127919; Target</span>
-        <input class="target-input" id="target-dlg" type="number" min="1" max="20" value="2" onchange="redrawBar('dlg')">
-      </div>
-      <div class="counter-row">
-        <button class="counter-btn" onclick="manualCounter('dlg',-1)">&#8722;</button>
-        <div class="counter-val" id="val-dlg">0</div>
-        <button class="counter-btn" onclick="manualCounter('dlg',1)">&#43;</button>
-      </div>
-      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-dlg"></div></div>
-      <div class="cheer" id="cheer-dlg"></div>
+    <div class="legend" id="reading-legend">
+      <div class="legend-item"><span class="legend-swatch pc">,</span> short pause</div>
+      <div class="legend-item"><span class="legend-swatch pf">.</span> long pause</div>
+      <div class="legend-item"><span class="legend-swatch tv">the</span> before a vowel sound word</div>
     </div>
-
-    <div class="review-item">
-      <div class="review-label">Question 4</div>
-      <div class="review-question">Good words &amp; phrases used</div>
-      <div class="target-edit-row">
-        <span class="target-label-sm">&#127919; Target</span>
-        <input class="target-input" id="target-gw" type="number" min="1" max="30" value="5" onchange="redrawBar('gw')">
-      </div>
-      <div class="counter-row">
-        <button class="counter-btn" onclick="manualCounter('gw',-1)">&#8722;</button>
-        <div class="counter-val" id="val-gw">0</div>
-        <button class="counter-btn" onclick="manualCounter('gw',1)">&#43;</button>
-      </div>
-      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-gw"></div></div>
-      <div class="cheer" id="cheer-gw"></div>
-    </div>
-
+    <div class="passage-box" id="passage-box"></div>
   </div>
 </div>
 
-<div class="print-note">&#9999;&#65039; Teacher Ari &middot; Primary 3 Composition Aid</div>
+<div id="sbc-mode" style="display:none;">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">&#128173;</div>
+      <div class="card-title">The DEAL Answer Guide</div>
+    </div>
+    <div class="acronym-box">
+      <div class="acronym-letter al-1"><b class="editable-text" data-ekey="acroDeal-0-letter">D</b><span class="editable-text" data-ekey="acroDeal-0-desc">Direct answer to the question first</span></div>
+      <div class="acronym-letter al-2"><b class="editable-text" data-ekey="acroDeal-1-letter">E</b><span class="editable-text" data-ekey="acroDeal-1-desc">Explain your thoughts or feelings</span></div>
+      <div class="acronym-letter al-3"><b class="editable-text" data-ekey="acroDeal-2-letter">A</b><span class="editable-text" data-ekey="acroDeal-2-desc">Add an example to support what you said</span></div>
+      <div class="acronym-letter al-4"><b class="editable-text" data-ekey="acroDeal-3-letter">L</b><span class="editable-text" data-ekey="acroDeal-3-desc">Last line to wrap up your answer</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#fff3cc;">&#128279;</div>
+      <div class="card-title">Useful Connectors</div>
+    </div>
+    <div id="connectors-area"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background:#ffe0ef;">&#127917;</div>
+      <div class="card-title">Choose a Topic</div>
+    </div>
+    <div class="theme-tabs" id="theme-tabs"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-sub">&#127909; Watch How It Is Done</div>
+    <div id="sample-block"></div>
+
+    <div class="section-sub">&#127908; Your Turn, Same Questions</div>
+    <div id="practice-block-1"></div>
+
+    <div class="section-sub">&#127919; New Questions To Try</div>
+    <div id="practice-block-2"></div>
+  </div>
+</div>
+
+<div class="print-note" id="print-note">&#9999;&#65039; Teacher Ari &middot; Oral Practice Aid</div>
 </div>
 
 <script>
-var THEMES = {
+var EDITS = {};
+try { EDITS = JSON.parse(localStorage.getItem('oralAidEdits')) || {}; } catch (e) { EDITS = {}; }
 
-  kind: {
-    badge:'#1a7a5b', accent:'#43aa8b', pillBg:'#d4f5ea', pillShadow:'#a8e6d0',
-    topicBg:'#f0faf6', topicBorder:'#b8e8d8', topicColor:'#1a5c45',
-    topicActiveBg:'#d0f5ef', topicActiveBorder:'#2ec4b6', topicActiveColor:'#0a5c52', topicActiveShadow:'0 3px 0 #9ae8dd',
-    comboBg:'linear-gradient(160deg,#f5fffa,#f0fff8)', comboBorder:'#b8e8d8',
-    compoTitleBg:'#d0f5ef', compoTitleColor:'#0a7a6e', compoIconBg:'#d0f5ef',
-    phraseBorderLeft:'#43aa8b', phraseBg:'#f0faf6',
-    titleSpan:'A Kindness Story!', pill:'&#129354; Theme: Kindness',
-    words:[
-      ['chip-mint','kind'],['chip-mint','caring'],['chip-mint','helpful'],['chip-mint','thoughtful'],
-      ['chip-blue','grateful'],['chip-blue','thankful'],['chip-blue','touched'],['chip-blue','relieved'],
-      ['chip-gold','selfless'],['chip-gold','generous'],['chip-coral','worried'],['chip-coral','upset'],
-      ['chip-lilac','comforted'],['chip-lilac','offered'],['chip-lilac','noticed']
-    ],
-    phrases:[
-      ['&#129354;','Without a second thought, she ran over to help.'],
-      ['&#128149;','Her heart went out to him when she saw him struggling.'],
-      ['&#129303;','A warm feeling spread through her chest.'],
-      ['&#128557;','Tears of gratitude rolled down the old woman\'s cheeks.'],
-      ['&#128064;','She knew she could not walk away and do nothing.'],
-      ['&#127775;','Her eyes sparkled as she saw the smile on his face.'],
-      ['&#128170;','He stepped forward before anyone else did.'],
-      ['&#128522;','She smiled warmly and said it was no trouble at all.']
-    ],
-    sntTell:'The old man was sad and lost. He did not know what to do.',
-    sntShow:'The old man stood by the road with shaking hands. He looked left and right with wide, worried eyes.',
-    sntTip:'&#128161; Show the person in need looking lost or upset before the helper arrives. It makes the kindness feel more special.',
-    topics:[
-      {id:'k1',emoji:'&#128116;',label:'Helping an Elderly Person'},
-      {id:'k2',emoji:'&#128101;',label:'Cheering Up a Sad Friend'},
-      {id:'k3',emoji:'&#128048;',label:'Rescuing a Stray Animal'},
-      {id:'k4',emoji:'&#127968;',label:'Helping a Neighbour'}
-    ],
-    compos:{
-      k1:{title:'&#128116; Helping an Elderly Person',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'The market was loud and crowded on Saturday morning. Priya walked beside her mother, looking at the different stalls. Suddenly, she noticed an old man standing alone near the edge of the road. He was gripping a heavy bag of groceries and his hands were shaking. He kept looking at the traffic and stepping back, too afraid to cross. Her heart went out to him the moment she saw him.'},
-        {label:'PROBLEM',cls:'label-problem',text:'The cars kept rushing past and the old man could not find a gap to cross. Priya watched as people walked by him without even slowing down. She felt a knot of worry in her chest. She tugged at her mother\'s sleeve. Although she was a little nervous, she knew she could not walk away and do nothing.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Priya walked over and stood beside the old man. "Uncle, shall I help you cross the road?" she asked in a gentle voice. The old man looked at her and his whole face relaxed with relief. She took his bag and waited for the cars to stop, then led him carefully to the other side. When they arrived safely, he turned to her and said, "Thank you so much, young lady. You are a very kind girl."'},
-        {label:'MORAL',cls:'label-moral',text:'A warm feeling spread through Priya\'s chest as she walked back to her mother. She felt proud that she had spoken up even when she was nervous. She learnt that a small act of kindness can mean everything to someone who is struggling.'}
-      ]},
-      k2:{title:'&#128101; Cheering Up a Sad Friend',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Ben, are you alright?" Lily asked, sitting down next to her friend at recess. Ben was staring at his food without eating and his shoulders were slumped forward. "I am fine," he said quietly, but his voice sounded flat and far away. Lily looked at him carefully. He had not smiled once all morning, and Ben was usually the loudest, happiest person in the classroom.'},
-        {label:'PROBLEM',cls:'label-problem',text:'After a while, Ben told her that his dog had gone missing the night before. His voice wobbled as he spoke and he blinked hard to stop himself from crying. Lily felt her throat tighten. She did not know how to make the problem go away. However, she knew she did not want to leave him sitting there all alone, staring at the ground.'},
-        {label:'SOLUTION',cls:'label-solution',text:'After school, Lily helped Ben make a bright poster with a photo of his dog on it. They printed copies and put them up all around the neighbourhood together. When they had finished, Lily looked at Ben and said, "I will come and search with you every day after school until we find him." Ben looked at her with grateful eyes. His face was still sad, but a small smile appeared at the corner of his mouth.'},
-        {label:'MORAL',cls:'label-moral',text:'Ben\'s dog was found by a neighbour the very next day. He never forgot what Lily had done for him. He learnt that a true friend shows up even when they cannot solve the problem.'}
-      ]},
-      k3:{title:'&#128048; Rescuing a Stray Animal',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'It had been raining since lunchtime and the streets were wet and cold. Sofia was walking home from school with her umbrella when she heard a faint whimpering sound from underneath a parked car. She crouched down to look. A tiny, soaking wet kitten was pressed against the tyre, shivering and wide-eyed with fear. Her heart went out to the little creature straight away.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Sofia reached her hand out slowly, but the kitten shrank further back against the wheel. She could not drag it out and she could not simply leave it there in the cold rain. She looked up and down the street, hoping someone else might help, but the road was empty. She chewed her lip and thought hard about what to do next.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Sofia took off her jacket and spread it gently on the wet ground in front of the car. She spoke in a soft, calm voice and waited. Before long, the kitten crept forward and onto the jacket. She carefully scooped it up and wrapped it close to her chest to keep it warm. When she got home, she called out at once, "Mum, I found a kitten out in the rain. Can we please help it?" Her mother came to look and said warmly, "Bring it inside and we will sort it out."'},
-        {label:'MORAL',cls:'label-moral',text:'The kitten was taken to the vet the next morning and later given a loving home. Sofia felt proud and happy that she had stopped to help. She learnt that kindness means helping others even when it takes extra effort.'}
-      ]},
-      k4:{title:'&#127968; Helping a Neighbour',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Can someone help me, please?" a weak voice called from just outside the front door. Ethan put down his pencil and went to see who it was. Standing in the corridor was his elderly neighbour, Madam Lim, leaning against the wall with a pale face and one hand pressed to her chest. She looked very unwell and her breathing was slow. "Madam Lim, what happened?" Ethan asked, his voice full of concern.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Madam Lim explained that she had been feeling ill since the morning and had not been able to reach her family by phone. Ethan felt his heart beat faster. He was alone at home and not sure what the right thing to do was. However, he took a slow breath and told himself he had to act quickly. He helped her sit down carefully on the chair by the door and then ran inside.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Ethan grabbed his mother\'s number from the fridge and called her straight away. "Mum, Madam Lim from next door is very sick and she needs help right now," he said in a clear, calm voice. His mother called for an ambulance immediately. Meanwhile, Ethan went back and sat beside Madam Lim, talking to her gently so she would not feel frightened or alone. She reached out and held his hand tightly. "You are a good boy, Ethan," she said softly.'},
-        {label:'MORAL',cls:'label-moral',text:'Fortunately, Madam Lim recovered well and was back home within a week. Ethan learnt that being a good neighbour means stepping up calmly and quickly when someone around you needs help.'}
-      ]}
-    }
+function getEdit(key, fallback) {
+  return (typeof EDITS[key] !== 'undefined') ? EDITS[key] : fallback;
+}
+
+var READING = {
+  p3: {
+    title: 'A Day at the Beach',
+    paras: [
+      { annotated: 'Last Saturday<span class="pc">,</span> my family went to the beach<span class="pf">.</span> The sun was shining brightly<span class="pc">,</span> and the sea looked calm and blue<span class="pf">.</span> My brother built a sandcastle near the water<span class="pc">,</span> while I searched for pretty shells along the shore<span class="pf">.</span>',
+        plain: 'Last Saturday, my family went to the beach. The sun was shining brightly, and the sea looked calm and blue. My brother built a sandcastle near the water, while I searched for pretty shells along the shore.' },
+      { annotated: 'Suddenly<span class="pc">,</span> a big wave rushed in and washed away his sandcastle<span class="pf">.</span> He looked upset for a moment<span class="pc">,</span> but he laughed when he saw <span class="tv">the</span> ice cream seller nearby<span class="pf">.</span> We each bought <span class="tv">the</span> ice cream we wanted<span class="pc">,</span> and rested under a big umbrella<span class="pf">.</span> It was a wonderful and relaxing day<span class="pf">.</span>',
+        plain: 'Suddenly, a big wave rushed in and washed away his sandcastle. He looked upset for a moment, but he laughed when he saw the ice cream seller nearby. We each bought the ice cream we wanted, and rested under a big umbrella. It was a wonderful and relaxing day.' }
+    ]
   },
-
-  happy: {
-    badge:'#c0006e', accent:'#ff6b9d', pillBg:'#ffe0ef', pillShadow:'#ffb3d1',    topicBg:'#fff3f8', topicBorder:'#ffc8de', topicColor:'#8a0040',
-    topicActiveBg:'#ffc8de', topicActiveBorder:'#ff6b9d', topicActiveColor:'#5a0028', topicActiveShadow:'0 3px 0 #ff9fc0',
-    comboBg:'linear-gradient(160deg,#fffdf5,#fff0f8)', comboBorder:'#ffc8de',
-    compoTitleBg:'#ffe0ef', compoTitleColor:'#8a0040', compoIconBg:'#ffe0ef',
-    phraseBorderLeft:'#ff6b9d', phraseBg:'#fff3f8',
-    titleSpan:'A Happy Story!', pill:'&#127881; Theme: A Happy Day',
-    words:[
-      ['chip-pink','overjoyed'],['chip-pink','thrilled'],['chip-pink','delighted'],['chip-pink','grateful'],
-      ['chip-blue','astonished'],['chip-blue','speechless'],['chip-blue','beamed'],['chip-blue','cheered'],
-      ['chip-gold','celebrated'],['chip-gold','squealed'],['chip-gold','announced'],
-      ['chip-mint','relieved'],['chip-mint','proud'],['chip-mint','touched']
-    ],
-    phrases:[
-      ['&#128513;','She was over the moon and could not stop smiling.'],
-      ['&#10024;','His eyes lit up the moment he saw it.'],
-      ['&#129392;','Her mouth fell open and she could not believe her eyes.'],
-      ['&#127881;','The whole room burst into cheers.'],
-      ['&#128557;','Tears of joy rolled down her cheeks.'],
-      ['&#127942;','He jumped up and punched the air with excitement.'],
-      ['&#128514;','A wide grin spread across her face from ear to ear.'],
-      ['&#129303;','She threw her arms around them and held on tight.']
-    ],
-    sntTell:'Mia was very happy and surprised. She felt so excited.',
-    sntShow:'Mia stood completely still for a moment. Then a wide grin spread across her face and she let out a squeal of pure joy.',
-    sntTip:'&#128161; Show the moment just before the character reacts. That one second of stillness makes the joy feel very real.',
-    topics:[
-      {id:'h1',emoji:'&#127874;',label:'A Birthday Surprise'},
-      {id:'h2',emoji:'&#127942;',label:'Winning a Prize'},
-      {id:'h3',emoji:'&#128054;',label:'Getting a Pet'},
-      {id:'h4',emoji:'&#127882;',label:'A Class Party'}
-    ],
-    compos:{
-      h1:{title:'&#127874; A Birthday Surprise',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Happy birthday, Mia!" her mother called from outside the bedroom door. Mia sat up in bed, blinked, and then broke into a wide grin as she remembered what day it was. She ran to the kitchen and stopped in the doorway. Bright balloons were tied to every chair and a tall strawberry cake sat right in the middle of the table. She was over the moon and her eyes sparkled with joy.'},
-        {label:'BUILD UP',cls:'label-build',text:'At school that day, none of her friends said a single word about her birthday. As the hours passed, Mia began to feel a little flat. However, she noticed her classmates glancing at one another and whispering with small smiles on their faces. She pretended not to notice and decided to wait and see. Something told her the day was not over yet.'},
-        {label:'SURPRISE',cls:'label-solution',text:'That afternoon, Mia stepped through her front door and found the room completely dark. She reached for the light switch. Suddenly, the lights came on and her friends leapt out from behind the sofa and the curtains. "Surprise! Happy birthday, Mia!" they all shouted at once. Her mouth fell open and she could not believe her eyes. She looked around the room, laughing and shaking her head, and said, "I had absolutely no idea at all!" They ate cake, played games, and danced until they were out of breath.'},
-        {label:'MORAL',cls:'label-moral',text:'As she got into bed that night, Mia decided it was the best birthday she had ever had. She learnt that the people around her cared far more than she had ever thought, and that sometimes the best things are the ones you do not see coming.'}
-      ]},
-      h2:{title:'&#127942; Winning a Prize',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'The school hall was packed and buzzing on Friday afternoon. Students from every class had gathered to hear the results of the school Art Competition. Kai sat with his class near the front, his hands pressed tightly together in his lap. He had worked on his painting every single evening for two weeks, giving up television and staying up late to get it right. However, as he looked at the other entries displayed on the wall, a knot of doubt tightened in his stomach.'},
-        {label:'BUILD UP',cls:'label-build',text:'The teacher began reading out the results. Third place was announced, then second place. Kai\'s name was not called for either. His shoulders dropped just a little and he let out a slow, quiet breath. He told himself firmly that he had done his best and that was enough. Meanwhile, the friends sitting on either side of him were leaning forward, eyes fixed on the stage.'},
-        {label:'SURPRISE',cls:'label-solution',text:'Suddenly, the teacher looked up with a smile and said, "And the first place winner of this year\'s competition is Kai!" The whole room burst into cheers. Kai sat frozen for one full second, then jumped to his feet and punched the air with excitement. His face was lit up from ear to ear as he walked to the front to collect his trophy. He held the microphone and said, "I honestly did not think I had a chance. Thank you so much!" and the audience laughed and clapped even harder.'},
-        {label:'MORAL',cls:'label-moral',text:'Kai placed the trophy on his desk that evening and looked at it for a long time. He learnt that putting in real effort, even when you are not sure it will pay off, is always worth it.'}
-      ]},
-      h3:{title:'&#128054; Getting a Pet',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Siti, come to the living room. We have something to show you," her father called from down the hall. Siti put her book face down and walked in curiously. A large cardboard box with small holes punched in the lid sat on the floor in the middle of the room. She could hear a very faint sound coming from inside it. Her heart began to beat a little faster as she knelt down in front of it.'},
-        {label:'BUILD UP',cls:'label-build',text:'Siti had asked her parents for a pet so many times over the years that she had finally stopped asking. She told herself it was probably just a toy or a book, and she tried not to let herself hope too much. Although her hands were trembling a little, she kept her face calm and carefully lifted the lid of the box.'},
-        {label:'SURPRISE',cls:'label-solution',text:'A small golden puppy looked straight up at her and wagged its tail as fast as it could. Siti\'s mouth fell open and she had to blink twice before she could believe what she was seeing. She let out a loud squeal and scooped the puppy gently into her arms. "Is he really mine? Really, truly mine?" she asked, looking at her parents with wide eyes. They both nodded and laughed as the puppy licked her nose. Tears of joy rolled down her cheeks as she held him close and whispered, "I am going to take such good care of you."'},
-        {label:'MORAL',cls:'label-moral',text:'Siti named him Biscuit and looked after him faithfully every single day. She learnt that the best gifts come from people who have been quietly listening all along.'}
-      ]},
-      h4:{title:'&#127882; A Class Party',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'It was the very last day of school and the classroom had been completely transformed. Colourful streamers hung from the ceiling, a stack of board games sat on the floor, and the back table was covered in snacks and drinks. Tom and his classmates had spent the whole of the lunch break getting everything ready while their teacher waited outside. When Mrs Lim finally walked in and saw the room, she pressed her hands to her cheeks and said, "Oh my goodness. This is absolutely wonderful!"'},
-        {label:'PROBLEM',cls:'label-build',text:'Tom reached into his school bag to take out the cookies he had baked specially to share. His fingers felt around the bottom of the bag and found nothing. His face fell. He had left them sitting on the kitchen table at home that morning. He stood there feeling awkward while everyone else put their snacks on the table. His friend Sam spotted the look on his face straight away and nudged him. Sam opened his own container and said, "I made way too many brownies. Come on, let\'s share them together."'},
-        {label:'SOLUTION',cls:'label-solution',text:'Tom felt a warm feeling spread through his chest. After that, the party got louder and more fun with every passing minute. They played games, took silly photos in a group, and sang along to songs at the top of their voices. Tom laughed so hard and so often that his sides began to hurt. Near the end of the afternoon, he leaned over to Sam and said, "This is honestly the best day of the whole year."'},
-        {label:'MORAL',cls:'label-moral',text:'Tom walked home still grinning from ear to ear. He learnt that good friends can turn any day into a great one, even when things do not go exactly to plan.'}
-      ]}
-    }
+  p4: {
+    title: 'Sports Day',
+    paras: [
+      { annotated: 'Every year<span class="pc">,</span> our school holds an exciting Sports Day at the stadium<span class="pf">.</span> Students train for weeks<span class="pc">,</span> practising their running<span class="pc">,</span> jumping<span class="pc">,</span> and throwing<span class="pf">.</span> On the morning of <span class="tv">the</span> event<span class="pc">,</span> <span class="tv">the</span> atmosphere was electric<span class="pc">,</span> and everyone cheered loudly for their houses<span class="pf">.</span>',
+        plain: 'Every year, our school holds an exciting Sports Day at the stadium. Students train for weeks, practising their running, jumping, and throwing. On the morning of the event, the atmosphere was electric, and everyone cheered loudly for their houses.' },
+      { annotated: 'During the final relay race<span class="pc">,</span> one runner tripped and fell onto the track<span class="pf">.</span> Although he was in pain<span class="pc">,</span> he stood up bravely and finished the race<span class="pf">.</span> The crowd applauded his courage<span class="pc">,</span> and his teammates rushed over to help him<span class="pf">.</span> It was a truly memorable and inspiring Sports Day<span class="pf">.</span>',
+        plain: 'During the final relay race, one runner tripped and fell onto the track. Although he was in pain, he stood up bravely and finished the race. The crowd applauded his courage, and his teammates rushed over to help him. It was a truly memorable and inspiring Sports Day.' }
+    ]
   },
-
-  sad: {
-    badge:'#3a4060', accent:'#5e60ce', pillBg:'#e8eaf0', pillShadow:'#c8ccdc',    topicBg:'#f0f1f8', topicBorder:'#c8ccdc', topicColor:'#3a4060',
-    topicActiveBg:'#d8daee', topicActiveBorder:'#5e60ce', topicActiveColor:'#2a2c60', topicActiveShadow:'0 3px 0 #b0b4e8',
-    comboBg:'linear-gradient(160deg,#fafafa,#f0f1f8)', comboBorder:'#c8ccdc',
-    compoTitleBg:'#e8eaf0', compoTitleColor:'#2a2c60', compoIconBg:'#e8eaf0',
-    phraseBorderLeft:'#5e60ce', phraseBg:'#f0f1f8',
-    titleSpan:'A Disappointment Story!', pill:'&#128532; Theme: Disappointment',
-    words:[
-      ['chip-slate','disappointed'],['chip-slate','disheartened'],['chip-slate','deflated'],
-      ['chip-blue','hopeful'],['chip-blue','determined'],['chip-blue','encouraged'],
-      ['chip-gold','regretful'],['chip-gold','effort'],['chip-mint','recovered'],['chip-mint','persevered'],
-      ['chip-lilac','realised'],['chip-lilac','grateful'],['chip-lilac','proud']
-    ],
-    phrases:[
-      ['&#128532;','Her heart sank the moment she heard the news.'],
-      ['&#128546;','He had tried so hard and it was still not enough.'],
-      ['&#128170;','She took a deep breath and told herself not to give up.'],
-      ['&#127775;','A small flicker of hope stirred inside him.'],
-      ['&#128064;','She walked back to her seat slowly and stared at the table.'],
-      ['&#128532;','His shoulders drooped and he could not find any words.'],
-      ['&#129303;','She wiped her eyes and decided to try again.'],
-      ['&#128218;','He told himself that this was not the end.']
-    ],
-    sntTell:'Tom was very disappointed. He felt sad and did not want to talk.',
-    sntShow:'Tom walked back to his seat very slowly. His shoulders drooped and he stared at the table without saying a single word for the rest of the morning.',
-    sntTip:'&#128161; Show disappointment through what the body does. Walking slowly, going quiet, staring at the table. This tells the reader far more than just saying "he was sad".',
-    topics:[
-      {id:'s1',emoji:'&#9917;',label:'Not Getting into the School Team'},
-      {id:'s2',emoji:'&#127873;',label:'A Trip Getting Cancelled'},
-      {id:'s3',emoji:'&#127941;',label:'Losing a Competition'},
-      {id:'s4',emoji:'&#128220;',label:'Getting a Bad Mark'}
-    ],
-    compos:{
-      s1:{title:'&#9917; Not Getting into the School Team',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'Ahmad had been training for the school football trials every single afternoon for the past two weeks. He had stayed back after school to practise his dribbling and shooting, even on days when he was tired. On the morning the results were posted, he jogged straight to the noticeboard the moment recess began. He scanned the list carefully from top to bottom, then scanned it again. His name was not there. Her heart sank and he stood very still in front of the board.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Ahmad walked back to class slowly with his hands in his pockets and his eyes on the floor. He sat down at his desk and stared at the table without seeing anything. Although his friends tried to cheer him up at recess, he could not find a single smile. His shoulders drooped and he kept thinking about every afternoon he had given up to train. He had tried so hard and it was still not enough.'},
-        {label:'SOLUTION',cls:'label-solution',text:'After school, his PE teacher Mr Hassan found him waiting by the gate and walked over. "Ahmad, I want you to know that you were very close," he said, looking at him directly. "Your effort and attitude stood out. Come back and try again next year, and I believe you will make it." Ahmad looked up slowly. "Do you honestly think so, sir?" he asked. Mr Hassan nodded without hesitation. A small flicker of hope stirred inside Ahmad and he felt his shoulders lift just a little.'},
-        {label:'MORAL',cls:'label-moral',text:'Ahmad went back to training the following Monday as though nothing had stopped him. He told himself that this was not the end. He learnt that not making the team the first time is not a reason to give up.'}
-      ]},
-      s2:{title:'&#127873; A Trip Getting Cancelled',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Class, I am afraid I have some disappointing news this morning," said Mrs Tan as she walked to the front of the room. Ethan sat up straight. He had been counting down to the class zoo trip all week and had packed his bag with snacks and a notebook the night before. "Due to the heavy rain, the trip has to be cancelled," Mrs Tan said quietly. A groan went around the entire classroom. Ethan slumped back in his chair and turned to look out of the window at the dark, wet sky.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Ethan rested his chin on his arms and stared at the rain streaking down the glass. He had been so looking forward to this trip. His shoulders drooped and he could not find any words. He had even written a list of animals he wanted to sketch in his notebook. Unfortunately, there was nothing anyone could do about the weather, and knowing that made it feel even worse.'},
-        {label:'SOLUTION',cls:'label-solution',text:'However, Mrs Tan had a back-up plan. She pulled a large box of art supplies from the cupboard and said they were going to create their own zoo on paper instead. Ethan chose to draw a lion and spent the rest of the morning shading its mane as carefully as he could. Before long, he was so deep in the drawing that he had completely forgotten about the rain outside. When Mrs Tan walked past and stopped to look, she smiled and said, "Ethan, this is really impressive work."'},
-        {label:'MORAL',cls:'label-moral',text:'The trip was rescheduled two weeks later on a bright, sunny afternoon, and Ethan enjoyed every minute of it. He learnt that a disappointment does not have to ruin a day, and that something good can still come from an unexpected change of plans.'}
-      ]},
-      s3:{title:'&#127941; Losing a Competition',introType:'person',paras:[
-        {label:'INTRO - Person',cls:'label-intro',text:'Priya loved drawing more than almost anything else. She had spent six full evenings working on her entry for the school Art Competition, going over every detail until her hand ached. She had used her very best coloured pencils and started the whole thing again from scratch when her first attempt did not look right. On the day of the results, she sat in the hall with her fingers crossed tightly under her seat, trying her hardest not to hope too much.'},
-        {label:'PROBLEM',cls:'label-problem',text:'When the winners were announced, Priya\'s name was not among them. She clapped politely for the students who went up, but inside she felt her chest tighten. She walked back to her seat slowly and stared at the table without speaking. Although she pressed her lips together and breathed slowly, her eyes began to sting. She had tried so hard and it was still not enough, and that hurt more than she had expected.'},
-        {label:'SOLUTION',cls:'label-solution',text:'That evening, Priya sat down at her desk and took out a blank piece of paper. She was not sure why, but she picked up a pencil and began to draw. She wiped her eyes and decided she would try again next time, and she would work even harder. As the drawing slowly came to life on the page, she felt a little better with each stroke of the pencil. She even thought about what she would do differently for her next entry.'},
-        {label:'MORAL',cls:'label-moral',text:'Priya submitted a new piece the following term and came in second place. She learnt that losing once is not a reason to stop trying. It just means you are not finished yet.'}
-      ]},
-      s4:{title:'&#128220; Getting a Bad Mark',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"I am returning your spelling test papers now," said Mrs Lee as she began making her way between the rows of desks. Ling sat up straight and folded her hands on the table. She had studied her word list every single evening that week and had tested herself before bed each night. She felt sure she had done well this time. When Mrs Lee placed her paper face down on the desk, Ling took a slow breath and turned it over. Her heart sank the moment she saw the mark at the top.'},
-        {label:'PROBLEM',cls:'label-problem',text:'She stared at the red marks on the page and felt a heavy wave of disappointment wash over her. Several of the words she had got wrong were ones she had been certain she knew. Her friend leaned over and asked quietly if she was alright. Ling shook her head just slightly. Although she pressed her lips together and tried to hold herself together, her eyes were stinging. She had tried so hard and it was still not enough.'},
-        {label:'SOLUTION',cls:'label-solution',text:'That evening, Ling spread the test paper out on the table and went through every single wrong answer. She wrote each incorrect word ten times and said it aloud to herself as she wrote. After that, she made a small plan to practise a little bit every day instead of cramming everything in the night before a test. When she finally put her pencil down and looked at what she had done, she felt calmer and more in control than she had in days.'},
-        {label:'MORAL',cls:'label-moral',text:'Ling scored full marks in her very next spelling test. She learnt that a bad result is not the end. It is a sign that you need to try things in a different way.'}
-      ]}
-    }
+  p5: {
+    title: 'The Value of Honesty',
+    paras: [
+      { annotated: 'Mei Ling found a wallet lying on the pavement outside her block one afternoon<span class="pf">.</span> Inside<span class="pc">,</span> she discovered a considerable amount of money<span class="pc">,</span> along with an identification card belonging to <span class="tv">the</span> elderly man<span class="pf">.</span> She felt tempted<span class="pc">,</span> for a moment<span class="pc">,</span> to keep the money for herself<span class="pf">.</span>',
+        plain: 'Mei Ling found a wallet lying on the pavement outside her block one afternoon. Inside, she discovered a considerable amount of money, along with an identification card belonging to the elderly man. She felt tempted, for a moment, to keep the money for herself.' },
+      { annotated: 'However<span class="pc">,</span> she remembered her mother\'s advice about honesty<span class="pc">,</span> and decided to hand the wallet to the estate office instead<span class="pf">.</span> A few days later<span class="pc">,</span> <span class="tv">the</span> elderly man visited her home to express his heartfelt gratitude<span class="pf">.</span> Mei Ling realised that doing <span class="tv">the</span> honest thing<span class="pc">,</span> even when nobody was watching<span class="pc">,</span> brought her a deep sense of satisfaction that money could never buy<span class="pf">.</span>',
+        plain: 'However, she remembered her mother\'s advice about honesty, and decided to hand the wallet to the estate office instead. A few days later, the elderly man visited her home to express his heartfelt gratitude. Mei Ling realised that doing the honest thing, even when nobody was watching, brought her a deep sense of satisfaction that money could never buy.' }
+    ]
   },
-
-  mischief: {
-    badge:'#8a4400', accent:'#f4845f', pillBg:'#fff0e0', pillShadow:'#ffd0a0',    topicBg:'#fef4f0', topicBorder:'#f9c4aa', topicColor:'#7a3000',
-    topicActiveBg:'#f9c4aa', topicActiveBorder:'#f4845f', topicActiveColor:'#5a2000', topicActiveShadow:'0 3px 0 #f4845f',
-    comboBg:'linear-gradient(160deg,#fffdf9,#fff4f0)', comboBorder:'#f9c4aa',
-    compoTitleBg:'#fff0e0', compoTitleColor:'#7a3000', compoIconBg:'#fff0e0',
-    phraseBorderLeft:'#f4845f', phraseBg:'#fef4f0',
-    titleSpan:'A Mischief Story!', pill:'&#128526; Theme: Mischief',
-    words:[
-      ['chip-coral','mischievous'],['chip-coral','naughty'],['chip-coral','careless'],['chip-coral','dishonest'],
-      ['chip-blue','guilty'],['chip-blue','regretful'],['chip-blue','relieved'],
-      ['chip-gold','tempted'],['chip-gold','foolish'],['chip-gold','consequences'],
-      ['chip-mint','apologised'],['chip-mint','forgave'],['chip-mint','promised'],
-      ['chip-lilac','ashamed'],['chip-lilac','admitted'],['chip-lilac','realised']
-    ],
-    phrases:[
-      ['&#128532;','His heart sank when he realised what he had done.'],
-      ['&#128064;','She knew it was wrong but told herself it was just this once.'],
-      ['&#128293;','His face turned red with embarrassment as he spoke.'],
-      ['&#127775;','A wave of relief washed over her after she told the truth.'],
-      ['&#128532;','He stared at the floor, too ashamed to look up.'],
-      ['&#128218;','She could not stop thinking about it all day long.'],
-      ['&#128170;','She took a deep breath and made herself say the words.'],
-      ['&#129303;','Although they were disappointed, they put their arms around her.']
-    ],
-    sntTell:'Sam felt guilty. He was scared and could not focus on anything.',
-    sntShow:'Sam stared at his worksheet but could not read a single word. His hands felt cold and he kept glancing at the classroom door, dreading the moment someone would find out.',
-    sntTip:'&#128161; Show guilt by what the character cannot do. They cannot focus, cannot eat, cannot stop thinking about it. That restlessness tells the reader everything.',
-    topics:[
-      {id:'m1',emoji:'&#128247;',label:'Telling a Lie to Get Out of Trouble'},
-      {id:'m2',emoji:'&#129695;',label:'Breaking Something and Hiding It'},
-      {id:'m3',emoji:'&#128126;',label:'A Prank That Went Wrong'},
-      {id:'m4',emoji:'&#128245;',label:'Using Something Without Permission'}
-    ],
-    compos:{
-      m1:{title:'&#128247; Telling a Lie to Get Out of Trouble',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Who spilled paint on the classroom floor?" Mrs Lee asked, standing at the front and looking slowly around the room. Sam sat very still at his desk. He had knocked the red paint off the table by accident while reaching for his eraser, and it had spread across the tiles in a large dark patch. He had looked around quickly to check if anyone had seen him. Nobody had. When Mrs Lee\'s eyes moved his way, Sam looked down at his worksheet and said quietly, "I do not know, Mrs Lee."'},
-        {label:'PROBLEM',cls:'label-problem',text:'For the rest of the lesson, Sam stared at his worksheet but could not take in a single word. He kept glancing at the stain on the floor and then back at his book. His heart sank even lower when Mrs Lee asked a classmate who sat nearby to stay back after class, since the boy had been the closest to the spill. Sam stared at the floor, too ashamed to look up. The lie had felt easy for one second. Now it felt like a heavy stone sitting in his chest.'},
-        {label:'SOLUTION',cls:'label-solution',text:'After school, Sam turned around at the classroom door instead of walking out. He walked slowly back up to Mrs Lee\'s desk. His face turned red with embarrassment as he stood in front of her. "Mrs Lee, it was me who spilled the paint. I am sorry I said I did not know. I was scared and I made the wrong choice," he said. Mrs Lee looked at him steadily for a moment, then nodded. "Thank you for coming back to tell me, Sam. That took courage," she said.'},
-        {label:'MORAL',cls:'label-moral',text:'A wave of relief washed over Sam the moment the words were out. He learnt that a lie might feel like the easy way out, but the guilt that follows it is always harder to carry than the truth.'}
-      ]},
-      m2:{title:'&#129695; Breaking Something and Hiding It',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'Ali had been kicking his football around the living room even though his mother had told him more than once not to. He was having too much fun to stop and told himself it would be fine. Suddenly, the ball flew off at an angle and struck his mother\'s favourite blue vase right off the shelf. It hit the floor and broke into several pieces. Ali stood completely still, staring at the shattered vase. His heart sank the moment he realised what he had done.'},
-        {label:'PROBLEM',cls:'label-problem',text:'He swept the pieces quickly under the sofa with his foot and went to his room, telling himself that nobody would notice. However, that evening at dinner, his mother looked around the living room with a small frown. "Ali, have you seen my vase?" she asked. Ali looked down at his plate and pushed his food around without eating any of it. He could not stop thinking about the broken pieces hidden under the sofa. The longer he said nothing, the worse he felt.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Ali put down his fork. He took a deep breath and looked at his mother. "Mum, I broke the vase. I was kicking my ball inside and I knocked it off the shelf, and then I hid the pieces because I was scared of getting into trouble," he said. His face turned red with embarrassment as the words came out. His mother was quiet for a long moment. "I am disappointed that you hid it, Ali," she said. "However, I am glad you told me the truth just now." She reached over and gave his shoulder a gentle squeeze.'},
-        {label:'MORAL',cls:'label-moral',text:'Ali carefully cleaned up the broken pieces after dinner and offered to save his pocket money to help replace the vase. He learnt that hiding a mistake only makes the guilt feel bigger. Telling the truth is always the better choice.'}
-      ]},
-      m3:{title:'&#128126; A Prank That Went Wrong',introType:'setting',paras:[
-        {label:'INTRO - Setting',cls:'label-intro',text:'Tom was always looking for a way to make his friends laugh. One afternoon during a free period, he spotted his classmate\'s pencil case sitting unattended on the desk. An idea popped into his head and he grinned to himself. He slipped the pencil case into the drawer of an empty desk nearby, sat back in his seat, and waited for the fun to begin. He was sure it would be a good laugh for everyone.'},
-        {label:'PROBLEM',cls:'label-build',text:'However, things did not go the way he had expected. When his classmate came back and noticed his pencil case was missing, he began searching around his desk with a look of growing panic. The next lesson was about to begin and he needed his ruler and coloured pencils for it. Tom watched his classmate check the floor, his bag, and under the desk for the third time. When he saw his classmate\'s eyes fill with tears, Tom\'s grin vanished. He felt foolish and ashamed. He had not thought at all about how it would feel to be on the other side.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Tom stood up and walked over. "I moved it as a joke. I am really sorry. I did not think it through," he said, opening the empty desk drawer and handing the pencil case back. His classmate stared at him for a moment, then let out a long, slow breath. "It is alright," he said finally, "but please do not do that to me again." Tom sat back down quietly. His face turned red with embarrassment and he did not say another word for the rest of the lesson.'},
-        {label:'MORAL',cls:'label-moral',text:'Tom thought much more carefully before trying any more pranks after that day. He learnt that a joke is only funny when the other person is laughing too.'}
-      ]},
-      m4:{title:'&#128245; Using Something Without Permission',introType:'dialogue',paras:[
-        {label:'INTRO - Dialogue',cls:'label-intro',text:'"Has anyone seen my new markers?" Sara\'s older sister called from her bedroom. Sara went very still at the dining table where she was doing her homework. That morning, she had taken her sister\'s special art markers out of the drawer without asking, because she wanted to colour a drawing for school. She had told herself she would put them back before her sister noticed. She had forgotten, and now she could hear footsteps coming down the corridor.'},
-        {label:'PROBLEM',cls:'label-problem',text:'Her sister came out holding the empty marker case with a look of disbelief on her face. "Someone used every single one of these and left the caps off. They are all completely dried out now," she said. Sara stared at the table. She could not stop thinking about it. She had been tempted because her sister\'s markers were so much nicer than her own, and she had told herself it would only be for a short while. But she had not asked, and she had not been careful, and now they were ruined.'},
-        {label:'SOLUTION',cls:'label-solution',text:'Sara pushed her chair back and stood up. She took a deep breath and made herself say the words. "It was me. I took them this morning to colour a drawing and I forgot to put the caps back on when I was done. I am really, truly sorry," she said, making herself look her sister in the eye the whole time. Her sister was quiet for a long moment. "Thank you for being honest," she said at last. "Next time, just ask me first." Sara nodded and offered to use her own savings to buy a replacement set.'},
-        {label:'MORAL',cls:'label-moral',text:'A wave of relief washed over Sara the moment she came clean. She learnt that borrowing things without asking always causes more trouble than it is worth, no matter how small it seems at the time.'}
-      ]}
-    }
+  p6: {
+    title: 'Learning from Failure',
+    paras: [
+      { annotated: 'When Arav failed to qualify for the national swimming championships<span class="pc">,</span> he felt utterly devastated<span class="pf">.</span> He had trained rigorously for almost two years<span class="pc">,</span> sacrificing countless weekends and<span class="pc">,</span> at times<span class="pc">,</span> his friendships<span class="pc">,</span> in pursuit of this singular goal<span class="pf">.</span> Watching his teammates celebrate their success<span class="pc">,</span> he retreated to the changing room<span class="pc">,</span> overwhelmed by disappointment and<span class="pc">,</span> if he was honest<span class="pc">,</span> a tinge of envy<span class="pf">.</span>',
+        plain: 'When Arav failed to qualify for the national swimming championships, he felt utterly devastated. He had trained rigorously for almost two years, sacrificing countless weekends and, at times, his friendships, in pursuit of this singular goal. Watching his teammates celebrate their success, he retreated to the changing room, overwhelmed by disappointment and, if he was honest, a tinge of envy.' },
+      { annotated: 'His coach found him there and<span class="pc">,</span> instead of offering empty reassurances<span class="pc">,</span> simply asked what he felt he could learn from <span class="tv">the</span> experience<span class="pf">.</span> Arav paused<span class="pc">,</span> reflecting deeply<span class="pc">,</span> before admitting that his technique during the final turn had cost him valuable seconds<span class="pf">.</span> Rather than dwelling on <span class="tv">the</span> outcome<span class="pc">,</span> he resolved to analyse his mistakes and refine his approach<span class="pf">.</span> Months later<span class="pc">,</span> when he finally broke his personal record<span class="pc">,</span> Arav understood that failure<span class="pc">,</span> when examined honestly<span class="pc">,</span> could become the very foundation of eventual success<span class="pf">.</span>',
+        plain: 'His coach found him there and, instead of offering empty reassurances, simply asked what he felt he could learn from the experience. Arav paused, reflecting deeply, before admitting that his technique during the final turn had cost him valuable seconds. Rather than dwelling on the outcome, he resolved to analyse his mistakes and refine his approach. Months later, when he finally broke his personal record, Arav understood that failure, when examined honestly, could become the very foundation of eventual success.' }
+    ]
   }
 };
 
-var currentTheme = null;
+var CONNECTORS = {
+  p3: [
+    ['Giving your idea', ['chip-blue', ['I think', 'I like', 'because']]],
+    ['Example', ['chip-gold', ['for example']]],
+    ['Ending', ['chip-mint', ['so', 'also']]]
+  ],
+  p4: [
+    ['Giving an opinion', ['chip-blue', ['I believe', 'in my opinion']]],
+    ['Agree or disagree', ['chip-coral', ['I agree', 'I do not agree', 'however']]],
+    ['Example', ['chip-gold', ['for example', 'for instance']]],
+    ['Adding on', ['chip-lilac', ['firstly', 'secondly', 'moreover']]],
+    ['Ending', ['chip-mint', ['that is why', 'so', 'all in all']]]
+  ],
+  p5: [
+    ['Giving an opinion', ['chip-blue', ['personally', 'I feel that', 'I believe']]],
+    ['Agree or disagree', ['chip-coral', ['I agree', 'on the other hand', 'however']]],
+    ['Example', ['chip-gold', ['for example', 'for instance']]],
+    ['Adding on', ['chip-lilac', ['furthermore', 'in addition', 'moreover']]],
+    ['Ending', ['chip-mint', ['that is why', 'thus', 'all things considered']]]
+  ],
+  p6: [
+    ['Giving an opinion', ['chip-blue', ['personally', 'I would argue that', 'undeniably']]],
+    ['Agree or disagree', ['chip-coral', ['I agree', 'on the contrary', 'nevertheless']]],
+    ['Example', ['chip-gold', ['for example', 'for instance']]],
+    ['Adding on', ['chip-lilac', ['furthermore', 'moreover', 'in light of this']]],
+    ['Ending', ['chip-mint', ['thus', 'this is why', 'all things considered']]]
+  ]
+};
+
+var THEMES = {
+  p3: [
+    { id:'family', emoji:'&#128106;', label:'My Family',
+      sample:[
+        {q:'Tell me about your family.', d:'I have four people in my family, my father, my mother, and my younger sister.', e:'I love my family because we always eat dinner together and talk about our day.', a:'For example, every Friday night, we watch a movie together at home.', l:'So, my family makes me feel happy and loved.'},
+        {q:'What do you like to do with your family on weekends?', d:'On weekends, I like to go to the park with my family.', e:'I enjoy this because it makes me feel close to my family.', a:'For example, last weekend, we flew kites and had a picnic together.', l:'That is why weekends with my family are always the best part of my week.'},
+        {q:'Why is family important to you?', d:'Family is important to me because they take care of me.', e:'I feel safe and loved when I am with my family.', a:'For instance, when I am sick, my mother takes care of me.', l:'Thus, I am very thankful to have my family.'},
+        {q:'How do you help your family at home?', d:'I help my family by sweeping the floor and washing the dishes.', e:'I do this because I want to be a responsible child.', a:'For example, I also help to fold the laundry every evening.', l:'All in all, helping my family makes me feel proud.'}
+      ],
+      fresh:['Who is your favourite family member and why?','What is a happy memory you have with your family?','How does your family celebrate special occasions?','What would you do if a family member felt sad?']
+    },
+    { id:'friend', emoji:'&#129309;', label:'My Best Friend',
+      sample:[
+        {q:'Tell me about your best friend.', d:'My best friend is Amirah, and she is in my class.', e:'I like her because she is kind and always shares her things with me.', a:'For example, she once shared her lunch with me when I forgot mine.', l:'This is why I am glad to have a friend like her.'},
+        {q:'What do you and your best friend like to do together?', d:'My best friend and I like to play catching and read comics together.', e:'We enjoy this because it is fun and we laugh a lot.', a:'For example, we read the same comic book series every week.', l:'In the end, playing with my best friend always makes me happy.'},
+        {q:'How do you show kindness to your friends?', d:'I show kindness to my friends by helping them with their work.', e:'I do this because I want my friends to feel happy.', a:'For instance, I helped my friend when she could not solve her maths sum.', l:'So, being kind makes my friendships stronger.'},
+        {q:'What makes a good friend?', d:'A good friend is someone who is honest and caring.', e:'I think this is important because friends should trust each other.', a:'For example, my friend always tells me the truth, even when it is hard.', l:'That is why honesty and care matter so much in a friendship.'}
+      ],
+      fresh:['How did you become friends with your best friend?','What would you do if your friend was upset?','Have you ever helped a friend solve a problem?','Why do you think friendship is important?']
+    },
+    { id:'chores', emoji:'&#129529;', label:'Helping at Home',
+      sample:[
+        {q:'What chores do you do at home?', d:'I help to sweep the floor and water the plants at home.', e:'I do this because I want to lighten my parents\' workload.', a:'For example, I water the plants every morning before school.', l:'Thus, helping at home makes me feel useful.'},
+        {q:'Why should children help with housework?', d:'Children should help with housework because it teaches responsibility.', e:'I believe this because parents work hard and need support too.', a:'For example, my sister and I take turns washing the dishes.', l:'All in all, helping at home is an important part of being in a family.'},
+        {q:'How do you feel when you help your parents?', d:'I feel proud when I help my parents with housework.', e:'This is because I know I am being a responsible child.', a:'For instance, my mother thanked me when I folded the laundry.', l:'This is why helping others brings me a real sense of joy.'},
+        {q:'What would happen if nobody helped at home?', d:'If nobody helped at home, the house would become messy.', e:'I think this because one person cannot do everything alone.', a:'For example, if I did not help, my mother would be very tired.', l:'In the end, everyone should help to keep the home running smoothly.'}
+      ],
+      fresh:['What is your least favourite chore and why?','How can you encourage your siblings to help at home?','Describe a time you helped without being asked.','How does helping at home prepare you for the future?']
+    },
+    { id:'sports', emoji:'&#127939;', label:'Joining a Sports Event',
+      sample:[
+        {q:'Have you ever taken part in a sports event? Tell me about it.', d:'Yes, I took part in my school\'s Sports Day last year.', e:'I felt nervous but excited before my race began.', a:'For example, I ran in the 100 metre race with my classmates.', l:'So, it turned out to be an unforgettable experience for me.'},
+        {q:'How do you prepare for a sports event?', d:'I prepare for a sports event by practising regularly.', e:'I do this because practice helps me perform better.', a:'For example, I practised running every evening for two weeks.', l:'That is why preparation gives me so much more confidence.'},
+        {q:'How do you feel when you win or lose a race?', d:'When I win, I feel very happy and proud of myself.', e:'When I lose, I feel disappointed, but I try not to give up.', a:'For instance, when I came in last place, I told myself to train harder.', l:'Thus, both winning and losing teach me important lessons.'},
+        {q:'Why is it important to join sports events?', d:'It is important to join sports events because they keep us healthy.', e:'I think this because exercise makes our bodies stronger.', a:'For example, running and jumping help build our muscles.', l:'All in all, sports events are good for both our body and mind.'}
+      ],
+      fresh:['What sport would you like to try in future?','How do you support your teammates during a competition?','Describe a time you felt proud during a sports event.','What do you do if you feel nervous before a competition?']
+    },
+    { id:'kind', emoji:'&#129354;', label:'Being Kind to Others',
+      sample:[
+        {q:'Tell me about a time you were kind to someone.', d:'Once, I helped an elderly neighbour carry her heavy bags.', e:'I did this because I saw she was struggling to walk.', a:'For example, I carried her bags all the way to her door.', l:'This is why being kind made both of us feel happy.'},
+        {q:'Why is it important to be kind to others?', d:'It is important to be kind because it makes people feel valued.', e:'I believe this because everyone deserves to be treated with respect.', a:'For example, a simple smile can brighten someone\'s day.', l:'In the end, kindness makes the world a better place.'},
+        {q:'How do you feel when someone is kind to you?', d:'I feel happy and grateful when someone is kind to me.', e:'This is because it shows that they care about me.', a:'For instance, my friend once helped me when I fell and hurt my knee.', l:'So, kindness creates strong and caring friendships.'},
+        {q:'What can you do to help others in your school?', d:'I can help my classmates with their work and include new students in games.', e:'I do this because everyone deserves to feel welcome.', a:'For example, I once invited a new classmate to join our group during recess.', l:'That is why small acts of kindness can make a big difference.'}
+      ],
+      fresh:['How can you be kind to someone you do not know well?','What would you do if you saw a classmate being left out?','Describe a kind act that made you feel good.','Why do you think some people find it hard to be kind?']
+    }
+  ],
+  p4: [
+    { id:'bully', emoji:'&#128683;', label:'Dealing with Bullying',
+      sample:[
+        {q:'What would you do if you saw someone being bullied?', d:'If I saw someone being bullied, I would tell a teacher immediately.', e:'I would do this because bullying can hurt a person deeply, both physically and emotionally.', a:'For example, if a classmate was being teased, I would stand by them and report it.', l:'Thus, standing up against bullying is the right thing to do.'},
+        {q:'Have you ever witnessed bullying? How did it make you feel?', d:'I once witnessed a classmate being teased about his appearance.', e:'It made me feel upset because nobody deserves to be treated that way.', a:'For instance, I comforted him afterwards and told him it was not his fault.', l:'All in all, witnessing bullying taught me to be more compassionate towards others.'},
+        {q:'Why do you think some students bully others?', d:'I think some students bully others because they want to feel powerful.', e:'This might happen because they are dealing with problems of their own.', a:'For example, a bully might be having difficulties at home and take it out on others.', l:'This is why understanding the reasons behind bullying helps us respond with more empathy.'},
+        {q:'How can schools help to reduce bullying?', d:'Schools can help reduce bullying by teaching students about kindness and respect.', e:'I believe this is important because awareness can prevent bullying before it starts.', a:'For example, our school holds talks on friendship and treating others fairly.', l:'In the end, schools play a key role in creating a safe environment for everyone.'}
+      ],
+      fresh:['What should a victim of bullying do?','How would you comfort a friend who was bullied?','Do you think bullying online is different from bullying in person? Why?','What have you learnt about kindness from this topic?']
+    },
+    { id:'team', emoji:'&#129309;', label:'Sharing and Teamwork',
+      sample:[
+        {q:'Describe a time you worked as part of a team.', d:'I worked as part of a team during our class project on recycling.', e:'I enjoyed it because everyone contributed their own ideas and skills.', a:'For example, I designed the poster while my friend wrote the content.', l:'So, teamwork helped us finish the project successfully and on time.'},
+        {q:'Why is sharing important?', d:'Sharing is important because it helps build trust and friendship.', e:'I believe this because sharing shows that we care about others\' needs too.', a:'For example, when I shared my stationery with a classmate, we became closer friends.', l:'That is why sharing creates stronger relationships between people.'},
+        {q:'What challenges have you faced while working in a team?', d:'Sometimes, my teammates and I disagreed on how to complete a task.', e:'This happened because everyone had different opinions on the best approach.', a:'For instance, we once argued about which idea to use for our project.', l:'Thus, we learnt to compromise and listen to each other\'s views.'},
+        {q:'How do you handle disagreements within a team?', d:'I handle disagreements by listening to everyone\'s opinions calmly.', e:'I do this because getting angry does not solve any problem.', a:'For example, when my team disagreed, we voted to decide fairly.', l:'All in all, calm communication is key to resolving disagreements.'}
+      ],
+      fresh:['What role do you usually take on in a group project?','How can teamwork help solve big problems?','Describe a time you had to share something you did not want to.','What makes someone a good team player?']
+    },
+    { id:'new', emoji:'&#127793;', label:'Trying Something New',
+      sample:[
+        {q:'Tell me about a time you tried something new.', d:'I tried joining the school choir last year, even though I was very nervous.', e:'I decided to try it because I wanted to challenge myself and grow.', a:'For example, I practised singing every day before the auditions.', l:'This is why trying something new helped me discover a hidden talent.'},
+        {q:'Why is it important to step out of your comfort zone?', d:'Stepping out of your comfort zone is important because it helps you grow.', e:'I believe this because we cannot improve if we always stay the same.', a:'For example, learning to swim helped me overcome my fear of water.', l:'In the end, new experiences build our confidence and character.'},
+        {q:'How do you feel when you fail at something new?', d:'I feel disappointed at first, but I try not to give up easily.', e:'This is because failure is a normal part of learning something new.', a:'For instance, I failed my first swimming test but passed on my second try.', l:'So, failure really does teach us to try harder and improve.'},
+        {q:'What new skill would you like to learn in the future?', d:'I would like to learn how to play the guitar in the future.', e:'I am interested in this because I enjoy listening to music.', a:'For example, I have already started watching tutorial videos online.', l:'That is why I hope to perform a song for my family one day.'}
+      ],
+      fresh:['How can trying new things help you make new friends?','Describe a time you were afraid to try something.','What advice would you give someone who is scared to try new things?','How has trying something new changed the way you see yourself?']
+    },
+    { id:'festival', emoji:'&#127881;', label:'Festivals and Family Time',
+      sample:[
+        {q:'Tell me about a festival your family celebrates.', d:'My family celebrates Hari Raya every year with my relatives.', e:'I enjoy this festival because it brings our whole family together.', a:'For example, we visit our grandparents and enjoy traditional dishes together.', l:'Thus, festivals are a meaningful time for my family to bond.'},
+        {q:'Why are traditions important to families?', d:'Traditions are important because they connect us to our culture and history.', e:'I believe this because traditions are passed down from our grandparents to us.', a:'For example, my grandmother taught me how to make traditional kueh for the festival.', l:'All in all, traditions help us understand and appreciate where we come from.'},
+        {q:'How does your family spend time together outside of festivals?', d:'My family often has dinner together and plays board games on weekends.', e:'We do this because it allows us to relax and talk about our week.', a:'For instance, we played a card game together last Sunday evening.', l:'This is why spending time together strengthens our family bond.'},
+        {q:'What is your favourite festival memory?', d:'My favourite festival memory is decorating the house with my siblings.', e:'I enjoyed this because we worked together and felt very festive.', a:'For example, we hung up lanterns and lights for Chinese New Year last year.', l:'In the end, this memory reminds me how special family time can be.'}
+      ],
+      fresh:['How do different cultures in Singapore celebrate their festivals?','What festival would you like to learn more about?','How can we respect other people\'s festivals and traditions?','What is one tradition you hope to pass on in future?']
+    },
+    { id:'pets', emoji:'&#128062;', label:'Taking Care of Pets',
+      sample:[
+        {q:'Do you have a pet? Tell me about it.', d:'Yes, I have a pet hamster named Nibbles at home.', e:'I love him because he is playful and always cheers me up.', a:'For example, I feed him and clean his cage every day.', l:'So, taking care of Nibbles has taught me a lot about responsibility.'},
+        {q:'Why is it important to take good care of pets?', d:'It is important to take good care of pets because they depend on us completely.', e:'I believe this because pets cannot feed or clean themselves.', a:'For example, my hamster needs fresh water and food every single day.', l:'That is why caring for pets teaches us responsibility and compassion.'},
+        {q:'What should someone consider before getting a pet?', d:'Someone should consider whether they have enough time and space for a pet.', e:'I think this is important because pets require daily attention and care.', a:'For instance, dogs need daily walks, while hamsters need regular cage cleaning.', l:'Thus, getting a pet is a big decision that should not be taken lightly.'},
+        {q:'How do pets benefit our lives?', d:'Pets benefit our lives by keeping us company and reducing our stress.', e:'I believe this because spending time with animals makes people feel calmer.', a:'For example, playing with my hamster after a tiring day always cheers me up.', l:'All in all, pets bring both joy and comfort into our daily lives.'}
+      ],
+      fresh:['What would you do if your pet was unwell?','Describe a special memory with your pet or an animal.','How can we care for stray animals in our neighbourhood?','If you could have any pet, what would it be and why?']
+    }
+  ],
+  p5: [
+    { id:'screen', emoji:'&#128241;', label:'Screen Time and Gadgets',
+      sample:[
+        {q:'How much time do you spend on your gadgets each day?', d:'I spend about two hours on my tablet each day, mostly for schoolwork and games.', e:'I try to limit my screen time because too much of it can affect my eyesight and concentration.', a:'For example, I set a timer to remind myself to take breaks every thirty minutes.', l:'This is why I believe balance is so important when it comes to using gadgets.'},
+        {q:'What are the advantages and disadvantages of using gadgets?', d:'Gadgets allow us to learn and communicate easily, but they can also be distracting.', e:'On the one hand, I can research information for school quickly, but on the other hand, I sometimes get distracted by games.', a:'For instance, I once spent too long playing a game instead of finishing my homework.', l:'In the end, gadgets are useful tools, but they must be used responsibly.'},
+        {q:'How can students manage their screen time better?', d:'Students can manage their screen time by setting clear limits for themselves.', e:'I think this is important because self-discipline helps prevent gadget addiction.', a:'For example, my parents and I agreed on a one-hour limit for games on weekdays.', l:'So, managing screen time really does require both discipline and support from family.'},
+        {q:'Do you think children should be given more or less screen time? Why?', d:'I think children should be given a moderate amount of screen time.', e:'This is because gadgets can be educational, but too much can affect our health and relationships.', a:'For instance, I prefer spending some time outdoors with my friends instead of only using my phone.', l:'That is why a balanced approach to screen time benefits children the most.'}
+      ],
+      fresh:['What would you do if a friend was addicted to their phone?','How has technology changed the way children play?','What rules do you think families should have about gadgets?','How can excessive screen time affect our health?']
+    },
+    { id:'healthy', emoji:'&#127807;', label:'Healthy Living',
+      sample:[
+        {q:'What do you do to stay healthy?', d:'I try to stay healthy by exercising regularly and eating balanced meals.', e:'I do this because I want to have enough energy for both my studies and my hobbies.', a:'For example, I go jogging with my father every Saturday morning.', l:'Thus, staying healthy allows me to perform better in school and in life.'},
+        {q:'Why do you think many students today are not physically active?', d:'I think many students are not physically active because of the time they spend on gadgets.', e:'This is a concern because a lack of exercise can lead to health problems in the future.', a:'For instance, some of my classmates prefer playing video games instead of going outdoors.', l:'All in all, students need to find a better balance between screen time and physical activity.'},
+        {q:'How does a balanced diet contribute to a healthy lifestyle?', d:'A balanced diet provides our bodies with the nutrients we need to function well.', e:'I believe this is essential because eating too much junk food can harm our health over time.', a:'For example, I try to eat more fruits and vegetables instead of sugary snacks.', l:'This is why a balanced diet is the foundation of a healthy lifestyle.'},
+        {q:'What can schools do to encourage healthier habits among students?', d:'Schools can encourage healthier habits by organising more sports activities and healthy eating campaigns.', e:'I believe this would help because students are more likely to adopt habits that are made fun and accessible.', a:'For instance, our school introduced a fruit day, where we are encouraged to bring fruits instead of snacks.', l:'In the end, schools play an important role in shaping students\' habits towards health.'}
+      ],
+      fresh:['How do you feel after exercising regularly?','What healthy habit would you like to improve on?','How can families encourage healthier eating at home?','Do you think junk food advertisements should be banned? Why?']
+    },
+    { id:'peer', emoji:'&#128101;', label:'Peer Pressure',
+      sample:[
+        {q:'Have you ever faced peer pressure? How did you handle it?', d:'Yes, my friends once pressured me to skip my homework to play games with them.', e:'I felt torn because I did not want to disappoint my friends, but I also knew my responsibilities came first.', a:'For example, I eventually told them I would join them after completing my homework.', l:'So, I learnt that it is important to stay true to my own values.'},
+        {q:'Why do you think peer pressure is common among students?', d:'I think peer pressure is common because students want to feel accepted by their friends.', e:'This happens because fitting in with a group can feel important at our age.', a:'For instance, some students may copy their friends\' behaviour just to avoid feeling left out.', l:'That is why understanding this helps us respond to peer pressure with more confidence.'},
+        {q:'How can someone resist negative peer pressure?', d:'Someone can resist negative peer pressure by staying confident in their own decisions.', e:'I believe this is important because giving in to pressure can lead to regret later.', a:'For example, I once refused to join my classmates in teasing another student, even though they insisted.', l:'Thus, having the courage to say no is an important life skill.'},
+        {q:'What role do parents and teachers play in helping children deal with peer pressure?', d:'Parents and teachers can guide children by teaching them to think independently.', e:'I believe this support is crucial because children need reassurance that it is fine to be different.', a:'For example, my form teacher once shared a story about standing up for what is right, which helped me feel braver.', l:'All in all, guidance from adults gives children the confidence to resist negative peer pressure.'}
+      ],
+      fresh:['Can peer pressure ever be positive? Give an example.','How would you help a friend who is struggling with peer pressure?','Describe a situation where you stood firm despite pressure from others.','What advice would you give to someone facing peer pressure for the first time?']
+    },
+    { id:'volunteer', emoji:'&#129309;', label:'Volunteering',
+      sample:[
+        {q:'Have you ever volunteered for a cause? Tell me about it.', d:'Yes, I volunteered at an old folks\' home with my classmates last year.', e:'I decided to volunteer because I wanted to bring some joy to the elderly residents there.', a:'For example, we sang songs and played simple games with them during our visit.', l:'This is why volunteering turned out to be such a meaningful experience for me.'},
+        {q:'Why is volunteering important for young people?', d:'Volunteering is important for young people because it builds empathy and a sense of responsibility.', e:'I believe this because helping others allows us to appreciate what we have.', a:'For instance, after volunteering at a food bank, I became more grateful for my own meals.', l:'In the end, volunteering shapes young people into more compassionate individuals.'},
+        {q:'What challenges might someone face while volunteering?', d:'Someone might face challenges such as communicating with people from different backgrounds.', e:'This can be difficult because it takes patience and understanding to connect with others.', a:'For example, I found it hard to communicate with an elderly resident who only spoke a dialect.', l:'So, overcoming these challenges helps volunteers grow both personally and socially.'},
+        {q:'How can schools encourage more students to volunteer?', d:'Schools can encourage volunteering by organising regular community service programmes.', e:'I believe this is effective because students are more likely to try something new with their friends.', a:'For example, our school organises an annual visit to a nursing home for all Primary Five students.', l:'That is why schools have an important role in nurturing a spirit of volunteerism among students.'}
+      ],
+      fresh:['What cause would you like to volunteer for in the future?','How does volunteering benefit the volunteer, not just the community?','Describe a time you helped someone without expecting anything in return.','Do you think volunteering should be compulsory in schools? Why or why not?']
+    },
+    { id:'environment', emoji:'&#127793;', label:'Caring for the Environment',
+      sample:[
+        {q:'What do you do to help protect the environment?', d:'I help protect the environment by recycling paper and reducing plastic use at home.', e:'I do this because I am concerned about the impact of pollution on our planet.', a:'For example, I bring my own reusable bottle to school instead of buying bottled drinks.', l:'Thus, small actions like these can really add up to make a difference over time.'},
+        {q:'Why do you think environmental issues are important to address?', d:'Environmental issues are important because they affect the health of our planet and future generations.', e:'I believe this because problems like pollution and climate change are becoming more serious every year.', a:'For instance, I have noticed the weather becoming increasingly unpredictable in recent years.', l:'All in all, addressing environmental issues now will benefit both us and future generations.'},
+        {q:'What more can be done to encourage people to recycle?', d:'More can be done by placing recycling bins in convenient locations and educating the public.', e:'I think this would help because many people simply forget or do not know how to recycle correctly.', a:'For example, our estate recently introduced clearer labels on recycling bins, which has been helpful.', l:'This is why better education and accessibility can encourage more people to recycle.'},
+        {q:'How can schools contribute to protecting the environment?', d:'Schools can contribute by organising recycling programmes and environmental awareness talks.', e:'I believe this is effective because students who learn about the environment early often develop lifelong habits.', a:'For example, my school started a project to reduce food waste in the canteen.', l:'In the end, schools play a significant role in shaping environmentally responsible citizens.'}
+      ],
+      fresh:['What environmental problem worries you the most?','How can individuals reduce their carbon footprint in daily life?','Describe an initiative you would start to help the environment.','Do you think companies should be more responsible for reducing pollution? Why?']
+    }
+  ],
+  p6: [
+    { id:'social', emoji:'&#128241;', label:'Social Media and Online Safety',
+      sample:[
+        {q:'Do you use social media? What do you use it for?', d:'Yes, I use social media occasionally to keep in touch with my relatives and view educational content.', e:'I try to use it responsibly because I understand that not everything online is safe or accurate.', a:'For example, I only follow accounts that share reliable and age-appropriate content.', l:'So, I believe social media can be beneficial when it is used with caution.'},
+        {q:'What are the risks of using social media at a young age?', d:'The risks of using social media at a young age include exposure to inappropriate content and online predators.', e:'This concerns me because young users may not always recognise when something online is unsafe.', a:'For instance, I once received a message from an unknown account and immediately reported it to my parents.', l:'That is why young users need proper guidance to navigate social media safely.'},
+        {q:'How can parents help their children use the internet safely?', d:'Parents can help by setting clear rules and monitoring their children\'s online activity.', e:'I believe this is necessary because children may not fully understand the consequences of certain online actions.', a:'For example, my parents check my browsing history occasionally, which I understand is for my own safety.', l:'Thus, parental guidance is essential in helping children use the internet responsibly.'},
+        {q:'Do you think there should be a minimum age for using social media? Why?', d:'I think there should be a minimum age for using social media, perhaps around thirteen years old.', e:'I believe this is reasonable because younger children may not be mature enough to handle certain online interactions.', a:'For instance, some of my younger cousins already use social media and are exposed to content meant for older users.', l:'All in all, an age limit could help protect children from unsuitable online experiences.'}
+      ],
+      fresh:['What would you do if you saw inappropriate content online?','How can we tell if information online is trustworthy?','What steps can be taken to protect personal information online?','How has social media changed the way people communicate?']
+    },
+    { id:'cyber', emoji:'&#128683;', label:'Cyberbullying',
+      sample:[
+        {q:'What would you do if you witnessed cyberbullying?', d:'If I witnessed cyberbullying, I would report it to a trusted adult immediately.', e:'I would do this because cyberbullying can cause serious emotional harm to the victim.', a:'For example, if I saw hurtful comments on a classmate\'s post, I would screenshot the evidence before reporting it.', l:'This is why taking swift action can help protect the victim and prevent further harm.'},
+        {q:'Why do you think cyberbullying has become more common?', d:'I think cyberbullying has become more common because the internet allows people to hide behind anonymity.', e:'This is concerning because people may feel bolder saying hurtful things online than they would in person.', a:'For instance, some people create fake accounts specifically to send hurtful messages without being identified.', l:'In the end, anonymity online has contributed significantly to the rise of cyberbullying.'},
+        {q:'How is cyberbullying different from traditional bullying?', d:'Cyberbullying differs from traditional bullying because it can happen anywhere and at any time, even at home.', e:'I believe this makes it more harmful because victims cannot escape it, unlike bullying that only happens at school.', a:'For example, a hurtful message can be sent late at night, disturbing a victim\'s sleep and peace of mind.', l:'So, the constant and inescapable nature of cyberbullying makes it particularly damaging.'},
+        {q:'What can be done to reduce cyberbullying among students?', d:'Schools and parents can work together to educate students about the impact of cyberbullying.', e:'I believe education is key because many perpetrators may not fully realise the harm they are causing.', a:'For example, my school conducted a workshop on digital citizenship, which made many students more mindful of their online behaviour.', l:'That is why awareness and open communication can significantly reduce instances of cyberbullying.'}
+      ],
+      fresh:['How would you support a friend who was being cyberbullied?','Should social media platforms be held responsible for cyberbullying on their sites?','What long-term effects can cyberbullying have on a victim?','How can schools create a safer online culture among students?']
+    },
+    { id:'stress', emoji:'&#129504;', label:'Managing Stress',
+      sample:[
+        {q:'What causes you the most stress as a student?', d:'The thing that causes me the most stress as a student is preparing for major examinations.', e:'This is because I want to perform well, and the pressure to succeed can feel overwhelming at times.', a:'For example, before my last examination, I felt anxious for several days leading up to it.', l:'Thus, managing examination stress is something I continue to work on.'},
+        {q:'How do you cope with stress?', d:'I cope with stress by exercising and talking to my family about how I feel.', e:'I find that these activities help me clear my mind and gain a fresh perspective.', a:'For instance, going for a short walk after a difficult day always helps me feel calmer.', l:'All in all, having healthy coping methods is essential for managing stress effectively.'},
+        {q:'Why do you think students today face more stress than before?', d:'I think students today face more stress because of higher academic expectations and constant comparison through social media.', e:'This concerns me because students may feel pressured to always appear successful, both in school and online.', a:'For example, seeing classmates post about their achievements can sometimes make me feel inadequate, even unintentionally.', l:'This is why both academic pressure and social comparison contribute to rising stress levels among students.'},
+        {q:'What can schools do to help students manage stress better?', d:'Schools can help by incorporating relaxation activities and reducing unnecessary academic pressure.', e:'I believe this is important because mental wellbeing is just as crucial as academic performance.', a:'For instance, our school introduced a mindfulness session once a week, which many students find helpful.', l:'In the end, schools have a responsibility to support students\' mental as well as academic wellbeing.'}
+      ],
+      fresh:['How can talking to someone help reduce stress?','Describe a time you successfully managed a stressful situation.','Do you think examinations cause too much stress for students? Why?','What advice would you give a friend who is feeling overwhelmed?']
+    },
+    { id:'community', emoji:'&#127968;', label:'Community Service',
+      sample:[
+        {q:'Have you taken part in any community service activities? Tell me about it.', d:'Yes, I took part in a beach cleanup organised by my school last year.', e:'I joined because I wanted to contribute towards keeping our environment clean for everyone.', a:'For example, my group collected several bags of litter along the shoreline in just two hours.', l:'So, this experience made me far more aware of the impact individuals can have on their community.'},
+        {q:'Why do you think community service is important for society?', d:'Community service is important because it helps address needs that some individuals cannot meet on their own.', e:'I believe this because a caring society depends on people willing to support one another.', a:'For instance, food drives help ensure that less fortunate families have access to basic necessities.', l:'That is why community service strengthens the bonds within a society and addresses genuine needs.'},
+        {q:'What qualities do you think are needed to serve the community well?', d:'I think patience, empathy, and commitment are needed to serve the community well.', e:'These qualities matter because community work often requires understanding people from different backgrounds and situations.', a:'For example, when volunteering with elderly residents, patience helped me communicate with them more effectively.', l:'Thus, these qualities allow volunteers to make a meaningful and lasting impact.'},
+        {q:'How can technology be used to support community service efforts?', d:'Technology can be used to organise volunteers and raise awareness for causes more efficiently.', e:'I believe this is valuable because social media allows information to spread quickly to a large audience.', a:'For instance, an online fundraising page helped my school raise money for a charity within just a few days.', l:'All in all, technology has made community service efforts more accessible and effective than before.'}
+      ],
+      fresh:['What community issue would you like to address in the future?','How does helping others change the way you see the world?','Should community service be a compulsory part of school life? Why?','Describe a role model who has inspired you through their community work.']
+    },
+    { id:'failure', emoji:'&#127775;', label:'Learning from Failure',
+      sample:[
+        {q:'Tell me about a time you failed at something. What did you learn?', d:'I once failed to qualify for the finals of a school competition after months of preparation.', e:'At first, I felt disappointed, but I later realised the experience taught me valuable lessons about resilience.', a:'For example, I reviewed my mistakes with my teacher and worked on my weaknesses before the next competition.', l:'This is why that failure ultimately helped me improve and grow as a person.'},
+        {q:'Why do you think failure is an important part of learning?', d:'I think failure is important because it shows us areas where we need to improve.', e:'I believe this because without setbacks, we may never fully understand our weaknesses.', a:'For instance, many successful people have spoken about how their early failures shaped their later achievements.', l:'In the end, embracing failure as a learning opportunity leads to greater growth.'},
+        {q:'How do you usually react when you fail at something?', d:'I usually feel disappointed at first, but I try to reflect calmly on what went wrong.', e:'I do this because reacting with anger or giving up would not help me improve.', a:'For example, after failing a test, I identified the topics I struggled with and revised them thoroughly.', l:'So, a calm and reflective approach helps me turn failure into progress.'},
+        {q:'What advice would you give to someone who is afraid of failing?', d:'I would tell them that failure is a normal and necessary part of growth.', e:'I believe this because everyone experiences setbacks, even those who eventually succeed.', a:'For example, I would remind them that many inventors failed many times before achieving success.', l:'That is why I would encourage them to see failure as a stepping stone rather than an obstacle.'}
+      ],
+      fresh:['Describe someone you admire who overcame failure.','How can teachers help students who are afraid of failing?','What is the difference between giving up and accepting failure?','How has a past failure shaped who you are today?']
+    }
+  ]
+};
+
+var LEVEL_LABEL = {p3:'PRIMARY 3', p4:'PRIMARY 4', p5:'PRIMARY 5', p6:'PRIMARY 6'};
+var currentLevel = 'p3';
+var currentMode = 'reading';
+var currentThemeId = null;
+var currentReadingView = 'annotated';
 var editMode = false;
-var cVal = {conn:0, dlg:0, gw:0};
 
-function getTarget(key) {
-  var el = document.getElementById('target-' + key);
-  var v = el ? parseInt(el.value) : 3;
-  return (isNaN(v) || v < 1) ? 1 : v;
+function selectMode(mode) {
+  currentMode = mode;
+  document.getElementById('mtab-reading').className = mode === 'reading' ? 'mode-tab active' : 'mode-tab';
+  document.getElementById('mtab-sbc').className = mode === 'sbc' ? 'mode-tab active' : 'mode-tab';
+  document.getElementById('reading-mode').style.display = mode === 'reading' ? 'block' : 'none';
+  document.getElementById('sbc-mode').style.display = mode === 'sbc' ? 'block' : 'none';
 }
 
-function tapRef(el, key) {
-  el.classList.toggle('used');
-  var delta = el.classList.contains('used') ? 1 : -1;
-  cVal[key] = Math.max(0, cVal[key] + delta);
-  updateCounter(key);
-}
+function selectLevel(level) {
+  currentLevel = level;
+  var i;
+  var tabs = document.getElementsByClassName('level-tab');
+  for (i = 0; i < tabs.length; i++) { tabs[i].className = 'level-tab'; }
+  document.getElementById('ltab-' + level).className = 'level-tab active';
+  document.getElementById('level-badge').innerHTML = LEVEL_LABEL[level] + ' &middot; ORAL PRACTICE';
 
-function redrawBar(key) { updateCounter(key); }
+  var r = READING[level];
+  var titleEl = document.getElementById('reading-title');
+  titleEl.setAttribute('data-ekey', 'passageTitle-' + level);
+  titleEl.innerText = getEdit('passageTitle-' + level, r.title);
+  renderReadingPassage();
 
-function selectTheme(key) {
-  currentTheme = key;
-  var t = THEMES[key];
-  var i, btn;
-  document.getElementById('theme-badge').style.background = t.badge;
-  document.getElementById('theme-title-span').style.color = t.accent;
-  document.getElementById('theme-title-span').innerHTML = t.titleSpan;
-  var pill = document.getElementById('theme-pill');
-  pill.style.background = t.pillBg;
-  pill.style.boxShadow = '0 4px 0 ' + t.pillShadow;
-  pill.innerHTML = t.pill;
-  var allTabs = document.getElementsByClassName('theme-tab');
-  for (i = 0; i < allTabs.length; i++) { allTabs[i].style.opacity = '0.55'; }
-  document.getElementById('ttab-' + key).style.opacity = '1';
-  var grid = document.getElementById('topic-grid');
-  grid.innerHTML = '';
-  for (i = 0; i < t.topics.length; i++) {
-    var tp = t.topics[i];
+  renderConnectors();
+
+  var themeTabs = document.getElementById('theme-tabs');
+  themeTabs.innerHTML = '';
+  var themes = THEMES[level];
+  currentThemeId = null;
+  for (i = 0; i < themes.length; i++) {
+    var th = themes[i];
+    var labelKey = 'themeTab-' + level + '-' + th.id;
     var b = document.createElement('button');
-    b.className = 'topic-btn'; b.id = 'tbtn-' + tp.id;
-    b.style.background = t.topicBg; b.style.borderColor = t.topicBorder; b.style.color = t.topicColor;
-    b.innerHTML = '<span class="emoji">' + tp.emoji + '</span>' + tp.label;
-    (function(id) { b.onclick = function() { selectTopic(id); }; })(tp.id);
-    grid.appendChild(b);
+    b.className = 'theme-tab';
+    b.id = 'thtab-' + th.id;
+    b.innerHTML = '<span class="t-emoji">' + th.emoji + '</span><span class="editable-text" data-ekey="' + labelKey + '">' + getEdit(labelKey, th.label) + '</span>';
+    (function(id) { b.onclick = function() { selectTheme(id); }; })(th.id);
+    themeTabs.appendChild(b);
   }
-  var wc = document.getElementById('words-chips');
-  wc.innerHTML = '';
-  for (i = 0; i < t.words.length; i++) {
-    var sp = document.createElement('span');
-    sp.className = 'chip ' + t.words[i][0];
-    sp.textContent = t.words[i][1];
-    (function(s) { s.onclick = function() { tapRef(s, 'gw'); }; })(sp);
-    wc.appendChild(sp);
-  }
-  var pl = document.getElementById('phrases-list');
-  pl.innerHTML = '';
-  for (i = 0; i < t.phrases.length; i++) {
-    var li = document.createElement('li');
-    li.style.background = t.phraseBg;
-    li.style.borderLeft = '4px solid ' + t.phraseBorderLeft;
-    li.innerHTML = '<span>' + t.phrases[i][0] + '</span> ' + t.phrases[i][1];
-    (function(l) { l.onclick = function() { tapRef(l, 'gw'); }; })(li);
-    pl.appendChild(li);
-  }
-  var conjs = document.querySelectorAll('#conj-grid .conj-card');
-  for (i = 0; i < conjs.length; i++) { conjs[i].classList.remove('used'); }
-  document.getElementById('snt-examples').innerHTML =
-    '<div class="snt-box snt-tell"><div class="snt-label">&#10060; TELL</div><p>' + t.sntTell + '</p></div>' +
-    '<div class="snt-box snt-show"><div class="snt-label">&#10003; SHOW</div><p>' + t.sntShow + '</p></div>';
-  document.getElementById('snt-tip').innerHTML = t.sntTip;
-  var cc = document.getElementById('compo-card');
-  cc.style.background = t.comboBg; cc.style.border = '2px solid ' + t.comboBorder;
-  document.getElementById('compo-icon').style.background = t.compoIconBg;
-  document.getElementById('compo-area').innerHTML =
-    '<p style="font-size:14px;font-weight:700;color:#999;text-align:center;padding:16px 0;">Now pick a topic above.</p>';
+  document.getElementById('sample-block').innerHTML = '<p style="font-size:14px;font-weight:700;color:#999;padding:8px;">Pick a topic above to begin.</p>';
+  document.getElementById('practice-block-1').innerHTML = '';
+  document.getElementById('practice-block-2').innerHTML = '';
+  document.getElementById('print-note').innerHTML = '&#9999;&#65039; Teacher Ari &middot; ' + LEVEL_LABEL[level] + ' Oral Practice Aid';
+  applyStoredEdits();
 }
 
-function selectTopic(id) {
-  if (!currentTheme) { return; }
-  var t = THEMES[currentTheme]; var c = t.compos[id]; var i, btn;
-  var allBtns = document.getElementsByClassName('topic-btn');
-  for (i = 0; i < allBtns.length; i++) {
-    allBtns[i].style.background = t.topicBg; allBtns[i].style.borderColor = t.topicBorder;
-    allBtns[i].style.color = t.topicColor; allBtns[i].style.boxShadow = 'none';
-  }
-  btn = document.getElementById('tbtn-' + id);
-  btn.style.background = t.topicActiveBg; btn.style.borderColor = t.topicActiveBorder;
-  btn.style.color = t.topicActiveColor; btn.style.boxShadow = t.topicActiveShadow;
-  var html = '<div>';
-  html += '<div class="compo-title" style="background:' + t.compoTitleBg + ';color:' + t.compoTitleColor + ';">' + c.title + '</div>';
-  for (i = 0; i < c.paras.length; i++) {
-    var pr = c.paras[i];
-    var mb = (i === c.paras.length - 1) ? 'margin-bottom:0;' : '';
-    html += '<div class="para-block" style="' + mb + '"><span class="para-label ' + pr.cls + '">' + pr.label + '</span><p>' + pr.text + '</p></div>';
-  }
-  html += '</div>';
-  document.getElementById('compo-area').innerHTML = html;
-  if (editMode) {
-    var paras = document.querySelectorAll('#compo-area .para-block p');
-    for (i = 0; i < paras.length; i++) { paras[i].setAttribute('contenteditable', 'true'); }
-  }
+function showReadingView(view) {
+  currentReadingView = view;
+  document.getElementById('toggle-annotated').className = view === 'annotated' ? 'toggle-btn active' : 'toggle-btn';
+  document.getElementById('toggle-plain').className = view === 'plain' ? 'toggle-btn active' : 'toggle-btn';
+  document.getElementById('reading-legend').style.display = view === 'annotated' ? 'flex' : 'none';
+  renderReadingPassage();
 }
 
-function toggleEdit() {
-  editMode = !editMode;
-  var btn = document.getElementById('edit-btn');
-  var paras = document.querySelectorAll('#compo-area .para-block p'); var i;
-  if (editMode) {
-    btn.innerHTML = '&#128274; Lock'; btn.className = 'edit-btn active';
-    for (i = 0; i < paras.length; i++) { paras[i].setAttribute('contenteditable', 'true'); }
+function renderReadingPassage() {
+  var r = READING[currentLevel];
+  var box = document.getElementById('passage-box');
+  var html = '';
+  var i;
+  for (i = 0; i < r.paras.length; i++) {
+    var tag = i === 0 ? 'INTRO' : 'CONTINUED';
+    var defaultText = currentReadingView === 'annotated' ? r.paras[i].annotated : r.paras[i].plain;
+    var key = 'passagePara-' + currentLevel + '-' + i + '-' + currentReadingView;
+    var text = getEdit(key, defaultText);
+    html += '<div><span class="para-tag">' + tag + '</span><p class="editable-text" data-ekey="' + key + '">' + text + '</p></div>';
+  }
+  box.innerHTML = html;
+}
+
+function renderConnectors() {
+  var area = document.getElementById('connectors-area');
+  var groups = CONNECTORS[currentLevel];
+  var html = '';
+  var i, j;
+  for (i = 0; i < groups.length; i++) {
+    var label = groups[i][0];
+    var cls = groups[i][1][0];
+    var words = groups[i][1][1];
+    var labelKey = 'connLabel-' + currentLevel + '-' + i;
+    html += '<div class="connector-group"><span class="connector-group-label editable-text" data-ekey="' + labelKey + '">' + getEdit(labelKey, label) + '</span><div class="chips">';
+    for (j = 0; j < words.length; j++) {
+      var chipKey = 'connChip-' + currentLevel + '-' + i + '-' + j;
+      html += '<span class="chip ' + cls + ' editable-text" data-ekey="' + chipKey + '">' + getEdit(chipKey, words[j]) + '</span>';
+    }
+    html += '</div></div>';
+  }
+  area.innerHTML = html;
+}
+
+function selectTheme(id) {
+  currentThemeId = id;
+  var themes = THEMES[currentLevel];
+  var theme = null, i;
+  for (i = 0; i < themes.length; i++) { if (themes[i].id === id) { theme = themes[i]; break; } }
+  var allTabs = document.getElementsByClassName('theme-tab');
+  for (i = 0; i < allTabs.length; i++) { allTabs[i].className = 'theme-tab'; }
+  document.getElementById('thtab-' + id).className = 'theme-tab active';
+
+  var sampleHtml = '';
+  for (i = 0; i < theme.sample.length; i++) {
+    var s = theme.sample[i];
+    var qid = 'sample-' + i;
+    sampleHtml += '<div class="q-block">' +
+      '<div class="q-head"><div class="q-num">' + (i + 1) + '</div><div class="q-text">' + s.q + '</div></div>' +
+      '<button class="reveal-btn" id="btn-' + qid + '" onclick="toggleReveal(\'' + qid + '\')">Show Model Answer</button>' +
+      '<div class="deal-answer" id="ans-' + qid + '">' +
+      '<div class="deal-line dl-d"><span class="deal-label">DIRECT ANSWER</span>' + s.d + '</div>' +
+      '<div class="deal-line dl-e"><span class="deal-label">EXPLAIN</span>' + s.e + '</div>' +
+      '<div class="deal-line dl-a"><span class="deal-label">EXAMPLE</span>' + s.a + '</div>' +
+      '<div class="deal-line dl-l"><span class="deal-label">CONCLUSION</span>' + s.l + '</div>' +
+      '</div></div>';
+  }
+  document.getElementById('sample-block').innerHTML = sampleHtml;
+
+  var p1Html = '';
+  for (i = 0; i < theme.sample.length; i++) {
+    p1Html += '<div class="q-block">' +
+      '<div class="q-head"><div class="q-num">' + (i + 1) + '</div><div class="q-text">' + theme.sample[i].q + '</div></div>' +
+      '<div class="practice-area"><textarea class="practice-textarea" placeholder="Practise saying your answer using DEAL. Jot down key words here if it helps."></textarea></div>' +
+      '<div class="timer-hint">Aim to speak for about 30 to 45 seconds.</div>' +
+      '</div>';
+  }
+  document.getElementById('practice-block-1').innerHTML = p1Html;
+
+  var p2Html = '';
+  for (i = 0; i < theme.fresh.length; i++) {
+    p2Html += '<div class="q-block">' +
+      '<div class="q-head"><div class="q-num">' + (i + 1) + '</div><div class="q-text">' + theme.fresh[i] + '</div></div>' +
+      '<div class="practice-area"><textarea class="practice-textarea" placeholder="Practise saying your answer using DEAL. Jot down key words here if it helps."></textarea></div>' +
+      '<div class="timer-hint">Aim to speak for about 30 to 45 seconds.</div>' +
+      '</div>';
+  }
+  document.getElementById('practice-block-2').innerHTML = p2Html;
+}
+
+function toggleReveal(qid) {
+  var btn = document.getElementById('btn-' + qid);
+  var ans = document.getElementById('ans-' + qid);
+  var shown = ans.className.indexOf('shown') !== -1;
+  if (shown) {
+    ans.className = 'deal-answer';
+    btn.className = 'reveal-btn';
+    btn.innerHTML = 'Show Model Answer';
   } else {
-    btn.innerHTML = '&#9999;&#65039; Edit'; btn.className = 'edit-btn';
-    for (i = 0; i < paras.length; i++) { paras[i].setAttribute('contenteditable', 'false'); }
+    ans.className = 'deal-answer shown';
+    btn.className = 'reveal-btn shown';
+    btn.innerHTML = 'Hide Model Answer';
   }
 }
 
-function saveCompo() {
-  var i, lines = [], title = 'My Composition';
-  var titleEl = document.querySelector('#compo-area .compo-title');
-  if (titleEl) { title = titleEl.innerText; }
-  var blocks = document.querySelectorAll('#compo-area .para-block');
-  lines.push(title); lines.push('');
-  for (i = 0; i < blocks.length; i++) {
-    var lbl = blocks[i].querySelector('.para-label'); var par = blocks[i].querySelector('p');
-    if (lbl) { lines.push('[' + lbl.innerText + ']'); }
-    if (par) { lines.push(par.innerText); }
-    lines.push('');
+function applyStoredEdits() {
+  var els = document.querySelectorAll('[data-ekey]');
+  var i;
+  for (i = 0; i < els.length; i++) {
+    var k = els[i].getAttribute('data-ekey');
+    if (typeof EDITS[k] !== 'undefined') { els[i].innerText = EDITS[k]; }
   }
-  var text = lines.join('\n');
-  if (navigator.share) { navigator.share({title: title, text: text}).catch(function() { downloadText(text, title); }); }
-  else { downloadText(text, title); }
-  var sb = document.getElementById('save-btn');
-  sb.innerHTML = '&#10003; Saved!'; sb.className = 'save-btn saved';
-  setTimeout(function() { sb.innerHTML = '&#128190; Save'; sb.className = 'save-btn'; }, 2000);
 }
 
-function downloadText(text, title) {
-  var fname = title.replace(/[^a-z0-9]/gi, '_') + '.txt';
-  var blob = new Blob([text], {type: 'text/plain'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url; a.download = fname;
-  document.body.appendChild(a); a.click();
-  document.body.removeChild(a); URL.revokeObjectURL(url);
-}
-
-function manualCounter(key, delta) {
-  cVal[key] = Math.max(0, cVal[key] + delta);
-  updateCounter(key);
-}
-
-function updateCounter(key) {
-  var v = cVal[key]; var t = getTarget(key);
-  var ve = document.getElementById('val-' + key);
-  var be = document.getElementById('bar-' + key);
-  var ce = document.getElementById('cheer-' + key);
-  ve.innerHTML = v;
-  ve.style.color = (v >= t) ? '#f9c74f' : '#ffffff';
-  var pct = Math.round((v / t) * 100);
-  if (pct > 100) { pct = 100; }
-  be.style.width = pct + '%';
-  if (v === 0) { ce.innerHTML = ''; }
-  else if (v >= t) { ce.innerHTML = '&#11088; Target reached!'; }
-  else if (v >= Math.ceil(t / 2)) { ce.innerHTML = '&#128170; Almost there!'; }
-  else { ce.innerHTML = '&#128216; Keep going!'; }
-}
-
-function selectIntro(key) {
-  var ids = ['setting', 'dialogue', 'person']; var i, btn;
-  for (i = 0; i < ids.length; i++) {
-    btn = document.getElementById('opt-' + ids[i]);
-    if (btn) { btn.style.background = 'rgba(255,255,255,0.12)'; btn.style.color = 'rgba(255,255,255,0.7)'; btn.style.borderColor = 'rgba(255,255,255,0.2)'; }
+function toggleEditMode() {
+  editMode = !editMode;
+  var btn = document.getElementById('pencil-btn');
+  var hint = document.getElementById('edit-hint');
+  var editableEls = document.querySelectorAll('.editable-text');
+  var navEls = document.querySelectorAll('.level-tab, .mode-tab, .theme-tab, .toggle-btn');
+  var i;
+  for (i = 0; i < editableEls.length; i++) {
+    editableEls[i].setAttribute('contenteditable', editMode ? 'true' : 'false');
   }
-  btn = document.getElementById('opt-' + key);
-  if (btn) { btn.style.background = '#f9c74f'; btn.style.color = '#1a1a2e'; btn.style.borderColor = '#f9c74f'; }
-  document.getElementById('cheer-intro').innerHTML = '&#9989; Great choice!';
+  for (i = 0; i < navEls.length; i++) {
+    var el = navEls[i];
+    if (editMode) {
+      el._savedOnclick = el.onclick;
+      el.onclick = null;
+      el.style.cursor = 'text';
+    } else {
+      el.onclick = el._savedOnclick;
+      el.style.cursor = 'pointer';
+    }
+  }
+  if (editMode) {
+    btn.innerHTML = '&#128190; Save Edits';
+    btn.className = 'pencil-btn active';
+    hint.style.display = 'block';
+  } else {
+    saveEdits();
+    btn.innerHTML = '&#9999;&#65039; Edit Text';
+    btn.className = 'pencil-btn';
+    hint.style.display = 'none';
+  }
 }
+
+function saveEdits() {
+  var els = document.querySelectorAll('[data-ekey]');
+  var i;
+  for (i = 0; i < els.length; i++) {
+    EDITS[els[i].getAttribute('data-ekey')] = els[i].innerText.trim();
+  }
+  try { localStorage.setItem('oralAidEdits', JSON.stringify(EDITS)); } catch (e) {}
+}
+
+function resetEdits() {
+  if (!confirm('Reset all your text edits back to the original wording? This cannot be undone.')) { return; }
+  try { localStorage.removeItem('oralAidEdits'); } catch (e) {}
+  EDITS = {};
+  location.reload();
+}
+
+selectLevel('p3');
+selectMode('reading');
+applyStoredEdits();
 </script>
 </body>
 </html>
