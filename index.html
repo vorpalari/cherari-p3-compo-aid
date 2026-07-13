@@ -22,6 +22,10 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
 .level-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;background:white;padding:8px;border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
 .level-tab{border-radius:12px;padding:12px 6px;font-family:'Fredoka One',sans-serif;font-size:15px;cursor:pointer;text-align:center;border:2px solid transparent;background:#f4f5fa;color:#8a8fa8;-webkit-appearance:none;appearance:none;}
 .level-tab.active{background:var(--navy);color:white;border-color:var(--navy);box-shadow:0 3px 0 #000018;}
+.theme-tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:14px;background:white;padding:10px;border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.theme-tab{border-radius:14px;padding:12px 8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;border:2px solid transparent;line-height:1.3;background:#fef4f0;color:#7a3000;-webkit-appearance:none;appearance:none;}
+.theme-tab .t-emoji{font-size:20px;display:block;margin-bottom:4px;}
+.theme-tab.active{background:#f9c4aa;border-color:#f4845f;color:#5a2000;}
 .mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
 .mode-tab{border-radius:14px;padding:14px 10px;font-family:'Fredoka One',sans-serif;font-size:15px;cursor:pointer;text-align:center;border:2px solid transparent;-webkit-appearance:none;appearance:none;background:#eef0fa;color:#5a6088;}
 .mode-tab.active{background:#dde8ff;border-color:#8aa8e8;color:#1a3a7a;box-shadow:0 3px 0 #b0c4f5;}
@@ -29,6 +33,7 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
 .card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
 .card-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:#dde8ff;}
 .card-title{font-family:'Fredoka One',sans-serif;font-size:18px;color:var(--navy);}
+.reading-subhead{font-size:13px;font-weight:800;color:#888;text-align:center;margin-bottom:10px;}
 .acronym-box{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
 .acronym-letter{flex:1;min-width:150px;background:white;border:2px solid #eee;border-radius:14px;padding:10px 12px;}
 .acronym-letter b{font-family:'Fredoka One',sans-serif;font-size:20px;display:inline-block;width:26px;}
@@ -37,23 +42,19 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
 .al-2{border-color:#f9dfa0;background:#fffaf0;} .al-2 b{color:#8a5e00;}
 .al-3{border-color:#f7c3ae;background:#fff5f1;} .al-3 b{color:#a83a00;}
 .al-4{border-color:#a8e6d0;background:#f2fbf7;} .al-4 b{color:#1a7a5b;}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px;padding:10px 14px;background:white;border-radius:10px;border:1.5px solid #eee;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#444;}
+.legend-swatch{padding:1px 7px;border-radius:5px;font-family:'Nunito',sans-serif;font-weight:800;}
+.passage-num{display:inline-block;font-family:'Fredoka One',sans-serif;font-size:11px;letter-spacing:1px;color:white;background:#3a5ea7;padding:3px 12px;border-radius:20px;margin-bottom:8px;}
 .toggle-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
 .toggle-btn{flex:1;min-width:140px;border-radius:14px;border:2px solid #c8ccdc;background:white;color:#3a4060;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;padding:10px 12px;cursor:pointer;-webkit-appearance:none;appearance:none;}
 .toggle-btn.active{background:#3a4060;color:white;border-color:#3a4060;}
-.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;padding:10px 14px;background:white;border-radius:10px;border:1.5px solid #eee;}
-.legend-item{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#444;}
-.legend-swatch{padding:1px 7px;border-radius:5px;font-family:'Nunito',sans-serif;font-weight:800;}
 .passage-box{background:white;border:1.5px solid #eee;border-radius:16px;padding:18px 20px;}
 .passage-box p{font-size:16px;line-height:2.1;color:#2a2a3e;margin-bottom:14px;}
 .passage-box p:last-child{margin-bottom:0;}
-.para-tag{display:inline-block;font-family:'Fredoka One',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#8a8fa8;margin-bottom:4px;}
 .pc{background:#daf0fb;color:#0077a8;padding:1px 5px;border-radius:4px;font-weight:800;}
 .pf{background:#ede0ff;color:#6a00c8;padding:2px 18px;border-radius:6px;font-weight:800;margin:0 2px;}
 .tv{background:#fff3b0;color:#8a5e00;padding:1px 4px;border-radius:5px;font-weight:800;}
-.theme-tabs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:16px;}
-.theme-tab{border-radius:14px;padding:12px 8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;text-align:center;border:2px solid transparent;line-height:1.3;background:#fef4f0;color:#7a3000;-webkit-appearance:none;appearance:none;}
-.theme-tab .t-emoji{font-size:20px;display:block;margin-bottom:4px;}
-.theme-tab.active{background:#f9c4aa;border-color:#f4845f;color:#5a2000;}
 .connector-group{margin-bottom:10px;}
 .connector-group-label{font-family:'Fredoka One',sans-serif;font-size:12px;color:#888;margin-bottom:6px;display:block;}
 .chips{display:flex;flex-wrap:wrap;gap:7px;}
@@ -63,6 +64,7 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
 .chip-gold{background:#fff3cc;color:#8a5e00;border-color:#f5d87a;}
 .chip-lilac{background:#ede0ff;color:#6a00c8;border-color:#d5b8ff;}
 .chip-coral{background:#fde8e0;color:#a83a00;border-color:#f9c4aa;}
+.chip-help{background:#e0f7f4;color:#0a7a6e;border-color:#a8e6d0;font-weight:800;}
 .section-sub{font-family:'Fredoka One',sans-serif;font-size:15px;color:var(--navy);margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid #eee;}
 .section-sub:first-child{margin-top:0;}
 .q-block{background:white;border:1.5px solid #eee;border-radius:14px;padding:14px 16px;margin-bottom:12px;}
@@ -108,6 +110,8 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
   <button class="level-tab" id="ltab-p6" onclick="selectLevel('p6')"><span class="editable-text" data-ekey="levelTab-p6">P6</span></button>
 </div>
 
+<div class="theme-tabs" id="theme-tabs"></div>
+
 <div class="mode-tabs">
   <button class="mode-tab" id="mtab-reading" onclick="selectMode('reading')">&#128214; <span class="editable-text" data-ekey="modeTab-reading">Reading Aloud</span></button>
   <button class="mode-tab" id="mtab-sbc" onclick="selectMode('sbc')">&#128172; <span class="editable-text" data-ekey="modeTab-sbc">Stimulus Conversation</span></button>
@@ -125,24 +129,15 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
       <div class="acronym-letter al-3"><b class="editable-text" data-ekey="acroSlow-2-letter">O</b><span class="editable-text" data-ekey="acroSlow-2-desc">Own every word, do not skip words you find hard</span></div>
       <div class="acronym-letter al-4"><b class="editable-text" data-ekey="acroSlow-3-letter">W</b><span class="editable-text" data-ekey="acroSlow-3-desc">Watch your pace, read slower than you think</span></div>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon" style="background:#d4f5ea;">&#128221;</div>
-      <div class="card-title editable-text" id="reading-title" data-ekey="passageTitle-p3">A Day at the Beach</div>
-    </div>
-    <div class="toggle-row">
-      <button class="toggle-btn active" id="toggle-annotated" onclick="showReadingView('annotated')"><span class="editable-text" data-ekey="toggleBtn-annotated">With Pause Guide</span></button>
-      <button class="toggle-btn" id="toggle-plain" onclick="showReadingView('plain')"><span class="editable-text" data-ekey="toggleBtn-plain">Plain Text (No Guide)</span></button>
-    </div>
     <div class="legend" id="reading-legend">
       <div class="legend-item"><span class="legend-swatch pc">,</span> short pause</div>
       <div class="legend-item"><span class="legend-swatch pf">.</span> long pause</div>
       <div class="legend-item"><span class="legend-swatch tv">the</span> before a vowel sound word</div>
     </div>
-    <div class="passage-box" id="passage-box"></div>
+    <div class="reading-subhead" id="reading-subhead">Reading passages for: My Family</div>
   </div>
+
+  <div id="reading-passages-container"></div>
 </div>
 
 <div id="sbc-mode" style="display:none;">
@@ -169,10 +164,11 @@ body{font-family:'Nunito',sans-serif;min-height:100vh;padding:24px 16px 48px;col
 
   <div class="card">
     <div class="card-header">
-      <div class="card-icon" style="background:#ffe0ef;">&#127917;</div>
-      <div class="card-title">Choose a Topic</div>
+      <div class="card-icon" style="background:#ffe0ef;">&#128161;</div>
+      <div class="card-title" id="theme-helpers-title">Helping Words for This Topic</div>
     </div>
-    <div class="theme-tabs" id="theme-tabs"></div>
+    <p style="font-size:12.5px;font-weight:700;color:#888;margin-bottom:10px;">Use these words and phrases to help you form your ideas.</p>
+    <div class="chips" id="theme-helpers-area"></div>
   </div>
 
   <div class="card">
@@ -198,41 +194,221 @@ function getEdit(key, fallback) {
   return (typeof EDITS[key] !== 'undefined') ? EDITS[key] : fallback;
 }
 
+function annotatePassage(text) {
+  var html = text;
+  html = html.replace(/\b(the|The)(\s+)(?=[aeiouAEIOU])/g, '<span class="tv">$1</span>$2');
+  html = html.replace(/,/g, '<span class="pc">,</span>');
+  html = html.replace(/\./g, '<span class="pf">.</span>');
+  return html;
+}
+
 var READING = {
   p3: {
-    title: 'A Day at the Beach',
-    paras: [
-      { annotated: 'Last Saturday<span class="pc">,</span> my family went to the beach<span class="pf">.</span> The sun was shining brightly<span class="pc">,</span> and the sea looked calm and blue<span class="pf">.</span> My brother built a sandcastle near the water<span class="pc">,</span> while I searched for pretty shells along the shore<span class="pf">.</span>',
-        plain: 'Last Saturday, my family went to the beach. The sun was shining brightly, and the sea looked calm and blue. My brother built a sandcastle near the water, while I searched for pretty shells along the shore.' },
-      { annotated: 'Suddenly<span class="pc">,</span> a big wave rushed in and washed away his sandcastle<span class="pf">.</span> He looked upset for a moment<span class="pc">,</span> but he laughed when he saw <span class="tv">the</span> ice cream seller nearby<span class="pf">.</span> We each bought <span class="tv">the</span> ice cream we wanted<span class="pc">,</span> and rested under a big umbrella<span class="pf">.</span> It was a wonderful and relaxing day<span class="pf">.</span>',
-        plain: 'Suddenly, a big wave rushed in and washed away his sandcastle. He looked upset for a moment, but he laughed when he saw the ice cream seller nearby. We each bought the ice cream we wanted, and rested under a big umbrella. It was a wonderful and relaxing day.' }
+    family: [
+      { title: 'Cooking with Grandma', paras: [
+        'Every Sunday, I visit my grandmother to help her cook. She teaches me how to chop vegetables safely, and I always feel proud when I finish a dish. The kitchen smells like ginger and garlic, and grandma hums softly as she stirs the pot.',
+        'Last week, we made fried rice together, and I added the eggs myself. Grandma smiled and said I was becoming the expert chef in the family. I cannot wait for our next cooking day.'
+      ]},
+      { title: 'A Rainy Day at Home', paras: [
+        'It was raining heavily outside, so my family decided to stay indoors. My father suggested we play a board game together, and my little brother chose his favourite one. We gathered around the table and started playing happily.',
+        'Halfway through the game, the lights flickered, and we all laughed nervously. My mother lit a candle, and we continued playing in the soft glow. It turned out to be one of the coolest evenings we had spent together.'
+      ]}
+    ],
+    friend: [
+      { title: 'The New Kid in Class', paras: [
+        'A new student named Wei Jie joined our class this term. He looked nervous and sat alone during recess. I decided to walk over and ask if he wanted to play catching with us.',
+        'Wei Jie smiled and joined our game immediately. We laughed together and became friends by the end of the day. Now, we sit together every single day.'
+      ]},
+      { title: 'Sharing My Umbrella', paras: [
+        'One afternoon, it started to rain suddenly while we were walking home from school. My friend Hana did not bring an umbrella, so I offered to share mine. We huddled close together and walked carefully along the wet pavement.',
+        'Halfway home, we started giggling about how silly we looked. Hana thanked me for sharing, and I told her that is what friends are for. That small moment made our friendship even stronger.'
+      ]}
+    ],
+    chores: [
+      { title: 'Cleaning the Fish Tank', paras: [
+        'Every Saturday morning, I help my father clean our fish tank. First, we scoop out the fish gently and place them in a bowl of clean water. Then, we scrub the glass until it sparkles.',
+        'My father lets me choose new decorations for the tank sometimes. Last week, I picked a tiny castle, and the fish seemed to love swimming around it. Cleaning the tank has become my favourite chore.'
+      ]},
+      { title: 'Folding Laundry', paras: [
+        'After dinner, my mother and I fold the laundry together in the living room. She teaches me how to fold shirts neatly, and I try my best to match all the socks. Sometimes we chat about our day while we work.',
+        'One evening, I found a missing sock that had disappeared for weeks. My mother laughed and said the mystery was finally solved. Folding laundry with her has become a happy part of my evening.'
+      ]}
+    ],
+    sports: [
+      { title: 'My First Swimming Lesson', paras: [
+        'Last month, I attended my first swimming lesson at the community pool. I felt nervous stepping into the water, and I gripped the edge tightly. My coach smiled and told me to relax and kick slowly.',
+        'By the end of the lesson, I managed to float on my own for a few seconds. I felt so proud of myself, and I could not stop smiling. I cannot wait for my next lesson.'
+      ]},
+      { title: 'The Class Football Match', paras: [
+        'Our class organised a friendly football match during physical education. I was chosen to be the goalkeeper for my team. My hands felt sweaty as the match began.',
+        'In the final minute, I managed to block a shot from the other team. My classmates cheered loudly and patted me on the back. It was an exciting way to end the lesson.'
+      ]}
+    ],
+    kind: [
+      { title: 'Helping a Lost Puppy', paras: [
+        'On my way home from school, I noticed a small puppy wandering alone near the void deck. It looked scared and confused, so I stopped to check if it was hurt. I gently patted its head to calm it down.',
+        'I asked around the neighbourhood, and finally found the puppy\'s owner two blocks away. The owner thanked me with a big smile and gave the puppy a warm hug. I felt happy knowing I had helped reunite them.'
+      ]},
+      { title: 'Sharing My Snacks', paras: [
+        'During recess, I noticed a classmate sitting alone without any food. I remembered that he had forgotten his wallet that morning. Without thinking twice, I walked over and offered him half of my sandwich.',
+        'He thanked me shyly and we ended up chatting throughout recess. The next day, he brought extra biscuits and shared them with me. That small act of kindness turned into a lovely friendship.'
+      ]}
     ]
   },
   p4: {
-    title: 'Sports Day',
-    paras: [
-      { annotated: 'Every year<span class="pc">,</span> our school holds an exciting Sports Day at the stadium<span class="pf">.</span> Students train for weeks<span class="pc">,</span> practising their running<span class="pc">,</span> jumping<span class="pc">,</span> and throwing<span class="pf">.</span> On the morning of <span class="tv">the</span> event<span class="pc">,</span> <span class="tv">the</span> atmosphere was electric<span class="pc">,</span> and everyone cheered loudly for their houses<span class="pf">.</span>',
-        plain: 'Every year, our school holds an exciting Sports Day at the stadium. Students train for weeks, practising their running, jumping, and throwing. On the morning of the event, the atmosphere was electric, and everyone cheered loudly for their houses.' },
-      { annotated: 'During the final relay race<span class="pc">,</span> one runner tripped and fell onto the track<span class="pf">.</span> Although he was in pain<span class="pc">,</span> he stood up bravely and finished the race<span class="pf">.</span> The crowd applauded his courage<span class="pc">,</span> and his teammates rushed over to help him<span class="pf">.</span> It was a truly memorable and inspiring Sports Day<span class="pf">.</span>',
-        plain: 'During the final relay race, one runner tripped and fell onto the track. Although he was in pain, he stood up bravely and finished the race. The crowd applauded his courage, and his teammates rushed over to help him. It was a truly memorable and inspiring Sports Day.' }
+    bully: [
+      { title: 'Standing Up in the Canteen', paras: [
+        'During lunch one day, I noticed a group of boys mocking a younger student about his lunchbox. He looked embarrassed and stared down at his food, saying nothing in his own defence. I felt uncomfortable watching the scene unfold in front of me.',
+        'Although I felt nervous, I walked over and sat beside him, telling the boys firmly to stop teasing him. They looked surprised and eventually walked away without another word. The younger student thanked me quietly, and we ended up having lunch together.'
+      ]},
+      { title: 'The Message That Hurt', paras: [
+        'My classmate Farhan showed me a hurtful message someone had sent him online. He looked upset and admitted he did not know what to do about it. I told him it was important to save the message and inform a teacher.',
+        'Together, we reported the incident to our form teacher the next morning. She thanked us for speaking up and promised to handle the situation carefully. Farhan later told me he felt relieved that he had not stayed silent.'
+      ]}
+    ],
+    team: [
+      { title: 'Building the Class Diorama', paras: [
+        'Our class was assigned to build a diorama of a rainforest for our science project. At first, everyone wanted to do things their own way, and we argued about the design. Eventually, we agreed to divide the tasks based on our strengths.',
+        'I painted the background, while my classmates built the trees and animals. Working together, we finished the diorama a day before the deadline. Our teacher praised our teamwork, and we felt proud of what we had created.'
+      ]},
+      { title: 'The Relay Baton Mix-up', paras: [
+        'During our class relay practice, we kept dropping the baton during the handover. Some of my teammates grew frustrated, and a few even wanted to give up entirely. Our team captain suggested we slow down and practise the exchange step by step.',
+        'After several attempts, we finally managed a smooth handover without a single drop. Everyone cheered, and our captain reminded us that patience had made the difference. We went on to win second place during the actual race.'
+      ]}
+    ],
+    new: [
+      { title: 'Joining the Robotics Club', paras: [
+        'I had never been interested in robotics until my friend convinced me to join the club after school. On my first day, I struggled to understand how the wiring worked, and I almost gave up out of frustration. My friend patiently explained each step until it finally made sense.',
+        'Weeks later, I built my very first working robot, and it moved exactly as I had planned. I felt an overwhelming sense of achievement, something I had never expected to feel. Now, robotics has become one of my favourite activities.'
+      ]},
+      { title: 'My First Time on Stage', paras: [
+        'Our school held auditions for the annual drama production, and I decided to try out despite my fear of public speaking. My hands trembled as I read my lines in front of the panel. To my surprise, I was selected for a small role.',
+        'On the night of the performance, I forgot my fear the moment the spotlight hit the stage. The audience clapped loudly when the scene ended, and I felt an incredible rush of pride. That experience taught me to embrace new challenges.'
+      ]}
+    ],
+    festival: [
+      { title: 'Preparing for Deepavali', paras: [
+        'Every year before Deepavali, my family gathers to prepare traditional sweets and decorate our home with colourful lights. My grandmother teaches me how to draw a kolam at our doorstep using coloured rice flour. It takes patience, but the final design always looks beautiful.',
+        'This year, I finally managed to complete an entire kolam pattern by myself. My grandmother clapped with delight and said I had inherited her steady hands. Celebrating Deepavali with my family has become one of my favourite traditions.'
+      ]},
+      { title: 'Mooncakes and Lanterns', paras: [
+        'During the Mid-Autumn Festival, my family gathers in the garden to admire the full moon together. We bring along mooncakes, tea, and colourful paper lanterns to light up the evening. My younger cousins run around excitedly, swinging their lanterns through the darkness.',
+        'This year, I helped my mother make mooncakes from scratch for the very first time. Although my first few attempts looked slightly uneven, they tasted delicious. My family enjoyed the festival even more, knowing that I had helped prepare it.'
+      ]}
+    ],
+    pets: [
+      { title: 'Adopting Whiskers', paras: [
+        'Last year, my family adopted a stray cat we found sheltering under our block during a storm. We named her Whiskers, and at first, she was too frightened to come near us. Slowly, with patience and gentle care, she began to trust our family.',
+        'Now, Whiskers greets me at the door every day when I return from school. She curls up beside me while I do my homework in the evenings. Adopting her taught me that kindness and patience can build the deepest trust.'
+      ]},
+      { title: 'The Vet Visit', paras: [
+        'One morning, I noticed our rabbit, Cocoa, was not eating his usual pellets and seemed unusually quiet. Worried, my mother and I quickly brought him to the veterinarian nearby. The vet gently examined him and discovered a small infection that needed treatment.',
+        'For the next week, I made sure Cocoa took his medicine and rested properly. Slowly, his energy returned, and he began hopping around happily again. That experience made me realise how much responsibility comes with caring for a pet.'
+      ]}
     ]
   },
   p5: {
-    title: 'The Value of Honesty',
-    paras: [
-      { annotated: 'Mei Ling found a wallet lying on the pavement outside her block one afternoon<span class="pf">.</span> Inside<span class="pc">,</span> she discovered a considerable amount of money<span class="pc">,</span> along with an identification card belonging to <span class="tv">the</span> elderly man<span class="pf">.</span> She felt tempted<span class="pc">,</span> for a moment<span class="pc">,</span> to keep the money for herself<span class="pf">.</span>',
-        plain: 'Mei Ling found a wallet lying on the pavement outside her block one afternoon. Inside, she discovered a considerable amount of money, along with an identification card belonging to the elderly man. She felt tempted, for a moment, to keep the money for herself.' },
-      { annotated: 'However<span class="pc">,</span> she remembered her mother\'s advice about honesty<span class="pc">,</span> and decided to hand the wallet to the estate office instead<span class="pf">.</span> A few days later<span class="pc">,</span> <span class="tv">the</span> elderly man visited her home to express his heartfelt gratitude<span class="pf">.</span> Mei Ling realised that doing <span class="tv">the</span> honest thing<span class="pc">,</span> even when nobody was watching<span class="pc">,</span> brought her a deep sense of satisfaction that money could never buy<span class="pf">.</span>',
-        plain: 'However, she remembered her mother\'s advice about honesty, and decided to hand the wallet to the estate office instead. A few days later, the elderly man visited her home to express his heartfelt gratitude. Mei Ling realised that doing the honest thing, even when nobody was watching, brought her a deep sense of satisfaction that money could never buy.' }
+    screen: [
+      { title: 'The Weekend Without Wifi', paras: [
+        'When our home internet broke down unexpectedly one weekend, I initially panicked at the thought of being disconnected from my games and social media. However, as the hours passed, I found myself reading a novel I had abandoned months earlier and helping my mother repot several plants in the garden.',
+        'By Sunday evening, I realised I had barely thought about my phone throughout the entire weekend. Although the internet was eventually restored, I decided to continue setting aside screen-free hours each day. That accidental weekend taught me how much I had been missing while staring at a screen.'
+      ]},
+      { title: 'A Late Night Gaming Session', paras: [
+        'One night, I stayed up far later than I intended, completely absorbed in an online game with my friends. By the time I finally put my tablet down, it was well past midnight, and I regretted it almost immediately. The next morning, I struggled to stay awake during lessons and found it difficult to concentrate.',
+        'My teacher noticed how tired I looked and gently asked if everything was alright at home. Embarrassed, I explained what had happened, and she reminded me that rest matters just as much as anything else. Since then, I have set a strict bedtime for myself, regardless of how exciting a game might be.'
+      ]}
+    ],
+    healthy: [
+      { title: 'Training for the Cross Country Run', paras: [
+        'When I first signed up for the school\'s cross country run, I could barely complete a single lap around the field without stopping. Determined to improve, I began jogging every morning before school, gradually increasing my distance over several weeks. At times, I felt like giving up, especially when my legs ached after a long run.',
+        'On the day of the actual race, I surprised myself by finishing without needing to stop even once. My classmates cheered as I crossed the finish line, exhausted but immensely proud. That experience taught me that consistent effort, even in small amounts, eventually leads to real progress.'
+      ]},
+      { title: 'Breaking the Junk Food Habit', paras: [
+        'For most of last year, I relied heavily on sugary snacks and fizzy drinks to get through my afternoons after school. It was only after a routine check-up that my doctor gently warned me about the long-term effects of such habits. Reluctantly, I agreed to try replacing my snacks with fruit and water instead.',
+        'The first few weeks felt surprisingly difficult, and I often found myself craving my old habits out of pure routine. Gradually, however, I noticed I had more energy throughout the day and fewer headaches in the afternoons. Looking back, I am grateful my doctor cared enough to say something.'
+      ]}
+    ],
+    peer: [
+      { title: 'The Group Chat Dare', paras: [
+        'One evening, a classmate posted a dare in our group chat, encouraging everyone to skip their homework and watch a movie marathon instead. Several classmates immediately agreed, and I felt the pressure to join in, even though I knew I had an important test the next morning. For a moment, I genuinely considered ignoring my responsibilities just to fit in.',
+        'In the end, I decided to leave the chat quietly and finish my revision instead. The following day, several classmates who had joined the marathon performed poorly on the test and regretted their decision. That experience reminded me that resisting pressure, even briefly, can make a real difference.'
+      ]},
+      { title: 'Choosing Not to Copy', paras: [
+        'Before a major assignment was due, a group of classmates suggested we all copy answers from an older student\'s completed work. Several of my friends seemed eager to agree, arguing that everyone was doing it anyway. I hesitated, uncertain whether to risk upsetting my friends or stand by my own principles.',
+        'Eventually, I told them I would rather submit my own work, even if it meant a lower grade. To my surprise, two other classmates admitted they felt the same way and joined me instead. That small decision reminded me that doing the right thing often takes more courage than we expect.'
+      ]}
+    ],
+    volunteer: [
+      { title: 'A Morning at the Food Bank', paras: [
+        'Last school holiday, I volunteered at a local food bank, sorting canned goods and packing them into boxes for families in need. At first, the work felt repetitive, and I wondered whether my small contribution truly made any difference at all. However, watching the sheer number of boxes we had packed by the end of the morning changed my perspective completely.',
+        'One of the coordinators later told us that our efforts would help dozens of families throughout the coming week. I left feeling a quiet sense of purpose I had not expected from folding cardboard boxes all morning. That experience made me realise how even simple tasks can carry meaningful impact.'
+      ]},
+      { title: 'Reading to the Elderly', paras: [
+        'As part of a school programme, I visited a nursing home once a month to read newspapers aloud to elderly residents. Initially, I felt awkward, unsure of how to start a conversation with people so much older than myself. One resident, Madam Tan, gently encouraged me to simply ask about her life instead of rushing through the articles.',
+        'Over several visits, Madam Tan shared stories from her childhood that I found genuinely fascinating. What began as an assigned duty slowly turned into visits I looked forward to each month. I learnt that volunteering often gives back far more than it asks of us.'
+      ]}
+    ],
+    environment: [
+      { title: 'The Beach That Was Not Clean', paras: [
+        'During a family outing to the beach, I was shocked to see plastic bottles and food wrappers scattered across the sand where children were playing. My father explained that much of this litter likely came from careless visitors who had left it behind. Frustrated, I suggested we spend the last hour of our trip picking up whatever litter we could find.',
+        'By the time we finished, we had filled two large bags with rubbish collected from just one small stretch of sand. My younger sister asked why people would leave such a mess behind in the first place. That question stayed with me long after we returned home, and I have brought my own rubbish bag on every trip since.'
+      ]},
+      { title: 'Our School\'s Recycling Challenge', paras: [
+        'Our school recently launched a recycling challenge between classes, awarding points based on how much paper and plastic each class managed to collect. At first, many of my classmates treated it as just another competition to win. However, as the weeks progressed, several students began asking genuine questions about where our recycled materials actually ended up.',
+        'Our teacher eventually arranged a visit to a nearby recycling facility, where we saw firsthand how our efforts were being processed. Seeing the sheer scale of the operation left a lasting impression on many of us, myself included. What started as a simple competition ended up changing how seriously I take recycling.'
+      ]}
     ]
   },
   p6: {
-    title: 'Learning from Failure',
-    paras: [
-      { annotated: 'When Arav failed to qualify for the national swimming championships<span class="pc">,</span> he felt utterly devastated<span class="pf">.</span> He had trained rigorously for almost two years<span class="pc">,</span> sacrificing countless weekends and<span class="pc">,</span> at times<span class="pc">,</span> his friendships<span class="pc">,</span> in pursuit of this singular goal<span class="pf">.</span> Watching his teammates celebrate their success<span class="pc">,</span> he retreated to the changing room<span class="pc">,</span> overwhelmed by disappointment and<span class="pc">,</span> if he was honest<span class="pc">,</span> a tinge of envy<span class="pf">.</span>',
-        plain: 'When Arav failed to qualify for the national swimming championships, he felt utterly devastated. He had trained rigorously for almost two years, sacrificing countless weekends and, at times, his friendships, in pursuit of this singular goal. Watching his teammates celebrate their success, he retreated to the changing room, overwhelmed by disappointment and, if he was honest, a tinge of envy.' },
-      { annotated: 'His coach found him there and<span class="pc">,</span> instead of offering empty reassurances<span class="pc">,</span> simply asked what he felt he could learn from <span class="tv">the</span> experience<span class="pf">.</span> Arav paused<span class="pc">,</span> reflecting deeply<span class="pc">,</span> before admitting that his technique during the final turn had cost him valuable seconds<span class="pf">.</span> Rather than dwelling on <span class="tv">the</span> outcome<span class="pc">,</span> he resolved to analyse his mistakes and refine his approach<span class="pf">.</span> Months later<span class="pc">,</span> when he finally broke his personal record<span class="pc">,</span> Arav understood that failure<span class="pc">,</span> when examined honestly<span class="pc">,</span> could become the very foundation of eventual success<span class="pf">.</span>',
-        plain: 'His coach found him there and, instead of offering empty reassurances, simply asked what he felt he could learn from the experience. Arav paused, reflecting deeply, before admitting that his technique during the final turn had cost him valuable seconds. Rather than dwelling on the outcome, he resolved to analyse his mistakes and refine his approach. Months later, when he finally broke his personal record, Arav understood that failure, when examined honestly, could become the very foundation of eventual success.' }
+    social: [
+      { title: 'The Account That Was Not Mine', paras: [
+        'One afternoon, a friend mentioned that someone had created a social media account using my name and photographs without my knowledge. My initial reaction was disbelief, quickly followed by a rising sense of unease as I realised strangers had likely been interacting with this fake profile for weeks. I immediately informed my parents, who helped me report the account to the platform and, eventually, to the police.',
+        'The process of having the account removed took nearly two weeks, during which I felt oddly exposed, as though a version of myself I had never created was wandering the internet unsupervised. Once the account was finally taken down, I became far more cautious about the photographs I shared publicly. That experience taught me that our online presence can be misused in ways we rarely anticipate until it happens to us directly.'
+      ]},
+      { title: 'Verifying the News', paras: [
+        'During a class discussion, a classmate confidently shared a piece of news he had seen online, insisting it was completely accurate because it had thousands of shares. Curious, our teacher asked the class to spend ten minutes researching the claim using several different sources. To our surprise, the story turned out to be entirely fabricated, originating from a website designed purely to generate clicks.',
+        'That exercise left a lasting impression on me, since I realised how easily misinformation could spread simply because something appeared popular or emotionally compelling. Since then, I have made it a habit to check the credibility of a source before accepting, let alone sharing, information online. Our teacher\'s simple exercise did more to change my online habits than any lecture on internet safety ever could.'
+      ]}
+    ],
+    cyber: [
+      { title: 'The Group Chat Incident', paras: [
+        'A classmate of mine, Rachel, was recently added to a group chat where several students began mocking her appearance using screenshots taken without her consent. When she discovered what had happened, she was visibly shaken, though she initially insisted she was fine and did not want to make a fuss. It was only after a mutual friend gently persuaded her that she agreed to report the incident to our form teacher.',
+        'The school responded swiftly, addressing the matter with the students involved and offering Rachel additional support throughout the following weeks. What struck me most was how reluctant Rachel had initially been to speak up, fearing it might make the situation worse rather than better. Watching her slowly regain her confidence afterwards reminded me how crucial it is to encourage victims to come forward, rather than assuming silence will simply make the problem disappear.'
+      ]},
+      { title: 'Defending a Stranger Online', paras: [
+        'While scrolling through a public forum, I noticed a group of anonymous users relentlessly mocking a young content creator over a video she had posted. Although I did not know her personally, the sheer volume and cruelty of the comments left me deeply unsettled, particularly since she seemed to be around my own age. After some hesitation, I decided to post a supportive comment, uncertain whether it would make any difference at all.',
+        'To my surprise, several other users followed with similarly encouraging messages, and the tone of the comment section gradually shifted. The creator later posted a brief message thanking everyone who had stood up for her during that difficult moment. That small experience taught me that remaining silent in the face of cruelty, even online, is itself a kind of choice, and not always the right one.'
+      ]}
+    ],
+    stress: [
+      { title: 'The Night Before the Examination', paras: [
+        'The night before my Preliminary Examination, I found myself unable to focus on my revision notes, my mind instead racing through every possible way the paper could go wrong. Despite having studied consistently for weeks beforehand, a wave of doubt crept in, convincing me that I had somehow forgotten everything I once knew. My mother noticed my restlessness and sat beside me, quietly asking what was troubling me so late at night.',
+        'After listening patiently, she reminded me that anxiety, however uncomfortable, did not necessarily reflect how prepared I actually was. She encouraged me to close my notes and get some rest instead, trusting that the effort I had already put in would carry me through. The following morning, I walked into the examination hall feeling calmer than I had the night before, a small but significant victory in itself.'
+      ]},
+      { title: 'Learning to Say No', paras: [
+        'By the middle of the school term, I had somehow found myself enrolled in three additional enrichment classes alongside my usual commitments, leaving almost no time for rest. I had agreed to each one individually, unwilling to disappoint my parents or seem less driven than my classmates. It was only when I broke down in tears over an unfinished assignment that my parents realised how overwhelmed I had become.',
+        'Together, we sat down and honestly reviewed which commitments genuinely mattered to me, eventually deciding to drop one of the enrichment classes entirely. The relief I felt afterwards surprised even myself, as though a weight I had not fully acknowledged had finally been lifted. That experience taught me that saying no, though difficult, is sometimes the most responsible decision a person can make.'
+      ]}
+    ],
+    community: [
+      { title: 'Rebuilding the Community Garden', paras: [
+        'After a storm destroyed much of our neighbourhood\'s community garden, a group of residents, myself included, volunteered to help restore it over several weekends. Many of the original gardeners were elderly and unable to manage the heavy lifting required, so younger volunteers like myself took on much of the physical labour. Initially, the work felt tedious, particularly clearing debris under the hot afternoon sun.',
+        'As the weeks passed, however, I found myself genuinely looking forward to our Saturday sessions, partly because of the friendships that had quietly formed among volunteers of vastly different ages. When the garden was finally replanted, one elderly resident told me she had not felt this hopeful about the space in years. That remark stayed with me long after the project ended, reminding me how community work often rebuilds more than just physical spaces.'
+      ]},
+      { title: 'The Tuition Programme', paras: [
+        'Our school recently started a peer tuition programme, pairing older students with younger ones who were struggling academically in specific subjects. I was assigned to tutor a Primary Three student named Marcus, who had fallen significantly behind in mathematics and had grown visibly discouraged about the subject. During our first few sessions, he barely spoke, clearly expecting yet another lecture about his poor results.',
+        'Rather than focusing solely on his mistakes, I tried instead to identify the specific concepts that confused him and explained them using examples he could relate to. Over the following months, Marcus\'s confidence grew steadily alongside his grades, and he eventually began raising his hand voluntarily in class. Watching that transformation taught me that patience and genuine encouragement often matter more than academic knowledge alone.'
+      ]}
+    ],
+    failure: [
+      { title: 'The Debate I Lost', paras: [
+        'After weeks of preparation, my debate team lost decisively in the final round of the inter-school competition, a result I had not seriously considered as a possibility beforehand. I felt embarrassed walking off the stage, particularly since I had been confident in my closing argument only moments earlier. For several days afterwards, I found myself replaying the debate in my mind, dwelling on every point I felt I had mishandled.',
+        'Eventually, my coach sat me down and asked me to write out, calmly and specifically, exactly what I would do differently next time. That simple exercise shifted my perspective considerably, transforming the loss from something purely painful into something genuinely instructive. The following season, drawing directly on those lessons, my team went on to reach the finals, a result I doubt we would have achieved without that earlier disappointment.'
+      ]},
+      { title: 'Rebuilding After a Bad Result', paras: [
+        'When my end of year results turned out significantly lower than I had expected, my first instinct was to blame the paper itself, insisting it had been unfairly difficult. My form teacher, however, gently pointed out that several of my classmates had performed reasonably well on the very same paper. That observation, though uncomfortable to hear, forced me to honestly examine my own study habits rather than external circumstances.',
+        'Over the following term, I restructured how I revised, focusing on understanding concepts deeply rather than memorising answers superficially. Progress came slowly, and there were moments when I doubted whether the changes were making any real difference at all. By the time the next examination arrived, however, my improved results confirmed that the uncomfortable truth I had initially resisted was ultimately what helped me grow.'
+      ]}
     ]
   }
 };
@@ -457,11 +633,42 @@ var THEMES = {
   ]
 };
 
+var THEME_HELPERS = {
+  p3: {
+    family: ['spend time together', 'eat meals together', 'feel loved and safe', 'take care of each other', 'family outing', 'a close bond'],
+    friend: ['share with others', 'play together', 'trust each other', 'kind words', 'help a friend', 'a good listener'],
+    chores: ['helping out at home', 'being responsible', 'lighten the load', 'keep things tidy', 'work as a team', 'a daily routine'],
+    sports: ['practice makes perfect', 'team spirit', 'never give up', 'stay active', 'a healthy body', 'good sportsmanship'],
+    kind: ['a small act of kindness', 'helping others', 'caring for others', 'make someone smile', 'lend a hand', 'show respect']
+  },
+  p4: {
+    bully: ['stand up for others', 'tell a trusted adult', 'report the incident', 'treat others fairly', 'hurtful words', 'a safe environment'],
+    team: ['work together', 'divide the tasks', 'listen to each other', 'compromise', 'share ideas', 'a common goal'],
+    new: ['step out of your comfort zone', 'face your fears', 'learn from mistakes', 'build confidence', 'give it your best try', 'embrace new challenges'],
+    festival: ['family traditions', 'cultural heritage', 'bond with relatives', 'pass down traditions', 'a festive spirit', 'respect other cultures'],
+    pets: ['a responsible pet owner', 'daily care', 'build trust', 'unconditional love', 'a big commitment', 'companionship']
+  },
+  p5: {
+    screen: ['set limits', 'balance screen time with real life', 'self-discipline', 'a digital detox', 'healthy habits', 'a distraction', 'screen-free time'],
+    healthy: ['a balanced diet', 'regular exercise', 'a healthy lifestyle', 'self-discipline', 'long-term health', 'energy levels'],
+    peer: ['stay true to yourself', 'resist pressure', 'make your own decisions', 'fit in versus stand out', 'confidence', 'the courage to say no'],
+    volunteer: ['give back to society', 'a sense of purpose', 'empathy', 'make a difference', 'a selfless act', 'community spirit'],
+    environment: ['reduce, reuse, recycle', 'protect our planet', 'sustainable habits', 'our carbon footprint', 'future generations', 'environmental awareness']
+  },
+  p6: {
+    social: ['set limits', 'balance using social media with connecting in real life with others', 'protect personal information', 'verify before sharing', 'a digital footprint', 'online safety', 'age-appropriate content'],
+    cyber: ['report and block', 'seek support', 'online anonymity', 'long-term emotional impact', 'digital citizenship', 'speak up'],
+    stress: ['coping mechanisms', 'manage expectations', 'seek support', 'a healthy work-life balance', 'healthy outlets', 'mental wellbeing'],
+    community: ['give back to society', 'a collective effort', 'social responsibility', 'bridge the gap', 'a meaningful impact', 'civic-mindedness'],
+    failure: ['learn from mistakes', 'resilience', 'a growth mindset', 'bounce back', 'constructive criticism', 'a stepping stone to success']
+  }
+};
+
 var LEVEL_LABEL = {p3:'PRIMARY 3', p4:'PRIMARY 4', p5:'PRIMARY 5', p6:'PRIMARY 6'};
 var currentLevel = 'p3';
 var currentMode = 'reading';
 var currentThemeId = null;
-var currentReadingView = 'annotated';
+var readingViewState = {0:'annotated', 1:'annotated'};
 var editMode = false;
 
 function selectMode(mode) {
@@ -480,18 +687,11 @@ function selectLevel(level) {
   document.getElementById('ltab-' + level).className = 'level-tab active';
   document.getElementById('level-badge').innerHTML = LEVEL_LABEL[level] + ' &middot; ORAL PRACTICE';
 
-  var r = READING[level];
-  var titleEl = document.getElementById('reading-title');
-  titleEl.setAttribute('data-ekey', 'passageTitle-' + level);
-  titleEl.innerText = getEdit('passageTitle-' + level, r.title);
-  renderReadingPassage();
-
   renderConnectors();
 
   var themeTabs = document.getElementById('theme-tabs');
   themeTabs.innerHTML = '';
   var themes = THEMES[level];
-  currentThemeId = null;
   for (i = 0; i < themes.length; i++) {
     var th = themes[i];
     var labelKey = 'themeTab-' + level + '-' + th.id;
@@ -502,54 +702,8 @@ function selectLevel(level) {
     (function(id) { b.onclick = function() { selectTheme(id); }; })(th.id);
     themeTabs.appendChild(b);
   }
-  document.getElementById('sample-block').innerHTML = '<p style="font-size:14px;font-weight:700;color:#999;padding:8px;">Pick a topic above to begin.</p>';
-  document.getElementById('practice-block-1').innerHTML = '';
-  document.getElementById('practice-block-2').innerHTML = '';
   document.getElementById('print-note').innerHTML = '&#9999;&#65039; Teacher Ari &middot; ' + LEVEL_LABEL[level] + ' Oral Practice Aid';
-  applyStoredEdits();
-}
-
-function showReadingView(view) {
-  currentReadingView = view;
-  document.getElementById('toggle-annotated').className = view === 'annotated' ? 'toggle-btn active' : 'toggle-btn';
-  document.getElementById('toggle-plain').className = view === 'plain' ? 'toggle-btn active' : 'toggle-btn';
-  document.getElementById('reading-legend').style.display = view === 'annotated' ? 'flex' : 'none';
-  renderReadingPassage();
-}
-
-function renderReadingPassage() {
-  var r = READING[currentLevel];
-  var box = document.getElementById('passage-box');
-  var html = '';
-  var i;
-  for (i = 0; i < r.paras.length; i++) {
-    var tag = i === 0 ? 'INTRO' : 'CONTINUED';
-    var defaultText = currentReadingView === 'annotated' ? r.paras[i].annotated : r.paras[i].plain;
-    var key = 'passagePara-' + currentLevel + '-' + i + '-' + currentReadingView;
-    var text = getEdit(key, defaultText);
-    html += '<div><span class="para-tag">' + tag + '</span><p class="editable-text" data-ekey="' + key + '">' + text + '</p></div>';
-  }
-  box.innerHTML = html;
-}
-
-function renderConnectors() {
-  var area = document.getElementById('connectors-area');
-  var groups = CONNECTORS[currentLevel];
-  var html = '';
-  var i, j;
-  for (i = 0; i < groups.length; i++) {
-    var label = groups[i][0];
-    var cls = groups[i][1][0];
-    var words = groups[i][1][1];
-    var labelKey = 'connLabel-' + currentLevel + '-' + i;
-    html += '<div class="connector-group"><span class="connector-group-label editable-text" data-ekey="' + labelKey + '">' + getEdit(labelKey, label) + '</span><div class="chips">';
-    for (j = 0; j < words.length; j++) {
-      var chipKey = 'connChip-' + currentLevel + '-' + i + '-' + j;
-      html += '<span class="chip ' + cls + ' editable-text" data-ekey="' + chipKey + '">' + getEdit(chipKey, words[j]) + '</span>';
-    }
-    html += '</div></div>';
-  }
-  area.innerHTML = html;
+  selectTheme(themes[0].id);
 }
 
 function selectTheme(id) {
@@ -559,7 +713,13 @@ function selectTheme(id) {
   for (i = 0; i < themes.length; i++) { if (themes[i].id === id) { theme = themes[i]; break; } }
   var allTabs = document.getElementsByClassName('theme-tab');
   for (i = 0; i < allTabs.length; i++) { allTabs[i].className = 'theme-tab'; }
-  document.getElementById('thtab-' + id).className = 'theme-tab active';
+  var activeTab = document.getElementById('thtab-' + id);
+  if (activeTab) { activeTab.className = 'theme-tab active'; }
+
+  document.getElementById('reading-subhead').innerHTML = 'Reading passages for: ' + theme.label;
+  readingViewState = {0:'annotated', 1:'annotated'};
+  renderReadingPassages();
+  renderThemeHelpers(theme.label);
 
   var sampleHtml = '';
   for (i = 0; i < theme.sample.length; i++) {
@@ -596,6 +756,95 @@ function selectTheme(id) {
       '</div>';
   }
   document.getElementById('practice-block-2').innerHTML = p2Html;
+
+  applyStoredEdits();
+}
+
+function renderReadingPassages() {
+  var passages = (READING[currentLevel] && READING[currentLevel][currentThemeId]) ? READING[currentLevel][currentThemeId] : [];
+  var container = document.getElementById('reading-passages-container');
+  var html = '';
+  var pIdx;
+  for (pIdx = 0; pIdx < passages.length; pIdx++) {
+    var titleKey = 'passageTitle-' + currentLevel + '-' + currentThemeId + '-' + pIdx;
+    var titleText = getEdit(titleKey, passages[pIdx].title);
+    html += '<div class="card">' +
+      '<span class="passage-num">PASSAGE ' + (pIdx + 1) + '</span>' +
+      '<div class="card-header"><div class="card-icon" style="background:#d4f5ea;">&#128221;</div>' +
+      '<div class="card-title editable-text" data-ekey="' + titleKey + '">' + titleText + '</div></div>' +
+      '<div class="toggle-row">' +
+      '<button class="toggle-btn active" id="toggle-a-' + pIdx + '" onclick="showReadingView(' + pIdx + ',\'annotated\')"><span class="editable-text" data-ekey="toggleBtn-annotated">With Pause Guide</span></button>' +
+      '<button class="toggle-btn" id="toggle-p-' + pIdx + '" onclick="showReadingView(' + pIdx + ',\'plain\')"><span class="editable-text" data-ekey="toggleBtn-plain">Plain Text (No Guide)</span></button>' +
+      '</div>' +
+      '<div class="passage-box" id="passage-box-' + pIdx + '"></div>' +
+      '</div>';
+  }
+  container.innerHTML = html;
+  for (pIdx = 0; pIdx < passages.length; pIdx++) { renderPassageBox(pIdx); }
+}
+
+function showReadingView(pIdx, view) {
+  readingViewState[pIdx] = view;
+  document.getElementById('toggle-a-' + pIdx).className = view === 'annotated' ? 'toggle-btn active' : 'toggle-btn';
+  document.getElementById('toggle-p-' + pIdx).className = view === 'plain' ? 'toggle-btn active' : 'toggle-btn';
+  renderPassageBox(pIdx);
+  applyStoredEdits();
+}
+
+function renderPassageBox(pIdx) {
+  var passages = READING[currentLevel][currentThemeId];
+  var passage = passages[pIdx];
+  var view = readingViewState[pIdx] || 'annotated';
+  var box = document.getElementById('passage-box-' + pIdx);
+  var html = '';
+  var i;
+  for (i = 0; i < passage.paras.length; i++) {
+    var key = 'passagePara-' + currentLevel + '-' + currentThemeId + '-' + pIdx + '-' + i;
+    var plainText = getEdit(key, passage.paras[i]);
+    if (view === 'plain') {
+      html += '<p class="editable-text" data-ekey="' + key + '">' + plainText + '</p>';
+    } else {
+      html += '<p>' + annotatePassage(plainText) + '</p>';
+    }
+  }
+  box.innerHTML = html;
+}
+
+function renderThemeHelpers(themeLabel) {
+  var titleEl = document.getElementById('theme-helpers-title');
+  titleEl.innerHTML = 'Helping Words for ' + themeLabel;
+  var words = (THEME_HELPERS[currentLevel] && THEME_HELPERS[currentLevel][currentThemeId]) ? THEME_HELPERS[currentLevel][currentThemeId] : [];
+  var area = document.getElementById('theme-helpers-area');
+  var html = '';
+  var i;
+  for (i = 0; i < words.length; i++) {
+    var key = 'themeHelp-' + currentLevel + '-' + currentThemeId + '-' + i;
+    html += '<span class="chip chip-help editable-text" data-ekey="' + key + '">' + getEdit(key, words[i]) + '</span>';
+  }
+  if (words.length === 0) {
+    html = '<span style="font-size:13px;font-weight:700;color:#999;">No helping words yet for this topic.</span>';
+  }
+  area.innerHTML = html;
+}
+
+function renderConnectors() {
+  var area = document.getElementById('connectors-area');
+  var groups = CONNECTORS[currentLevel];
+  var html = '';
+  var i, j;
+  for (i = 0; i < groups.length; i++) {
+    var label = groups[i][0];
+    var cls = groups[i][1][0];
+    var words = groups[i][1][1];
+    var labelKey = 'connLabel-' + currentLevel + '-' + i;
+    html += '<div class="connector-group"><span class="connector-group-label editable-text" data-ekey="' + labelKey + '">' + getEdit(labelKey, label) + '</span><div class="chips">';
+    for (j = 0; j < words.length; j++) {
+      var chipKey = 'connChip-' + currentLevel + '-' + i + '-' + j;
+      html += '<span class="chip ' + cls + ' editable-text" data-ekey="' + chipKey + '">' + getEdit(chipKey, words[j]) + '</span>';
+    }
+    html += '</div></div>';
+  }
+  area.innerHTML = html;
 }
 
 function toggleReveal(qid) {
@@ -652,6 +901,7 @@ function toggleEditMode() {
     btn.innerHTML = '&#9999;&#65039; Edit Text';
     btn.className = 'pencil-btn';
     hint.style.display = 'none';
+    renderReadingPassages();
   }
 }
 
@@ -673,7 +923,6 @@ function resetEdits() {
 
 selectLevel('p3');
 selectMode('reading');
-applyStoredEdits();
 </script>
 </body>
 </html>
